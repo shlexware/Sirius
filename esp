@@ -1,5 +1,8 @@
 --[[
-    made by siper#9938, credits to spoorloos/mickey.#5612 for bounding box/out of view arrows
+    Sirius ESP Library
+
+    - siper#9938: ESP
+    - spoorloos/mickey.#5612: Bounding box/Out of view arrows
 ]]
 
 -- Module
