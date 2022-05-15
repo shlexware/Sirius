@@ -2,7 +2,7 @@
 Documentation for how to edit the sirius esp for your game
 ## Booting the library
 ```lua
-local espLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Sirius/request/library/esp.lua'),true))()
+local espLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Sirius/request/library/esp/esp.lua'),true))()
 ```
 ## Setting defualt settings
 These settings are all set my defualt, and so are the functions
