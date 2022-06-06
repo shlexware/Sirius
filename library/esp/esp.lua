@@ -3,6 +3,7 @@
 
     - siper#9938: ESP
     - spoorloos/mickey.#5612: Bounding box/Out of view arrows
+    - iRay#1488: Chams
 ]]
 
 -- Module
@@ -56,10 +57,13 @@ local EspLibrary = {
         distanceTransparency = 1,
         distanceSuffix = " Studs",
         distanceColor = Color3.new(1, 1, 1),
-        tracers = false,
+        tracers = true,
         tracerTransparency = 1,
         tracerColor = Color3.new(1, 1, 1),
         tracerOrigin = "Bottom", -- Available [Mouse, Top, Bottom]
+        chams = true,
+        chamsColor = Color3.new(1, 0, 0),
+        chamsTransparency = 0.5,
     },
 }
 
@@ -113,7 +117,7 @@ local function round(number)
     if (typeof(number) == "Vector2") then
         return vector2New(round(number.X), round(number.Y))
     else
-        return floor(number)
+        return floor(number + 0.5)
     end
 end
 
@@ -307,6 +311,36 @@ function EspLibrary.Init()
                 local healthBarPosition = round(vector2New(position.X - (3 + healthBarSize.X), position.Y + size.Y))
 
                 local origin = EspLibrary.options.tracerOrigin
+
+                if EspLibrary.options.chams then
+                    if findFirstChild(torso, "BoxHandleAdornment") then
+                        for _, part in next, character:GetChildren() do
+                            if part ~= torso and findFirstChild(part, "BoxHandleAdornment") then
+                                part.BoxHandleAdornment.Visible = true
+                                part.BoxHandleAdornment.Color3 = EspLibrary.options.chamsColor
+                                part.BoxHandleAdornment.Transparency = part == torso and 1 or EspLibrary.options.chamsTransparency
+                            end
+                        end
+                    else
+                        for _, part in next, character:GetChildren() do
+                            if part == torso or string.find(part.ClassName, "Part") then
+                                local adornment = Instance.new("BoxHandleAdornment")
+                                adornment.AlwaysOnTop = true
+                                adornment.Size = part.Size
+                                adornment.Transparency = 1
+                                adornment.Adornee = part
+                                adornment.ZIndex = 1
+                                adornment.Parent = part
+                            end
+                        end
+                    end
+                elseif not EspLibrary.options.chams and findFirstChild(torso, "BoxHandleAdornment") and torso.BoxHandleAdornment.Visible then
+                    for _, part in next, character:GetChildren() do
+                        if findFirstChild(part, "BoxHandleAdornment") then
+                            part.BoxHandleAdornment.Visible = false
+                        end
+                    end
+                end
 
                 objects.arrow.Visible = not canShow and EspLibrary.options.outOfViewArrows
                 objects.arrow.Filled = EspLibrary.options.outOfViewArrowsFilled
