@@ -6,6 +6,8 @@ local espLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlex
 ```
 ## Setting Defaults
 These settings are all set my defualt, and so are the functions
+
+If it isn't working, try add a `wait(0.2)` before the `espLib.whitelist = {}`
 ```lua
 espLib.whitelist = {} -- insert string that is the player's name you want to whitelist (turns esp color to whitelistColor in options)
 espLib.blacklist = {} -- insert string that is the player's name you want to blacklist (removes player from esp)
