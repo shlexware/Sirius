@@ -57,6 +57,9 @@ espLib.options = {
     tracerTransparency = 1,
     tracerColor = Color3.new(1, 1, 1),
     tracerOrigin = "Bottom", -- Available [Mouse, Top, Bottom]
+    chams = true,
+    chamsColor = Color3.new(1, 0, 0),
+    chamsTransparency = 0.5,
 }
 ```
 ## Functions 
@@ -88,7 +91,7 @@ espLib.Unload()
 # Example for Bad Business 
 If you need it!
 ```lua
-local espLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Sirius/request/library/esp.lua'),true))()
+local espLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Sirius/request/library/esp/esp.lua'),true))()
 -- Everything is set by defualt, change what you need (the functions are defualted too)
 espLib.whitelist = {} -- insert string that is the player's name you want to whitelist (turns esp color to whitelistColor in options)
 espLib.blacklist = {} -- insert string that is the player's name you want to blacklist (removes player from esp)
@@ -140,6 +143,9 @@ espLib.options = {
     tracerTransparency = 1,
     tracerColor = Color3.new(1, 1, 1),
     tracerOrigin = "Bottom", -- Available [Mouse, Top, Bottom]
+    chams = true,
+    chamsColor = Color3.new(1, 0, 0),
+    chamsTransparency = 0.5,
 }
 
 
