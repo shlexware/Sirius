@@ -90,6 +90,7 @@ espLib.Unload()
 ```
 # Example for Bad Business 
 If you need it!
+This will only work on Bad Business due to the object names.
 ```lua
 local espLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Sirius/request/library/esp/esp.lua'),true))()
 -- Everything is set by defualt, change what you need (the functions are defualted too)
