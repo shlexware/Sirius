@@ -15,6 +15,8 @@ local EspLibrary = {
     blacklist = {}, -- insert string that is the player's name you want to blacklist (removes player from esp)
     options = {
         enabled = true,
+        offsetX = 0,
+        offsetY = 0,
         scaleFactorX = 4,
         scaleFactorY = 5,
         font = 2,
@@ -133,7 +135,7 @@ function EspLibrary.GetCharacter(player)
 end
 
 function EspLibrary.GetBoundingBox(torso)
-    local torsoPosition, onScreen, depth = worldToViewportPoint(torso.Position)
+    local torsoPosition, onScreen, depth = worldToViewportPoint((torso.CFrame * CFrame.new(EspLibrary.options.offsetX,EspLibrary.options.offsetY,0)).p)
     local scaleFactor = 1 / (tan(rad(currentCamera.FieldOfView * 0.5)) * 2 * depth) * 1000
     local size = round(vector2New(EspLibrary.options.scaleFactorX * scaleFactor, EspLibrary.options.scaleFactorY * scaleFactor))
     return onScreen, size, round(vector2New(torsoPosition.X - (size.X * 0.5), torsoPosition.Y - (size.Y * 0.5))), torsoPosition
@@ -426,5 +428,4 @@ function EspLibrary.Init()
         end
     end)
 end
-
 return EspLibrary
