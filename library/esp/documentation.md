@@ -156,7 +156,7 @@ espLib.options = {
 }
 
 
--- THIS STUFF IS FOR MY BAD BUSINESS EXAMPLE
+-- Bad Business Example
 local client = game.Players.LocalPlayer
 local camera = workspace.CurrentCamera
 local mouse = client:GetMouse()
