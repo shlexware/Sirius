@@ -1,5 +1,4 @@
-# Sirius Esp Library
-Documentation for how to edit the sirius esp for your game
+# Sirius ESP
 ## Booting the library
 ```lua
 local espLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Sirius/request/library/esp/esp.lua'),true))()
