@@ -5,9 +5,7 @@ Documentation for how to edit the sirius esp for your game
 local espLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Sirius/request/library/esp/esp.lua'),true))()
 ```
 ## Setting Defaults
-These settings are all set my defualt, and so are the functions
-
-If it isn't working, try add a `wait(0.2)` before the `espLib.whitelist = {}`
+These settings are all set to defualt, and so are the functions
 ```lua
 espLib.whitelist = {} -- insert string that is the player's name you want to whitelist (turns esp color to whitelistColor in options)
 espLib.blacklist = {} -- insert string that is the player's name you want to blacklist (removes player from esp)
