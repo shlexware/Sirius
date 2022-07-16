@@ -60,8 +60,10 @@ espLib.options = {
     tracerColor = Color3.new(1, 1, 1),
     tracerOrigin = "Bottom", -- Available [Mouse, Top, Bottom]
     chams = true,
-    chamsColor = Color3.new(1, 0, 0),
-    chamsTransparency = 0.5,
+    chamsFillColor = Color3.new(1, 0, 0),
+    chamsFillTransparency = 0.5,
+    chamsOutlineColor = Color3.new(),
+    chamsOutlineTransparency = 0
 }
 ```
 ## Functions 
@@ -147,8 +149,10 @@ espLib.options = {
     tracerColor = Color3.new(1, 1, 1),
     tracerOrigin = "Bottom", -- Available [Mouse, Top, Bottom]
     chams = true,
-    chamsColor = Color3.new(1, 0, 0),
-    chamsTransparency = 0.5,
+    chamsFillColor = Color3.new(1, 0, 0),
+    chamsFillTransparency = 0.5,
+    chamsOutlineColor = Color3.new(),
+    chamsOutlineTransparency = 0
 }
 
 
