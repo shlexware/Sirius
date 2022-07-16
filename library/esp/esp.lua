@@ -1,29 +1,25 @@
 --[[
-    Sirius ESP Library
-
-    - siper#9938: ESP
-    - spoorloos/mickey.#5612: Bounding box/Out of view arrows
-    - iRay#1488: Chams
+    made by siper#9938, credits to spoorloos/mickey.#5612 for bounding box/out of view arrows
 ]]
 
 -- Module
 local EspLibrary = {
     drawings = {},
+    instances = {},
     espCache = {},
+    chamsCache = {},
     conns = {},
     whitelist = {}, -- insert string that is the player's name you want to whitelist (turns esp color to whitelistColor in options)
     blacklist = {}, -- insert string that is the player's name you want to blacklist (removes player from esp)
     options = {
         enabled = true,
-        offsetX = 0,
-        offsetY = 0,
         scaleFactorX = 4,
         scaleFactorY = 5,
         font = 2,
         fontSize = 13,
         limitDistance = false,
         maxDistance = 1000,
-        visibleOnly = false,
+        visibleOnly = true,
         teamCheck = false,
         teamColor = false,
         fillColor = nil,
@@ -43,10 +39,10 @@ local EspLibrary = {
         nameColor = Color3.new(1, 1, 1),
         boxes = true,
         boxesTransparency = 1,
-        boxesColor = Color3.new(1, 1, 1),
-        boxFill = true,
+        boxesColor = Color3.new(1, 0, 0),
+        boxFill = false,
         boxFillTransparency = 0.5,
-        boxFillColor = Color3.new(1, 1, 1),
+        boxFillColor = Color3.new(1, 0, 0),
         healthBars = true,
         healthBarsSize = 1,
         healthBarsTransparency = 1,
@@ -59,46 +55,55 @@ local EspLibrary = {
         distanceTransparency = 1,
         distanceSuffix = " Studs",
         distanceColor = Color3.new(1, 1, 1),
-        tracers = true,
+        tracers = false,
         tracerTransparency = 1,
         tracerColor = Color3.new(1, 1, 1),
         tracerOrigin = "Bottom", -- Available [Mouse, Top, Bottom]
         chams = true,
-        chamsColor = Color3.new(1, 0, 0),
-        chamsTransparency = 0.5,
+        chamsFillColor = Color3.new(1, 0, 0),
+        chamsFillTransparency = 0.5,
+        chamsOutlineColor = Color3.new(),
+        chamsOutlineTransparency = 0
     },
 }
 
--- Services
-local workspace = game:GetService("Workspace")
-local runService = game:GetService("RunService")
-local players = game:GetService("Players")
-local userInputService = game:GetService("UserInputService")
-
--- Cache
-local currentCamera = workspace.CurrentCamera
-local localPlayer = players.LocalPlayer
-
 -- Variables
+local instanceNew = Instance.new
 local drawingNew = Drawing.new
 local vector2New = Vector2.new
 local vector3New = Vector3.new
 local cframeNew = CFrame.new
 local color3New = Color3.new
-local rayNew = Ray.new
+local raycastParamsNew = RaycastParams.new
 local tan = math.tan
 local rad = math.rad
 local floor = math.floor
 local insert = table.insert
-local ccWorldToViewportPoint = currentCamera.WorldToViewportPoint
 local findFirstChild = game.FindFirstChild
-local findPartOnRayWithIgnoreList = workspace.FindPartOnRayWithIgnoreList
+local raycast = workspace.Raycast
 local pointToObjectSpace = cframeNew().PointToObjectSpace
 local cross = vector3New().Cross
 
+-- Services
+local workspace = game:GetService("Workspace")
+local runService = game:GetService("RunService")
+local players = game:GetService("Players")
+local coreGui = game:GetService("CoreGui")
+local userInputService = game:GetService("UserInputService")
+
+-- Cache
+local currentCamera = workspace.CurrentCamera
+local localPlayer = players.LocalPlayer
+local chamsFolder = instanceNew("Folder", coreGui)
+
 -- Support Functions
+local function isDrawing(type)
+    return type == "Square" or type == "Text" or type == "Triangle" or type == "Image" or type == "Line" or type == "Circle"
+end
+
 local function create(type, properties)
-    local object = drawingNew(type)
+    local drawing = isDrawing(type)
+    local object = drawing and drawingNew(type) or instanceNew(type)
 
     if (properties) then
         for i,v in next, properties do
@@ -106,12 +111,12 @@ local function create(type, properties)
         end
     end
 
-    insert(EspLibrary.drawings, object)
+    insert(drawing and EspLibrary.drawings or EspLibrary.instances, object)
     return object
 end
 
 local function worldToViewportPoint(position)
-    local screenPosition, onScreen = ccWorldToViewportPoint(currentCamera, position)
+    local screenPosition, onScreen = currentCamera:WorldToViewportPoint(position)
     return vector2New(screenPosition.X, screenPosition.Y), onScreen, screenPosition.Z
 end
 
@@ -119,7 +124,7 @@ local function round(number)
     if (typeof(number) == "Vector2") then
         return vector2New(round(number.X), round(number.Y))
     else
-        return floor(number + 0.5)
+        return floor(number)
     end
 end
 
@@ -135,7 +140,7 @@ function EspLibrary.GetCharacter(player)
 end
 
 function EspLibrary.GetBoundingBox(torso)
-    local torsoPosition, onScreen, depth = worldToViewportPoint((torso.CFrame * CFrame.new(EspLibrary.options.offsetX,EspLibrary.options.offsetY,0)).p)
+    local torsoPosition, onScreen, depth = worldToViewportPoint(torso.Position)
     local scaleFactor = 1 / (tan(rad(currentCamera.FieldOfView * 0.5)) * 2 * depth) * 1000
     local size = round(vector2New(EspLibrary.options.scaleFactorX * scaleFactor, EspLibrary.options.scaleFactorY * scaleFactor))
     return onScreen, size, round(vector2New(torsoPosition.X - (size.X * 0.5), torsoPosition.Y - (size.Y * 0.5))), torsoPosition
@@ -150,15 +155,16 @@ function EspLibrary.GetHealth(player, character)
     return 100, 100
 end
 
-function EspLibrary.GetDistance(position)
-    local origin = currentCamera.CFrame.Position
-    return round(((origin.X - position.X) ^ 2 + (origin.Y - position.Y) ^ 2 + (origin.Z - position.Z) ^ 2) ^ 0.5)
-end
-
 function EspLibrary.VisibleCheck(character, position)
     local origin = currentCamera.CFrame.Position
-    local part = findPartOnRayWithIgnoreList(workspace, rayNew(origin, position - origin), { EspLibrary.GetCharacter(localPlayer), currentCamera, character }, false, true)
-    return part == nil
+    local params = raycastParamsNew();
+
+    params.FilterDescendantsInstances = { EspLibrary.GetCharacter(localPlayer), currentCamera, character }
+    params.FilterType = Enum.RaycastFilterType.Blacklist
+    params.IgnoreWater = true
+
+    local result = raycast(workspace, origin, position - origin, params)
+    return not result
 end
 
 function EspLibrary.AddEsp(player)
@@ -225,9 +231,29 @@ function EspLibrary.RemoveEsp(player)
     if (espCache) then
         EspLibrary.espCache[player] = nil
 
-        for _, object in next, espCache do
+        for index, object in next, espCache do
+            espCache[index] = nil
             object:Remove()
         end
+    end
+end
+
+function EspLibrary.AddChams(player)
+    if (player == localPlayer) then
+        return
+    end
+
+    EspLibrary.chamsCache[player] = create("Highlight", {
+        Parent = chamsFolder,
+    })
+end
+
+function EspLibrary.RemoveChams(player)
+    local highlight = EspLibrary.chamsCache[player]
+
+    if (highlight) then
+        EspLibrary.chamsCache[player] = nil
+        highlight:Destroy()
     end
 end
 
@@ -238,11 +264,18 @@ function EspLibrary.Unload()
 
     for _, player in next, players:GetPlayers() do
         EspLibrary.RemoveEsp(player)
+        EspLibrary.RemoveChams(player)
     end
 
     for _, object in next, EspLibrary.drawings do
         object:Remove()
     end
+
+    for _, object in next, EspLibrary.instances do
+        object:Destroy()
+    end
+
+    chamsFolder:Destroy()
 
     runService:UnbindFromRenderStep("esp_rendering")
 end
@@ -250,14 +283,17 @@ end
 function EspLibrary.Init()
     insert(EspLibrary.conns, players.PlayerAdded:Connect(function(player)
         EspLibrary.AddEsp(player)
+        EspLibrary.AddChams(player)
     end))
 
     insert(EspLibrary.conns, players.PlayerRemoving:Connect(function(player)
         EspLibrary.RemoveEsp(player)
+        EspLibrary.RemoveChams(player)
     end))
 
     for _, player in next, players:GetPlayers() do
         EspLibrary.AddEsp(player)
+        EspLibrary.AddChams(player)
     end
 
     runService:BindToRenderStep("esp_rendering", Enum.RenderPriority.Camera.Value + 1, function()
@@ -266,8 +302,8 @@ function EspLibrary.Init()
 
             if (character and torso) then
                 local onScreen, size, position, torsoPosition = EspLibrary.GetBoundingBox(torso)
-                local distance = EspLibrary.GetDistance(torso.Position)
-                local canShow = onScreen and (size and position) and EspLibrary.options.enabled
+                local distance = (currentCamera.CFrame.Position - torso.Position).Magnitude
+                local canShow, enabled = onScreen and (size and position), EspLibrary.options.enabled
                 local team, teamColor = EspLibrary.GetTeam(player)
                 local color = EspLibrary.options.teamColor and teamColor or nil
 
@@ -280,19 +316,19 @@ function EspLibrary.Init()
                 end
 
                 if (table.find(EspLibrary.blacklist, player.Name)) then
-                    canShow = false
+                    enabled = false
                 end
 
                 if (EspLibrary.options.limitDistance and distance > EspLibrary.options.maxDistance) then
-                    canShow = false
+                    enabled = false
                 end
 
                 if (EspLibrary.options.visibleOnly and not EspLibrary.VisibleCheck(character, torso.Position)) then
-                    canShow = false
+                    enabled = false
                 end
 
                 if (EspLibrary.options.teamCheck and (team == EspLibrary.GetTeam(localPlayer))) then
-                    canShow = false
+                    enabled = false
                 end
 
                 local viewportSize = currentCamera.ViewportSize
@@ -313,38 +349,9 @@ function EspLibrary.Init()
                 local healthBarPosition = round(vector2New(position.X - (3 + healthBarSize.X), position.Y + size.Y))
 
                 local origin = EspLibrary.options.tracerOrigin
+                local show = canShow and enabled
 
-                if EspLibrary.options.chams then
-                    if findFirstChild(torso, "BoxHandleAdornment") then
-                        for _, part in next, character:GetChildren() do
-                            if part ~= torso and findFirstChild(part, "BoxHandleAdornment") then
-                                part.BoxHandleAdornment.Visible = true
-                                part.BoxHandleAdornment.Color3 = EspLibrary.options.chamsColor
-                                part.BoxHandleAdornment.Transparency = part == torso and 1 or EspLibrary.options.chamsTransparency
-                            end
-                        end
-                    else
-                        for _, part in next, character:GetChildren() do
-                            if part == torso or string.find(part.ClassName, "Part") then
-                                local adornment = Instance.new("BoxHandleAdornment")
-                                adornment.AlwaysOnTop = true
-                                adornment.Size = part.Size
-                                adornment.Transparency = 1
-                                adornment.Adornee = part
-                                adornment.ZIndex = 1
-                                adornment.Parent = part
-                            end
-                        end
-                    end
-                elseif not EspLibrary.options.chams and findFirstChild(torso, "BoxHandleAdornment") and torso.BoxHandleAdornment.Visible then
-                    for _, part in next, character:GetChildren() do
-                        if findFirstChild(part, "BoxHandleAdornment") then
-                            part.BoxHandleAdornment.Visible = false
-                        end
-                    end
-                end
-
-                objects.arrow.Visible = not canShow and EspLibrary.options.outOfViewArrows
+                objects.arrow.Visible = (not canShow and enabled) and EspLibrary.options.outOfViewArrows
                 objects.arrow.Filled = EspLibrary.options.outOfViewArrowsFilled
                 objects.arrow.Transparency = EspLibrary.options.outOfViewArrowsTransparency
                 objects.arrow.Color = color or EspLibrary.options.outOfViewArrowsColor
@@ -352,7 +359,7 @@ function EspLibrary.Init()
                 objects.arrow.PointB = pointB
                 objects.arrow.PointC = pointC
 
-                objects.arrowOutline.Visible = not canShow and EspLibrary.options.outOfViewArrowsOutline
+                objects.arrowOutline.Visible = (not canShow and enabled) and EspLibrary.options.outOfViewArrowsOutline
                 objects.arrowOutline.Filled = EspLibrary.options.outOfViewArrowsOutlineFilled
                 objects.arrowOutline.Transparency = EspLibrary.options.outOfViewArrowsOutlineTransparency
                 objects.arrowOutline.Color = color or EspLibrary.options.outOfViewArrowsOutlineColor
@@ -360,7 +367,7 @@ function EspLibrary.Init()
                 objects.arrowOutline.PointB = pointB
                 objects.arrowOutline.PointC = pointC
 
-                objects.top.Visible = canShow and EspLibrary.options.names
+                objects.top.Visible = show and EspLibrary.options.names
                 objects.top.Font = EspLibrary.options.font
                 objects.top.Size = EspLibrary.options.fontSize
                 objects.top.Transparency = EspLibrary.options.nameTransparency
@@ -368,7 +375,7 @@ function EspLibrary.Init()
                 objects.top.Text = player.Name
                 objects.top.Position = round(position + vector2New(size.X * 0.5, -(objects.top.TextBounds.Y + 2)))
 
-                objects.side.Visible = canShow and EspLibrary.options.healthText
+                objects.side.Visible = show and EspLibrary.options.healthText
                 objects.side.Font = EspLibrary.options.font
                 objects.side.Size = EspLibrary.options.fontSize
                 objects.side.Transparency = EspLibrary.options.healthTextTransparency
@@ -376,7 +383,7 @@ function EspLibrary.Init()
                 objects.side.Text = health .. EspLibrary.options.healthTextSuffix
                 objects.side.Position = round(position + vector2New(size.X + 3, -3))
 
-                objects.bottom.Visible = canShow and EspLibrary.options.distance
+                objects.bottom.Visible = show and EspLibrary.options.distance
                 objects.bottom.Font = EspLibrary.options.font
                 objects.bottom.Size = EspLibrary.options.fontSize
                 objects.bottom.Transparency = EspLibrary.options.distanceTransparency
@@ -384,35 +391,35 @@ function EspLibrary.Init()
                 objects.bottom.Text = tostring(round(distance)) .. EspLibrary.options.distanceSuffix
                 objects.bottom.Position = round(position + vector2New(size.X * 0.5, size.Y + 1))
 
-                objects.box.Visible = canShow and EspLibrary.options.boxes
+                objects.box.Visible = show and EspLibrary.options.boxes
                 objects.box.Color = color or EspLibrary.options.boxesColor
                 objects.box.Transparency = EspLibrary.options.boxesTransparency
                 objects.box.Size = size
                 objects.box.Position = position
 
-                objects.boxOutline.Visible = canShow and EspLibrary.options.boxes
+                objects.boxOutline.Visible = show and EspLibrary.options.boxes
                 objects.boxOutline.Transparency = EspLibrary.options.boxesTransparency
                 objects.boxOutline.Size = size
                 objects.boxOutline.Position = position
 
-                objects.boxFill.Visible = canShow and EspLibrary.options.boxFill
+                objects.boxFill.Visible = show and EspLibrary.options.boxFill
                 objects.boxFill.Color = color or EspLibrary.options.boxFillColor
                 objects.boxFill.Transparency = EspLibrary.options.boxFillTransparency
                 objects.boxFill.Size = size
                 objects.boxFill.Position = position
 
-                objects.healthBar.Visible = canShow and EspLibrary.options.healthBars
+                objects.healthBar.Visible = show and EspLibrary.options.healthBars
                 objects.healthBar.Color = color or EspLibrary.options.healthBarsColor
                 objects.healthBar.Transparency = EspLibrary.options.healthBarsTransparency
                 objects.healthBar.Size = healthBarSize
                 objects.healthBar.Position = healthBarPosition
 
-                objects.healthBarOutline.Visible = canShow and EspLibrary.options.healthBars
+                objects.healthBarOutline.Visible = show and EspLibrary.options.healthBars
                 objects.healthBarOutline.Transparency = EspLibrary.options.healthBarsTransparency
                 objects.healthBarOutline.Size = round(vector2New(healthBarSize.X, -size.Y) + vector2New(2, -2))
                 objects.healthBarOutline.Position = healthBarPosition - vector2New(1, -1)
 
-                objects.line.Visible = canShow and EspLibrary.options.tracers
+                objects.line.Visible = show and EspLibrary.options.tracers
                 objects.line.Color = color or EspLibrary.options.tracerColor
                 objects.line.Transparency = EspLibrary.options.tracerTransparency
                 objects.line.From =
@@ -426,6 +433,46 @@ function EspLibrary.Init()
                 end
             end
         end
+
+        for player, highlight in next, EspLibrary.chamsCache do
+            local character, torso = EspLibrary.GetCharacter(player)
+
+            if (character and torso) then
+                local distance = (currentCamera.CFrame.Position - torso.Position).Magnitude
+                local canShow = EspLibrary.options.enabled and EspLibrary.options.chams
+                local team, teamColor = EspLibrary.GetTeam(player)
+                local color = EspLibrary.options.teamColor and teamColor or nil
+
+                if (EspLibrary.options.fillColor ~= nil) then
+                    color = EspLibrary.options.fillColor
+                end
+
+                if (table.find(EspLibrary.whitelist, player.Name)) then
+                    color = EspLibrary.options.whitelistColor
+                end
+
+                if (table.find(EspLibrary.blacklist, player.Name)) then
+                    canShow = false
+                end
+
+                if (EspLibrary.options.limitDistance and distance > EspLibrary.options.maxDistance) then
+                    canShow = false
+                end
+
+                if (EspLibrary.options.teamCheck and (team == EspLibrary.GetTeam(localPlayer))) then
+                    canShow = false
+                end
+
+                highlight.Enabled = canShow
+                highlight.DepthMode = EspLibrary.options.visibleOnly and Enum.HighlightDepthMode.Occluded or Enum.HighlightDepthMode.AlwaysOnTop
+                highlight.Adornee = character
+                highlight.FillColor = color or EspLibrary.options.chamsFillColor
+                highlight.FillTransparency = EspLibrary.options.chamsFillTransparency
+                highlight.OutlineColor = color or EspLibrary.options.chamsOutlineColor
+                highlight.OutlineTransparency = EspLibrary.options.chamsOutlineTransparency
+            end
+        end
     end)
 end
+
 return EspLibrary
