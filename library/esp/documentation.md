@@ -100,7 +100,7 @@ end
 ```
 -- function espLibrary.getBoundingBox(character)
 -- arguments: player -> Class: Player
--- returns: Vector3: BoundingBox
+-- returns: Vector3: Size, Vector3: Position
 ```
 ```lua
 function espLibrary.getBoundingBox(character)
