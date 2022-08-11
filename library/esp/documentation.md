@@ -394,5 +394,6 @@ espLib.Init()
 ```
 ## Unloading the esp 
 ```lua
-espLib.Unload()
+if espLibrary:Load()
+espLibrary:Unload()
 ```
