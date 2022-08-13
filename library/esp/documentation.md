@@ -107,6 +107,6 @@ espLib:Load()
 ```
 ## Unloading the esp 
 ```lua
-espLib.Unload()
+espLib:Unload()
 ```
 
