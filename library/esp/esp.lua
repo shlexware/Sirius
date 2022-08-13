@@ -337,7 +337,7 @@ function espLibrary.removeObject(object)
 end
 
 function espLibrary:AddObjectEsp(object, defaultOptions)
-    assert(object and isA(object, "BasePart") and object.Parent, "invalid object passed");
+    assert(object and object.Parent, "invalid object passed");
 
     local options = defaultOptions or {};
 
@@ -582,15 +582,23 @@ function espLibrary:Load(renderValue)
         end
 
         for object, cache in next, self.objectCache do
-            local distance = (currentCamera.CFrame.Position - object.Position).Magnitude;
-            local screenPosition, onScreen = worldToViewportPoint(object.Position);
+            local partPosition = vector3New();
+
+            if (object:IsA("BasePart")) then
+                partPosition = object.Position;
+            elseif (object:IsA("Model")) then
+                partPosition = self.getBoundingBox(object);
+            end
+
+            local distance = (currentCamera.CFrame.Position - partPosition).Magnitude;
+            local screenPosition, onScreen = worldToViewportPoint(partPosition);
             local canShow = cache.options.enabled and onScreen;
 
             if (self.options.limitDistance and distance > self.options.maxDistance) then
                 canShow = false;
             end
 
-            if (self.options.visibleOnly and not self.visibleCheck(object, object.Position)) then
+            if (self.options.visibleOnly and not self.visibleCheck(object, partPosition)) then
                 canShow = false;
             end
 
