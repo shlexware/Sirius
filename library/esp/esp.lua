@@ -1,3 +1,4 @@
+
 --[[
     made by siper#9938 and mickey#5612
 ]]
@@ -13,6 +14,7 @@ local espLibrary = {
     whitelist = {}, -- insert string that is the player's name you want to whitelist (turns esp color to whitelistColor in options)
     blacklist = {}, -- insert string that is the player's name you want to blacklist (removes player from esp)
     options = {
+        excludedPartNames = {},
         enabled = true,
         minScaleFactorX = 1,
         maxScaleFactorX = 10,
@@ -159,7 +161,11 @@ function espLibrary.getBoundingBox(character)
     local maxX, maxY, maxZ = -inf, -inf, -inf;
 
     for _, part in next, espLibrary.options.boundingBoxDescending and getDescendants(character) or getChildren(character) do
-        if (isA(part, "BasePart")) then
+        local excluded = false
+        for i,v in ipairs(espLibrary.options.excludedPartNames) do 
+            if v == part.Name then excluded = true end
+        end
+        if (isA(part, "BasePart") and not excluded) then
             local size = part.Size;
             local sizeX, sizeY, sizeZ = size.X, size.Y, size.Z;
 
@@ -582,23 +588,15 @@ function espLibrary:Load(renderValue)
         end
 
         for object, cache in next, self.objectCache do
-            local partPosition = vector3New();
-
-            if (object:IsA("BasePart")) then
-                partPosition = object.Position;
-            elseif (object:IsA("Model")) then
-                partPosition = self.getBoundingBox(object);
-            end
-
-            local distance = (currentCamera.CFrame.Position - partPosition).Magnitude;
-            local screenPosition, onScreen = worldToViewportPoint(partPosition);
+            local distance = (currentCamera.CFrame.Position - object.Position).Magnitude;
+            local screenPosition, onScreen = worldToViewportPoint(object.Position);
             local canShow = cache.options.enabled and onScreen;
 
             if (self.options.limitDistance and distance > self.options.maxDistance) then
                 canShow = false;
             end
 
-            if (self.options.visibleOnly and not self.visibleCheck(object, partPosition)) then
+            if (self.options.visibleOnly and not self.visibleCheck(object, object.Position)) then
                 canShow = false;
             end
 
@@ -613,4 +611,4 @@ function espLibrary:Load(renderValue)
     end);
 end
 
-return espLibrary;
+return espLibrary
