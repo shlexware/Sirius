@@ -2,6 +2,13 @@
 ### for Orion UI Library
 All Sirius scripts must use Flags (to save config) and must follow this guide for styling.
 
+## Coding Guidelines
+All scripts must use camelCase in coding, not PascalCase or snake_case
+
+When writing `if` statements, if the code is simple (e.g `if not workspace then return end`), please make it one line, otherwise use multi lined `if` statements.
+
+When referencing UI elements, make a variable for them (e.g `local coinButton = UI.Coin.Button`)
+
 ## Window Settings
 ```lua
 Name = "Game Name" -- Simplified Version of the game name (e.g [NEW ITEMS!] Arsenal --> Arsenal)
