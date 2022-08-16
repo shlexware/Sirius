@@ -1,2 +1,2 @@
-# Sirius Style Guide
+## Sirius Style Guide
 ### for Orion UI Library
