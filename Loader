@@ -1,6 +1,6 @@
 local Message = Instance.new("Message")
 Message.Parent = game.CoreGui
-Message.Text = "Sirius Loader is undergoing maintenace. Check discord.gg/sirius"
+Message.Text = "Sirius Loader is undergoing maintenance. Check discord.gg/sirius"
 setclipboard("discord.gg/sirius")
 wait(5)
 Message:Destroy()
