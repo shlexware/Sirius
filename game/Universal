@@ -475,5 +475,5 @@ connect(runService.Heartbeat, function()
     end
 end);
 
-espLibrary.Init();
+espLibrary:Load();
 uiLibrary:Init();
