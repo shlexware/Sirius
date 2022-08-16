@@ -114,7 +114,7 @@ do
             aimbot:AddBind({ Name = "Toggle Key", Default = Enum.UserInputType.MouseButton2, Hold = true, Save = true, Flag = "combat_aimbot_key", Callback = function(state)
                 keybinds["combat_aimbot_key"] = state;
             end });
-            aimbot:AddSlider({ Name = "Step Size", Default = 0.1, Min = 0.01, Max = 0.1, Increment = 0.01, Save = true, Flag = "combat_aimbot_stepsize" });
+            aimbot:AddSlider({ Name = "Step Size", Default = 50, Min = 0.5, Max = 100, Increment = 0.5, Save = true, ValueName = "percent per second", Flag = "combat_aimbot_stepsize" });
             aimbot:AddDropdown({ Name = "Type", Default = "Linear", Options = {"Linear", "Curve"}, Save = true, Flag = "combat_aimbot_type" });
             aimbot:AddDropdown({ Name = "Hitpart", Default = "Head", Options = {"Head", "Torso"}, Save = true, Flag = "combot_aimbot_hitpart" });
             aimbot:AddToggle({ Name = "Prediction", Default = false, Save = true, Flag = "combat_aimbot_prediction" });
@@ -449,7 +449,7 @@ connect(runService.RenderStepped, function()
     end
 end);
 
-connect(runService.Heartbeat, function()
+connect(runService.Heartbeat, function(deltaTime)
     if getFlag("combat_aimbot_enabled") and keybinds["combat_aimbot_key"] then
         local fov = getFlag("combat_fov_enabled") and getFlag("combat_fov_size");
         local player, screenPosition, part = getClosest(fov, getFlag("combat_aimbot_teamcheck"));
@@ -466,7 +466,7 @@ connect(runService.Heartbeat, function()
             local delta = bezierCurve(getFlag("combat_aimbot_type"), curveStatus.i, mousePosition, screenPosition) - mousePosition;
             mousemoverel(delta.X, delta.Y);
 
-            curveStatus.i = math.clamp(curveStatus.i + getFlag("combat_aimbot_stepsize"), 0, 1);
+            curveStatus.i = math.clamp(curveStatus.i + getFlag("combat_aimbot_stepsize") * deltaTime, 0, 1);
         else
             curveStatus = {player = nil, i = 0};
         end
