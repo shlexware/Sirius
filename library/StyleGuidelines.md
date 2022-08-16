@@ -1,9 +1,11 @@
 # Sirius Style Guide
 ### for Orion UI Library
-All Sirius scripts must use Flags (to save config) and must follow this guide for styling.
+You must follow this guide for styling when creating scripts for Sirius
 
 ## Coding Guidelines
 All scripts must use camelCase in coding, not PascalCase or snake_case
+
+All Sirius scripts must use Flags (to save config)
 
 When writing `if` statements, if the code is simple (e.g `if not workspace then return end`), please make it one line, otherwise use multi lined `if` statements.
 
