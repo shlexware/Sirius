@@ -26,19 +26,19 @@ If any of these do not apply to the game, do not create that tab
 ### Aim
 ```lua
 Name = "Aim",
-Icon = "rbxassetid://9134785411",
+Icon = "rbxassetid://10686478216",
 PremiumOnly = false
 ```
 ### Player
 ```lua
 Name = "Player",
-Icon = "rbxassetid://9080470552",
+Icon = "rbxassetid://10686489483",
 PremiumOnly = false
 ```
 ### Visual
 ```lua
 Name = "Visual",
-Icon = "rbxassetid://9134770833",
+Icon = "rbxassetid://10686484311",
 PremiumOnly = false
 ```
 ### Autofarm/Automatic things
