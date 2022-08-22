@@ -1,1 +1,2 @@
--- is executed every second on Sirius
+print("Check")
+Toast("Check")
