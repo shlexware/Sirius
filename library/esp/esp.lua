@@ -4,7 +4,6 @@
 
 -- main module
 local espLibrary = {
-    drawings = {},
     instances = {},
     espCache = {},
     chamsCache = {},
@@ -131,7 +130,10 @@ local function create(type, properties)
         end
     end
 
-    insert(drawing and espLibrary.drawings or espLibrary.instances, object);
+    if (not drawing) then
+        insert(espLibrary.instances, object);
+    end
+
     return object;
 end
 
@@ -375,10 +377,6 @@ function espLibrary:Unload()
 
     for object, _ in next, self.objectCache do
         self.removeObject(object);
-    end
-
-    for _, object in next, self.drawings do
-        object:Remove();
     end
 
     for _, object in next, self.instances do
