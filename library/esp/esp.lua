@@ -19,7 +19,7 @@ local espLibrary = {
         minScaleFactorY = 1,
         maxScaleFactorY = 10,
         boundingBoxDescending = true,
-	    excludedPartNames = {},
+        excludedPartNames = {},
         font = 2,
         fontSize = 13,
         limitDistance = false,
@@ -369,8 +369,8 @@ function espLibrary:Unload()
     end
 
     for _, player in next, players:GetPlayers() do
-        self.RemoveEsp(player);
-        self.RemoveChams(player);
+        self.removeEsp(player);
+        self.removeChams(player);
     end
 
     for object, _ in next, self.objectCache do
