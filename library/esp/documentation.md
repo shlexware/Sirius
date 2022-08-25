@@ -21,6 +21,7 @@ local espLib = {
         maxScaleFactorX = 10,
         minScaleFactorY = 1,
         maxScaleFactorY = 10,
+        boundingBox = false, -- WARNING | Significant Performance Decrease when true
         boundingBoxDescending = true,
         font = 2,
         fontSize = 13,
