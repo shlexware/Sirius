@@ -17,6 +17,9 @@ local espLibrary = {
         maxScaleFactorX = 10,
         minScaleFactorY = 1,
         maxScaleFactorY = 10,
+        scaleFactorX = 5,
+        scaleFactorY = 6,
+        boundingBox = false, -- WARNING | Significant Performance Decrease when true
         boundingBoxDescending = true,
         excludedPartNames = {},
         font = 2,
@@ -157,33 +160,37 @@ function espLibrary.getCharacter(player)
     return character, character and findFirstChild(character, "HumanoidRootPart");
 end
 
-function espLibrary.getBoundingBox(character)
-    local minX, minY, minZ = inf, inf, inf;
-    local maxX, maxY, maxZ = -inf, -inf, -inf;
+function espLibrary.getBoundingBox(character, torso)
+    if (espLibrary.options.boundingBox) then
+        local minX, minY, minZ = inf, inf, inf;
+        local maxX, maxY, maxZ = -inf, -inf, -inf;
 
-    for _, part in next, espLibrary.options.boundingBoxDescending and getDescendants(character) or getChildren(character) do
-        if (isA(part, "BasePart") and not find(espLibrary.options.excludedPartNames, part.Name)) then
-            local size = part.Size;
-            local sizeX, sizeY, sizeZ = size.X, size.Y, size.Z;
+        for _, part in next, espLibrary.options.boundingBoxDescending and getDescendants(character) or getChildren(character) do
+            if (isA(part, "BasePart") and not find(espLibrary.options.excludedPartNames, part.Name)) then
+                local size = part.Size;
+                local sizeX, sizeY, sizeZ = size.X, size.Y, size.Z;
 
-            local x, y, z, r00, r01, r02, r10, r11, r12, r20, r21, r22 = getComponents(part.CFrame);
+                local x, y, z, r00, r01, r02, r10, r11, r12, r20, r21, r22 = getComponents(part.CFrame);
 
-            local wiseX = 0.5 * (abs(r00) * sizeX + abs(r01) * sizeY + abs(r02) * sizeZ);
-            local wiseY = 0.5 * (abs(r10) * sizeX + abs(r11) * sizeY + abs(r12) * sizeZ);
-            local wiseZ = 0.5 * (abs(r20) * sizeX + abs(r21) * sizeY + abs(r22) * sizeZ);
+                local wiseX = 0.5 * (abs(r00) * sizeX + abs(r01) * sizeY + abs(r02) * sizeZ);
+                local wiseY = 0.5 * (abs(r10) * sizeX + abs(r11) * sizeY + abs(r12) * sizeZ);
+                local wiseZ = 0.5 * (abs(r20) * sizeX + abs(r21) * sizeY + abs(r22) * sizeZ);
 
-            minX = minX > x - wiseX and x - wiseX or minX;
-            minY = minY > y - wiseY and y - wiseY or minY;
-            minZ = minZ > z - wiseZ and z - wiseZ or minZ;
+                minX = minX > x - wiseX and x - wiseX or minX;
+                minY = minY > y - wiseY and y - wiseY or minY;
+                minZ = minZ > z - wiseZ and z - wiseZ or minZ;
 
-            maxX = maxX < x + wiseX and x + wiseX or maxX;
-            maxY = maxY < y + wiseY and y + wiseY or maxY;
-            maxZ = maxZ < z + wiseZ and z + wiseZ or maxZ;
+                maxX = maxX < x + wiseX and x + wiseX or maxX;
+                maxY = maxY < y + wiseY and y + wiseY or maxY;
+                maxZ = maxZ < z + wiseZ and z + wiseZ or maxZ;
+            end
         end
-    end
 
-    local oMin, oMax = vector3New(minX, minY, minZ), vector3New(maxX, maxY, maxZ);
-    return (oMax + oMin) * 0.5, oMax - oMin;
+        local oMin, oMax = vector3New(minX, minY, minZ), vector3New(maxX, maxY, maxZ);
+        return (oMax + oMin) * 0.5, oMax - oMin;
+    else
+        return torso.Position, vector2New(espLibrary.options.scaleFactorX, espLibrary.options.scaleFactorY);
+    end
 end
 
 function espLibrary.getScaleFactor(fov, depth)
@@ -408,7 +415,7 @@ function espLibrary:Load(renderValue)
             local character, torso = self.getCharacter(player);
 
             if (character and torso) then
-                local onScreen, size, position, torsoPosition = self.getBoxData(self.getBoundingBox(character));
+                local onScreen, size, position, torsoPosition = self.getBoxData(torso.Position, Vector3.new(5, 6));
                 local distance = (currentCamera.CFrame.Position - torso.Position).Magnitude;
                 local canShow, enabled = onScreen and (size and position), self.options.enabled;
                 local team, teamColor = self.getTeam(player);
