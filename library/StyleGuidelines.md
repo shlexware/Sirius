@@ -1,64 +1,62 @@
 # Sirius Style Guide
-### for Orion UI Library
-You must follow this guide for styling when creating scripts for Sirius
+### for use with Rayfield Interface Suite (https://github.com/shlexware/Rayfield/blob/main/Documentation.md)
+You must attempt follow this guide for styling when creating scripts for Sirius
+
 
 ## Coding Guidelines
-All scripts must use camelCase in coding, not PascalCase or snake_case
+These coding guidelines are not required but are recommended to have consistency when reviewing your code
 
-All scripts must use Flags (to save config)
+- All scripts must use camelCase in coding, not PascalCase or snake_case
+- All scripts must use Flags (to save config)
+- When writing `if` statements, if the code is simple (e.g `if not workspace then return end`), please make it one line, otherwise use multi lined `if` statements.
+- When referencing UI elements, make a variable for them (e.g `local coinButton = UI.Coin.Button`)
 
-When writing `if` statements, if the code is simple (e.g `if not workspace then return end`), please make it one line, otherwise use multi lined `if` statements.
-
-When referencing UI elements, make a variable for them (e.g `local coinButton = UI.Coin.Button`)
 
 ## Window Settings
 ```lua
-Name = "Game Name" -- Simplified Version of the game name (e.g [NEW ITEMS!] Arsenal --> Arsenal)
-HidePremium = false,
-SaveConfig = true,
-ConfigFolder = "Sirius",
-IntroEnabled = true,
-IntroText = "Sirius"
+local Window = Rayfield:CreateWindow({
+Name = "Game Name", -- Simplified game name (e.g [GUNS] Arsenal --> Arsenal)
+ConfigurationSaving = {
+	Enabled = true,
+	FileName = "SiriusGAMENAME", -- Replace `GAMENAME` with the name of the game you're developing for
+},
+})
 ```
 
 ## Tab
 If any of these do not apply to the game, do not create that tab
 ### Aim
+This is for anything that adjusts your aiming, e.g Aimbot, Silent Aim etc
 ```lua
-Name = "Aim",
-Icon = "rbxassetid://10686478216",
-PremiumOnly = false
+local aimTab = Window:CreateTab("Aim")
 ```
 ### Player
+Flying? Using walkspeed? Invisibility? Put it in here.
 ```lua
-Name = "Player",
-Icon = "rbxassetid://10686489483",
-PremiumOnly = false
+local playerTab = Window:CreateTab("Player")
 ```
 ### Visual
+This tab will house things such as ESP, gun cosmetics and more, anything on-screen and customisable
 ```lua
-Name = "Visual",
-Icon = "rbxassetid://10686484311",
-PremiumOnly = false
+local visualTab = Window:CreateTab("Visual")
 ```
 ### Autofarm/Automatic things
+This tab is intended to contain anything that is automated, such as an autofarm
 ```lua
-Name = "Autofarm",
-Icon = "rbxassetid://4483362748",
-PremiumOnly = false
+local autoTab = Window:CreateTab("Automated") -- Adjust the tab name to be specific here (e.g Autofarm, Autofish etc)
 ```
 ### Server
+This tab will include anything that affects the majority of players in the game or does something serverside
 ```lua
-Name = "Server",
-Icon = "rbxassetid://4384400106",
-PremiumOnly = false
+local serverTab = Window:CreateTab("Server")
 ```
 ### Misc
+Anything that doesn't fit into the other tabs, place in here
 ```lua
-Name = "Misc",
-Icon = "rbxassetid://4384401360",
-PremiumOnly = false
+local miscTab = Window:CreateTab("Misc")
 ```
-
-## Coloring
-Slider: RGB 42, 173, 99
+### Experimental
+Got something that isn't reliable 100% of the time? Shove it in this section. 
+```lua
+local experimentalTab = Window:CreateTab("Experimental")
+```
