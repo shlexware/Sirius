@@ -1,3 +1,14 @@
+local UI = game:GetObjects("rbxassetid://11399990461")[1]
+
+if gethui then
+	UI.Parent = gethui()
+elseif syn.protect_gui then
+	syn.protect_gui(UI)
+	UI.Parent = game.CoreGui
+else
+	UI.Parent = game.CoreGui
+end
+
 -- // Protected by luaGuard - Security Level lite
 
 -- This file was generated using Luraph Obfuscator v13.5.8
