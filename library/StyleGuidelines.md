@@ -19,7 +19,7 @@ Name = "Game Name", -- Simplified game name (e.g [GUNS] Arsenal --> Arsenal)
 ConfigurationSaving = {
 	Enabled = true,
 	FileName = "SiriusGAMENAME", -- Replace `GAMENAME` with the name of the game you're developing for
-},
+}
 })
 ```
 
