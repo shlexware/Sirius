@@ -4,7 +4,7 @@
 local espLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Sirius/request/library/esp/esp.lua'),true))()
 ```
 ## Setting Defaults
-These settings are all set to defualt, and so are the functions
+These settings are all set to default, and so are the functions
 ```lua
 local espLib = {
     drawings = {},
