@@ -15,11 +15,11 @@ These coding guidelines are not required but are recommended to have consistency
 ## Window Settings
 ```lua
 local Window = Rayfield:CreateWindow({
-Name = "Game Name", -- Simplified game name (e.g [GUNS] Arsenal --> Arsenal)
-ConfigurationSaving = {
-	Enabled = true,
-	FileName = "SiriusGAMENAME" -- Replace `GAMENAME` with the name of the game you're developing for
-}
+	Name = "Game Name", -- Simplified game name (e.g [GUNS] Arsenal --> Arsenal)
+	ConfigurationSaving = {
+		Enabled = true,
+		FileName = "SiriusGAMENAME" -- Replace `GAMENAME` with the name of the game you're developing for
+	}
 })
 ```
 
