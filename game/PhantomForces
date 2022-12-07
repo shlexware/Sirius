@@ -1,6 +1,5 @@
-local siriusPhantomForces = [[
-loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/game/PhantomForcesModule'))()
-]]
+local key = "_G.wl_key = '" .. _G.wl_key .. "';\n";
+local siriusPhantomForces = key .. game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/game/PhantomForcesModule');
 
 local localplayer = game:GetService("Players").LocalPlayer
 local teleportservice = game:GetService("TeleportService")
