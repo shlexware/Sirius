@@ -54,7 +54,7 @@ if not modulesavaliable then
                         return rawset(_, index, value);
                     end
                 });
-            ]] .. "\n wait(5) loadstring([[" .. siriusPhantomForces .. "]])()")
+            ]] .. "\n wait(5); \n" .. siriusPhantomForces)
         end
     end)
     teleportservice:TeleportToPlaceInstance(game.PlaceId, game.JobId)
