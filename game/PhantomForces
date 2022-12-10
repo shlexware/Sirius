@@ -1,36 +1,60 @@
 local key = "_G.wl_key = '" .. _G.wl_key .. "';\n";
 local siriusPhantomForces = key .. game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/game/PhantomForcesModule');
-
 local localplayer = game:GetService("Players").LocalPlayer
 local teleportservice = game:GetService("TeleportService")
 local httpservice = game:GetService("HttpService")
-getgenv().modulesavaliable = game:GetService("ReplicatedFirst").lol:IsA("Folder")
 
 if not modulesavaliable then
-    local loadmodules = [[
-    -- ty mickey#3373
-    if game.PlaceId == 299659045 or game.PlaceId == 292439477 then
-        game:GetService("ReplicatedFirst").ChildAdded:Connect(function(instance)
-            if instance:IsA("Actor") then
-                instance.Parent.ChildAdded:Wait();
-        
-                local container = Instance.new("Folder");
-                for _, child in next, instance:GetChildren() do
-                    child.Parent = container;
-                end
-        
-                container.Name = instance.Name;
-                container.Parent = instance.Parent;
-        
-                instance:Destroy();
-            end
-        end);
-    end
-    ]]
-
     localplayer.OnTeleport:Connect(function(state)
         if state == Enum.TeleportState.InProgress then
-            (syn and syn.queue_on_teleport or queue_on_teleport)(loadmodules .. "wait(5)\n" ..siriusPhantomForces)
+            (syn and syn.queue_on_teleport or queue_on_teleport)([[
+                -- place id check
+                local placeId = game.PlaceId;
+                if placeId ~= 292439477 and placeId ~= 299659045 then
+                    return;
+                end
+
+                -- variables
+                local runService = game:GetService("RunService");
+                local replicatedFirst = game:GetService("ReplicatedFirst");
+
+                -- actor bypass
+                replicatedFirst.ChildAdded:Connect(function(instance)
+                    if instance:IsA("Actor") then
+                        replicatedFirst.ChildAdded:Wait();
+
+                        local container = Instance.new("Folder");
+                        container.Name = instance.Name;
+                        container.Parent = instance.Parent;
+
+                        for _, child in next, instance:GetChildren() do
+                            child.Parent = container;
+                        end
+
+                        instance.Parent = nil;
+                    end
+                end);
+
+                -- connect parallel bypass
+                local old;
+                old = hookmetamethod(runService.Stepped, "__index", function(self, index)
+                    local indexed = old(self, index);
+                    if index == "ConnectParallel" and not checkcaller() then
+                        hookfunction(indexed, self.Connect);
+                    end
+                    return indexed;
+                end);
+
+                -- module destroy bypass
+                debug.setmetatable(getrenv().shared, {
+                    __newindex = function(_, index, value)
+                        if index == "close" and not checkcaller() then
+                            value = function() end;
+                        end
+                        return rawset(_, index, value);
+                    end
+                });
+            ]] .. "\n wait(5) loadstring([[" .. siriusPhantomForces .. "]])()")
         end
     end)
     teleportservice:TeleportToPlaceInstance(game.PlaceId, game.JobId)
