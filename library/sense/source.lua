@@ -106,7 +106,7 @@ local function rotateVector(vector, radians)
     return Vector2.new(c*vector.X - s*vector.Y, s*vector.X + c*vector.Y);
 end
 
--- object
+-- esp object
 local EspObject = {};
 EspObject.__index = EspObject;
 
@@ -405,7 +405,7 @@ function EspObject:Render()
     end
 end
 
--- chams class
+-- cham object
 local ChamObject = {};
 ChamObject.__index = ChamObject;
 
