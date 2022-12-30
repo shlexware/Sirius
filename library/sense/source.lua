@@ -599,19 +599,19 @@ function EspInterface.Unload()
 end
 
 -- game specific functions
-EspInterface.getWeapon = function(player)
+function EspInterface.getWeapon(player)
     return "Unknown"; 
 end
 
-EspInterface.getTeam = function(player)
+function EspInterface.getTeam(player)
     return player and player.Team;
 end
 
-EspInterface.getCharacter = function(player)
+function EspInterface.getCharacter(player)
     return player and player.Character;
 end
 
-EspInterface.getHealth = function(player)
+function EspInterface.getHealth(player)
     local character = EspInterface.getCharacter(player);
     local humanoid = character and findFirstChildOfClass(character, "Humanoid");
     if humanoid then
