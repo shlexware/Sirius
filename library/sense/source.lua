@@ -58,11 +58,6 @@ local function isBodyPart(name)
         string.find(name, "Arm"));
 end
 
-local function worldToScreen(world)
-    local screen, inBounds = wtvp(camera, world);
-    return Vector2.new(screen.X, screen.Y), inBounds, screen.Z;
-end
-
 local function getBoundingBox(parts)
     local min, max;
     for _, part in next, parts do
@@ -78,24 +73,25 @@ local function getBoundingBox(parts)
     return CFrame.new(center, front), max - min;
 end
 
-local function floor2(x, y)
-    return Vector2.new(floor(x), floor(y));
+local function worldToScreen(world)
+    local screen, inBounds = wtvp(camera, world);
+    return Vector2.new(screen.X, screen.Y), inBounds, screen.Z;
 end
 
-local function calculateBox(cframe, size)
-    local screenPoints = {};
-    for index, vertex in next, VERTICES do
-        screenPoints[index] = worldToScreen((cframe + size*0.5 * vertex).Position);
+local function calculateCorners(cframe, size)
+    local min, max;
+    for _, vertex in next, VERTICES do
+        local screen = worldToScreen((cframe + size*0.5 * vertex).Position);
+        min = min2(min or viewportSize, screen);
+        max = max2(max or Vector2.zero, screen);
     end
 
-    local topLeft = min2(viewportSize, unpack(screenPoints));
-    local bottomRight = max2(Vector2.zero, unpack(screenPoints));
     return {
-        topLeft = floor2(topLeft.X, topLeft.Y),
-        topRight = floor2(bottomRight.X, topLeft.Y),
-        bottomLeft = floor2(topLeft.X, bottomRight.Y),
-        bottomRight = floor2(bottomRight.X, bottomRight.Y)
-    }
+        topLeft = Vector2.new(floor(min.X), floor(min.Y)),
+        topRight = Vector2.new(floor(max.X), floor(min.Y)),
+        bottomLeft = Vector2.new(floor(min.X), floor(max.Y)),
+        bottomRight = Vector2.new(floor(max.X), floor(max.Y))
+    };
 end
 
 local function rotateVector(vector, radians)
@@ -229,7 +225,7 @@ function EspObject:Update()
 
         if onScreen then
             local cframe, size = getBoundingBox(getChildren(character));
-            self.corners = calculateBox(cframe, size);
+            self.corners = calculateCorners(cframe, size);
         elseif self.drawings.hidden.arrow.Visible then
             local _, yaw, roll = toOrientation(camera.CFrame);
             local flatCFrame = CFrame.Angles(0, yaw, roll) + camera.CFrame.Position;
