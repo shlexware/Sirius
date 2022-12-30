@@ -415,6 +415,13 @@ function ChamObject:Construct()
     end);
 end
 
+function ChamObject:Destruct()
+    self.updateConnection:Disconnect();
+    self.highlight:Destroy();
+
+    table.clear(self);
+end
+
 function ChamObject:Update()
     local interface = self.interface;
     local character = interface.getCharacter(self.player);
@@ -431,13 +438,6 @@ function ChamObject:Update()
     highlight.FillTransparency = options.chamsFillColor[2];
     highlight.OutlineColor = options.chamsOutlineColor[1];
     highlight.OutlineTransparency = options.chamsOutlineColor[2];
-end
-
-function ChamObject:Destruct()
-    self.updateConnection:Disconnect();
-    self.highlight:Destroy();
-
-    table.clear(self);
 end
 
 -- interface
