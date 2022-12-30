@@ -61,11 +61,9 @@ end
 local function getBoundingBox(parts)
     local min, max;
     for _, part in next, parts do
-        if isA(part, "BasePart") and isBodyPart(part.Name) then
-            local cframe, size = part.CFrame, part.Size;
-            min = min3(min or cframe.Position, (cframe - size*0.5).Position);
-            max = max3(max or cframe.Position, (cframe + size*0.5).Position);
-        end
+        local cframe, size = part.CFrame, part.Size;
+        min = min3(min or cframe.Position, (cframe - size*0.5).Position);
+        max = max3(max or cframe.Position, (cframe + size*0.5).Position);
     end
 
     local center = (min + max)*0.5;
@@ -108,6 +106,8 @@ function EspObject.new(player, interface)
     self.player = assert(player, "Missing argument #1 (Player expected)");
     self.interface = assert(interface, "Missing argument #2 (table expected)");
     self.bin = {};
+    self.charCache = {};
+    self.childCount = 0;
     self:Construct();
     return self;
 end
@@ -224,8 +224,20 @@ function EspObject:Update()
         self.distance = depth;
 
         if onScreen then
-            local cframe, size = getBoundingBox(getChildren(character));
-            self.corners = calculateCorners(cframe, size);
+            local children = getChildren(character);
+            if not self.charCache[1] or self.childCount ~= #children then
+                clear(self.charCache);
+
+                for _, part in next, children do
+                    if isA(part, "BasePart") and isBodyPart(part.Name) then
+                        insert(self.charCache, part);
+                    end
+                end
+
+                self.childCount = #children;
+            end
+
+            self.corners = calculateCorners(getBoundingBox(self.charCache));
         elseif self.drawings.hidden.arrow.Visible then
             local _, yaw, roll = toOrientation(camera.CFrame);
             local flatCFrame = CFrame.Angles(0, yaw, roll) + camera.CFrame.Position;
