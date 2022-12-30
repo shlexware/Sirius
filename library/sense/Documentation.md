@@ -5,8 +5,14 @@ ESP Library
 ```lua
 local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
 ```
+## Loading Sense
+```lua
+Sense.Load()
+```
+
 ## Sense Default Configuration
 This is the default configuration for Sense, and most things will be disabled by default.
+This shows you everything you can change.
 ```lua
 Sense = {
     objectCache = {},
@@ -138,10 +144,6 @@ function Sense.getHealth(player)
     end
 end
 
-```
-## Loading Sense
-```lua
-Sense.Load()
 ```
 ## Unloading Sense
 ```lua
