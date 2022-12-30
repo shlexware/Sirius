@@ -220,24 +220,17 @@ function EspObject:Destruct()
 end
 
 function EspObject:Update()
-    local interface = self.interface;
-
-    self.health, self.maxHealth = interface.getHealth(self.player);
-    self.character = interface.getCharacter(self.player);
-    self.weapon = interface.getWeapon(self.player);
-    self.team = interface.getTeam(self.player);
-    self.options = interface.teamSettings[(self.team and self.team == localPlayer.Team) and "Friendly" or "Enemy"];
-
-    local head = self.character and findFirstChild(self.character, "Head");
+    local character = self.interface.getCharacter(self.player);
+    local head = character and findFirstChild(character, "Head");
     if head then
         local _, onScreen, depth = worldToScreen(head.Position);
         self.onScreen = onScreen;
         self.distance = depth;
 
         if onScreen then
-            self.cframe, self.size = getBoundingBox(getChildren(self.character));
-            self.corners = calculateBox(self.cframe, self.size);
-        else
+            local cframe, size = getBoundingBox(getChildren(character));
+            self.corners = calculateBox(cframe, size);
+        elseif self.drawings.hidden.arrow.Visible then
             local _, yaw, roll = toOrientation(camera.CFrame);
             local flatCFrame = CFrame.Angles(0, yaw, roll) + camera.CFrame.Position;
             local objectSpace = pointToObjectSpace(flatCFrame, head.Position);
@@ -248,6 +241,11 @@ function EspObject:Update()
     end
 
     self.hasUpdated = true;
+    self.character = character;
+    self.team = self.interface.getTeam(self.player);
+    self.weapon = self.interface.getWeapon(self.player);
+    self.health, self.maxHealth = self.interface.getHealth(self.player);
+    self.options = self.interface.teamSettings[(self.team and self.team == localPlayer.Team) and "Friendly" or "Enemy"];
 end
 
 function EspObject:Render()
