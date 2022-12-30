@@ -116,7 +116,7 @@ You'll need to do this for every value you'd like to change using this method.
 Sense.teamSettings.Enemy.enabled = true
 ```
 ## Sense Functions
-These are our built-in functions for Sense which you can edit to give the library anything but the default information about the player.
+These are our built-in functions for Sense which you can edit to give the library information about the player in games with for example custom replication systems.
 ```lua
 function Sense.getTeam(player)
     return player and player.Team;
