@@ -5,7 +5,16 @@ ESP Library
 ```lua
 local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
 ```
+
+### Changing Configuration
+You'll need to do this for every value you'd like to change using this method.
+If you'd like to know what you can change, read the Sense Default Configuration part of the documentation.
+```lua
+Sense.teamSettings.Enemy.enabled = true
+```
+
 ## Loading Sense
+Run this under the code changing the configuration to your liking.
 ```lua
 Sense.Load()
 ```
@@ -116,11 +125,7 @@ Sense = {
     }
 };
 ```
-### Changing Configuration
-You'll need to do this for every value you'd like to change using this method.
-```lua
-Sense.teamSettings.Enemy.enabled = true
-```
+
 ## Sense Functions
 These are our built-in functions for Sense which you can edit to give the library information about the player in games with for example custom replication systems.
 ```lua
