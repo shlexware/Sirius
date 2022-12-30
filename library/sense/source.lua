@@ -550,28 +550,18 @@ local EspInterface = {
             chamsFillColor = { Color3.new(0.2, 0.2, 0.2), 0.5 },
             chamsOutlineColor = { Color3.new(0,1,0), 0 }
         }
-    }
+    },
+    getWeapon = function(player) return "Unknown"; end,
+    getTeam = function(player) return player and player.Team; end,
+    getCharacter = function(player) return player and player.Character; end,
+    getHealth = function(player)
+        local character = player and EspInterface.getCharacter(player);
+        local humanoid = character and findFirstChildOfClass(character, "Humanoid");
+        if humanoid then
+            return humanoid.Health, humanoid.MaxHealth;
+        end
+    end,
 };
-
-function EspInterface.getTeam(player)
-    return player and player.Team;
-end
-
-function EspInterface.getCharacter(player)
-    return player and player.Character;
-end
-
-function EspInterface.getHealth(player)
-    local character = player and EspInterface.getCharacter(player);
-    local humanoid = character and findFirstChildOfClass(character, "Humanoid");
-    if humanoid then
-        return humanoid.Health, humanoid.MaxHealth;
-    end
-end
-
-function EspInterface.getWeapon(player)
-    return "Unknown";
-end
 
 function EspInterface.Load()
     assert(not EspInterface.hasLoaded, "Esp has already been loaded.");
