@@ -560,6 +560,7 @@ local EspInterface = {
         if humanoid then
             return humanoid.Health, humanoid.MaxHealth;
         end
+	return 100, 100;
     end,
 };
 
