@@ -144,3 +144,4 @@ Sense.Load()
 Sense.Unload()
 ```
 
+Sirius Sense was created by mickey for Sirius. It is being actively updated and developed by mickey.
