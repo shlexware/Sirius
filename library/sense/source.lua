@@ -594,7 +594,7 @@ function EspInterface.getWeapon(player)
 end
 
 function EspInterface.isFriendly(player)
-    return player and player.Team == localPlayer.Team;
+    return player and player.Team and player.Team == localPlayer.Team;
 end
 
 function EspInterface.getCharacter(player)
