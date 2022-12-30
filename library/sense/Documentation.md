@@ -1,6 +1,6 @@
 # Sirius Sense
 ### Pure Performance. No Compromise.
-Unrivaled ESP Library
+ESP Library
 ## Booting Sense
 ```lua
 local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
