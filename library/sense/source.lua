@@ -244,8 +244,10 @@ function EspObject:Update()
             local objectSpace = pointToObjectSpace(flatCFrame, head.Position);
             local angle = atan2(objectSpace.Z, objectSpace.X);
 
-            self.screenDirection = Vector2.new(cos(angle), sin(angle));
+            self.direction = Vector2.new(cos(angle), sin(angle));
         end
+
+        self.hasUpdated = true;
     end
 
     local interface = self.interface;
@@ -253,7 +255,6 @@ function EspObject:Update()
     self.health, self.maxHealth = interface.getHealth(self.player);
     self.weapon = interface.getWeapon(self.player);
     self.character = character;
-    self.hasUpdated = true;
 end
 
 function EspObject:Render()
@@ -393,9 +394,9 @@ function EspObject:Render()
     hidden.arrowOutline.Visible = hidden.arrow.Visible and options.offScreenArrowOutline;
     if hidden.arrow.Visible then
         local arrow = hidden.arrow;
-        arrow.PointA = min2(max2(viewportSize*0.5 + self.screenDirection*options.offScreenArrowRadius, Vector2.one*25), viewportSize - Vector2.one*25);
-        arrow.PointB = arrow.PointA - rotateVector(self.screenDirection, 0.45)*options.offScreenArrowSize;
-        arrow.PointC = arrow.PointA - rotateVector(self.screenDirection, -0.45)*options.offScreenArrowSize;
+        arrow.PointA = min2(max2(viewportSize*0.5 + self.direction*options.offScreenArrowRadius, Vector2.one*25), viewportSize - Vector2.one*25);
+        arrow.PointB = arrow.PointA - rotateVector(self.direction, 0.45)*options.offScreenArrowSize;
+        arrow.PointC = arrow.PointA - rotateVector(self.direction, -0.45)*options.offScreenArrowSize;
         arrow.Color = options.offScreenArrowColor[1];
         arrow.Transparency = options.offScreenArrowColor[2];
 
