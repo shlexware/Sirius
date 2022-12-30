@@ -79,11 +79,11 @@ local function worldToScreen(world)
 end
 
 local function calculateCorners(cframe, size)
-    local min, max;
+    local min, max = viewportSize, Vector2.zero;
     for _, vertex in next, VERTICES do
-        local screen = worldToScreen((cframe + size*0.5 * vertex).Position);
-        min = min2(min or viewportSize, screen);
-        max = max2(max or Vector2.zero, screen);
+        local position = (cframe + size*0.5 * vertex).Position;
+        local screen = worldToScreen(position);
+        min, max = min2(min, screen), max2(max, screen);
     end
 
     return {
