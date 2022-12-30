@@ -74,8 +74,8 @@ local function getBoundingBox(parts)
     end
 
     local center = (min + max)*0.5;
-    local centerFront = Vector3.new(center.X, center.Y, max.Z);
-    return CFrame.new(center, centerFront), max - min;
+    local front = Vector3.new(center.X, center.Y, max.Z);
+    return CFrame.new(center, front), max - min;
 end
 
 local function floor2(x, y)
