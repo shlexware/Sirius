@@ -555,7 +555,7 @@ local EspInterface = {
     getTeam = function(player) return player and player.Team; end,
     getCharacter = function(player) return player and player.Character; end,
     getHealth = function(player)
-        local character = player and EspInterface.getCharacter(player);
+        local character = player and player.Character;
         local humanoid = character and findFirstChildOfClass(character, "Humanoid");
         if humanoid then
             return humanoid.Health, humanoid.MaxHealth;
