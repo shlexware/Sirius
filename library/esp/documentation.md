@@ -1,4 +1,6 @@
 # Sirius ESP
+This ESP is deprecated. Use Sirius Sense.
+https://github.com/shlexware/Sirius/blob/request/library/sense/Documentation.md
 ## Booting the library
 ```lua
 local espLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Sirius/request/library/esp/esp.lua'),true))()
