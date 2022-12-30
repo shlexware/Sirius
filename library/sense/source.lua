@@ -10,6 +10,16 @@ local camera = workspace.CurrentCamera;
 local viewportSize = camera.ViewportSize;
 local container = Instance.new("Folder", coreGui);
 
+-- locals
+local floor = math.floor;
+local round = math.round;
+local atan2 = math.atan2;
+local sin = math.sin;
+local cos = math.cos;
+local find = string.find;
+local insert = table.insert;
+local clear = table.clear;
+
 -- namecalls
 local wtvp = camera.WorldToViewportPoint;
 local isA = workspace.IsA;
@@ -24,16 +34,6 @@ local max2 = Vector2.zero.Max;
 local lerp2 = Vector2.zero.Lerp;
 local min3 = Vector3.zero.Min;
 local max3 = Vector3.zero.Max;
-
--- locals
-local floor = math.floor;
-local round = math.round;
-local atan2 = math.atan2;
-local sin = math.sin;
-local cos = math.cos;
-local find = string.find;
-local insert = table.insert;
-local clear = table.clear;
 
 -- constants
 local HEALTH_BAR_OFFSET = Vector2.new(5, 0);
