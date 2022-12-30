@@ -31,6 +31,9 @@ local round = math.round;
 local atan2 = math.atan2;
 local sin = math.sin;
 local cos = math.cos;
+local find = string.find;
+local insert = table.insert;
+local clear = table.clear;
 
 -- constants
 local HEALTH_BAR_OFFSET = Vector2.new(5, 0);
@@ -52,10 +55,7 @@ local VERTICES = {
 
 -- utils
 local function isBodyPart(name)
-    return (name == "Head" or
-        string.find(name, "Torso") or
-        string.find(name, "Leg") or
-        string.find(name, "Arm"));
+    return name == "Head" or find(name, "Torso") or find(name, "Leg") or find(name, "Arm");
 end
 
 local function getBoundingBox(parts)
@@ -117,7 +117,7 @@ function EspObject:Create(class, properties)
     for property, value in next, properties do
         drawing[property] = value;
     end
-    table.insert(self.bin, drawing);
+    insert(self.bin, drawing);
     return drawing;
 end
 
@@ -212,7 +212,7 @@ function EspObject:Destruct()
         drawing:Remove();
     end
 
-    table.clear(self);
+    clear(self);
 end
 
 function EspObject:Update()
@@ -419,7 +419,7 @@ function ChamObject:Destruct()
     self.updateConnection:Disconnect();
     self.highlight:Destroy();
 
-    table.clear(self);
+    clear(self);
 end
 
 function ChamObject:Update()
