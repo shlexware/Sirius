@@ -553,27 +553,6 @@ local EspInterface = {
     }
 };
 
-EspInterface.getWeapon = function(player)
-    return "Unknown"; 
-end
-
-EspInterface.getTeam = function(player)
-    return player and player.Team;
-end
-
-EspInterface.getCharacter = function(player)
-    return player and player.Character;
-end
-
-EspInterface.getHealth = function(player)
-    local character = EspInterface.getCharacter(player);
-    local humanoid = character and findFirstChildOfClass(character, "Humanoid");
-    if humanoid then
-        return humanoid.Health, humanoid.MaxHealth;
-    end
-    return 100, 100;
-end
-
 function EspInterface.Load()
     assert(not EspInterface.hasLoaded, "Esp has already been loaded.");
 
@@ -617,6 +596,28 @@ function EspInterface.Unload()
     end
 
     EspInterface.hasLoaded = false;
+end
+
+-- game specific functions
+EspInterface.getWeapon = function(player)
+    return "Unknown"; 
+end
+
+EspInterface.getTeam = function(player)
+    return player and player.Team;
+end
+
+EspInterface.getCharacter = function(player)
+    return player and player.Character;
+end
+
+EspInterface.getHealth = function(player)
+    local character = EspInterface.getCharacter(player);
+    local humanoid = character and findFirstChildOfClass(character, "Humanoid");
+    if humanoid then
+        return humanoid.Health, humanoid.MaxHealth;
+    end
+    return 100, 100;
 end
 
 return EspInterface;
