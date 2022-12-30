@@ -116,7 +116,7 @@ You'll need to do this for every value you'd like to change using this method.
 Sense.teamSettings.Enemy.enabled = true
 ```
 ## Sense Functions
-These are our built-in functions for Sense which you can use to quickly get information on a player.
+These are our built-in functions for Sense which you can edit to give the library anything but the default information about the player.
 ```lua
 function Sense.getTeam(player)
     return player and player.Team;
@@ -124,6 +124,10 @@ end
 
 function Sense.getCharacter(player)
     return player and player.Character;
+end
+
+function Sense.getWeapon(player)
+    return "Unknown";
 end
 
 function Sense.getHealth(player)
