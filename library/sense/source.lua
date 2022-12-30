@@ -237,7 +237,7 @@ function EspObject:Update()
     end
 
     local interface = self.interface;
-    self.options = interface.teamSettings[interface.isFriendly() and "Friendly" or "Enemy"];
+    self.options = interface.teamSettings[interface.isFriendly(self.player) and "Friendly" or "Enemy"];
     self.health, self.maxHealth = interface.getHealth(self.player);
     self.weapon = interface.getWeapon(self.player);
     self.character = character;
@@ -420,7 +420,7 @@ function ChamObject:Update()
     local character = interface.getCharacter(self.player);
 
     local alive = self.character and self.health and self.health > 0 or false;
-    local options = interface.teamSettings[interface.isFriendly() and "Friendly" or "Enemy"];
+    local options = interface.teamSettings[interface.isFriendly(self.player) and "Friendly" or "Enemy"];
     local enabled = options.enabled and alive and not (#interface.whitelist > 0 and not interface.whitelist[self.player]);
 
     local highlight = self.highlight;
@@ -594,7 +594,7 @@ function EspInterface.getWeapon(player)
 end
 
 function EspInterface.isFriendly(player)
-    return player and player.Team == localPlayer.Team or false;
+    return player and player.Team == localPlayer.Team;
 end
 
 function EspInterface.getCharacter(player)
