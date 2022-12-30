@@ -63,12 +63,6 @@ local function worldToScreen(world)
     return Vector2.new(screen.X, screen.Y), inBounds, screen.Z;
 end
 
-local function cornersToCFrame(min, max)
-	local center = (min + max)*0.5;
-	local centerFront = Vector3.new(center.X, center.Y, max.Z);
-	return CFrame.new(center, centerFront);
-end
-
 local function getBoundingBox(parts)
     local min, max;
     for _, part in next, parts do
@@ -78,7 +72,10 @@ local function getBoundingBox(parts)
             max = max3(max or cframe.Position, (cframe + size*0.5).Position);
         end
     end
-    return cornersToCFrame(min, max), max - min;
+
+    local center = (min + max)*0.5;
+    local centerFront = Vector3.new(center.X, center.Y, max.Z);
+    return CFrame.new(center, centerFront), max - min;
 end
 
 local function floor2(x, y)
