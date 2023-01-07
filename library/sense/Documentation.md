@@ -18,9 +18,6 @@
   Sense.Unload()
   ```
 </details>
-
----
-
 <details>
   <summary><h3>Configurations</h3></summary>
 
