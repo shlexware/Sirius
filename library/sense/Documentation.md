@@ -1,4 +1,4 @@
-## Sirius Sense Esp Library
+# Sirius Sense Esp Library
 
 <details>
   <summary>Getting Started</summary>
