@@ -12,7 +12,7 @@ Sense.teamSettings.Enemy.enabled = true
 ```
 
 ### Loading Sense
-Run this under the code changing the configuration to your liking.
+It doesn't really matter where you put this, but it's recommended you put it at the end of your script.
 ```lua
 Sense.Load()
 ```
@@ -149,6 +149,7 @@ end
 ```
 
 ### Unloading Sense
+When you unload Sense, it will clean up every drawing object and instance it has made.
 ```lua
 Sense.Unload()
 ```
