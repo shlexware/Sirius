@@ -3,7 +3,6 @@
   <summary><h3>Getting Started</h3></summary>
 
   Our library is very easy to implement into your projects by doing the following.
-  &nbsp;
   ```lua
   -- 1. Load the library
   local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
@@ -22,7 +21,6 @@
   <summary><h3>Configurations</h3></summary>
 
   This is the default configuration for Sense, most things will be disabled by default.
-  &nbsp;
   ```lua
   Sense = {
       whitelist = {}, -- { [game.Players.Player1] = true }
@@ -158,7 +156,6 @@
   <summary><h3>Instance ESP</h3></summary>
 
   You can create an ESP object for instances by doing to following:
-  &nbsp;
   ```lua
   Sense.AddInstance(workspace.Part, {
       text = "Part",
