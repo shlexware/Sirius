@@ -1,6 +1,6 @@
 <h1>Sirius Sense Esp Library</h1>
 
-Source: [Source](https://github.com/shlexware/Sirius/blob/request/library/sense/source.lua)
+[Source](https://github.com/shlexware/Sirius/blob/request/library/sense/source.lua) [Discord](https://discord.gg/sirius)
 
 <details>
   <summary><h3>Getting Started</h3></summary>
