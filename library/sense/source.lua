@@ -622,8 +622,4 @@ function EspInterface.getHealth(player)
     return 100, 100;
 end
 
-EspInterface.teamSettings.Enemy.enabled = true;
-EspInterface.teamSettings.Enemy.boxEnabled = true;
-EspInterface.Load();
-
 return EspInterface;
