@@ -19,7 +19,7 @@
   ```
 </details>
 <details>
-  <summary><h3>Sense Default Configuration</h3></summary>
+  <summary><h3>Configurations</h3></summary>
 
   This is the default configuration for Sense, most things will be disabled by default.
   &nbsp;
