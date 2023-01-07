@@ -29,7 +29,9 @@ Sense = {
     whitelist = {},
     sharedSettings = {
         textSize = 13,
-        textFont = 2
+        textFont = 2,
+        limitDistance = false,
+        maxDistance = 150,
     },
     teamSettings = {
         Enemy = {
@@ -79,7 +81,7 @@ Sense = {
         },
         Friendly = {
             enabled = false,
-            boxEnabled = false,
+            box = false,
             boxColor = { Color3.new(0,1,0), 1 },
             boxOutline = true,
             boxOutlineColor = { Color3.new(), 1 },
@@ -123,32 +125,32 @@ Sense = {
             chamsOutlineColor = { Color3.new(0,1,0), 0 }
         }
     }
-};
+}
 ```
 
 ## Sense Functions
 These are our built-in functions for Sense which you can edit to give the library information about the player in games with for example custom replication systems.
 ```lua
-function Sense.getTeam(player)
-    return player and player.Team;
-end
-
-function Sense.getCharacter(player)
-    return player and player.Character;
-end
-
-function Sense.getWeapon(player)
+function EspInterface.getWeapon(player)
     return "Unknown";
 end
 
-function Sense.getHealth(player)
-    local character = player and EspInterface.getCharacter(player);
+function EspInterface.isFriendly(player)
+    return player.Team and player.Team == localPlayer.Team;
+end
+
+function EspInterface.getCharacter(player)
+    return player.Character;
+end
+
+function EspInterface.getHealth(player)
+    local character = EspInterface.getCharacter(player);
     local humanoid = character and findFirstChildOfClass(character, "Humanoid");
     if humanoid then
         return humanoid.Health, humanoid.MaxHealth;
     end
+    return 100, 100;
 end
-
 ```
 ## Unloading Sense
 ```lua
