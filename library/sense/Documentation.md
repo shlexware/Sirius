@@ -1,6 +1,6 @@
 ## Sirius Sense Esp Library
 
-## Getting Started.
+### Getting Started.
 1. `Load the library`
 ```lua
 local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
