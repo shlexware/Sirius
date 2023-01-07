@@ -25,7 +25,7 @@
 <details>
   <summary>Sense Default Configuration</summary>
 
-  This is the default configuration for Sense. Most things will be disabled by default.
+  This is the default configuration for Sense, most things will be disabled by default.
   &nbsp;
   ```lua
   Sense = {
