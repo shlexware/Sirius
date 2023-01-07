@@ -458,8 +458,8 @@ end
 
 -- interface
 local EspInterface = {
-    objectCache = {},
-    hasLoaded = false,
+    _objectCache = {},
+    _hasLoaded = false,
     whitelist = {},
     sharedSettings = {
         textSize = 13,
@@ -562,22 +562,22 @@ local EspInterface = {
 };
 
 function EspInterface.Load()
-    assert(not EspInterface.hasLoaded, "Esp has already been loaded.");
+    assert(not EspInterface._hasLoaded, "Esp has already been loaded.");
 
     local function createObject(player)
-        EspInterface.objectCache[player] = {
+        EspInterface._objectCache[player] = {
             esp = EspObject.new(player, EspInterface),
             cham = ChamObject.new(player, EspInterface)
         };
     end
 
     local function removeObject(player)
-        local object = EspInterface.objectCache[player];
+        local object = EspInterface._objectCache[player];
         if object then
             object.esp:Destruct();
             object.cham:Destruct();
         end
-        EspInterface.objectCache[player] = nil;
+        EspInterface._objectCache[player] = nil;
     end
 
     EspInterface.playerAdded = players.PlayerAdded:Connect(createObject);
@@ -589,21 +589,21 @@ function EspInterface.Load()
         end
     end
 
-    EspInterface.hasLoaded = true;
+    EspInterface._hasLoaded = true;
 end
 
 function EspInterface.Unload()
-    assert(EspInterface.hasLoaded, "Esp has not been loaded yet.");
+    assert(EspInterface._hasLoaded, "Esp has not been loaded yet.");
 
     EspInterface.playerAdded:Disconnect();
     EspInterface.playerRemoving:Disconnect();
 
-    for _, object in next, EspInterface.objectCache do
+    for _, object in next, EspInterface._objectCache do
         object.esp:Destruct();
         object.cham:Destruct();
     end
 
-    EspInterface.hasLoaded = false;
+    EspInterface._hasLoaded = false;
 end
 
 -- game specific functions
