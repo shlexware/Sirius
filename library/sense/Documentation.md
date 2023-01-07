@@ -7,12 +7,14 @@
   ```lua
   local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
   ```
-  &nbsp;
   2. `Change the configuration` You'll need to do this for every value you'd like to change. Read [`Sense Default Configuration`](https://github.com/shlexware/Sirius/blob/request/library/sense/Documentation.md#sense-default-configuration) to see all the available settings.
   ```lua
   Sense.teamSettings.Enemy.enabled = true
   ```
-  &nbsp;
+  3. `Load the esp` It doesn't really matter where you put this, but it's recommended you put it at the end of your script.
+  ```lua
+  Sense.Load()
+  ```
 </details>
 
 &nbsp;
