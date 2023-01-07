@@ -25,6 +25,8 @@
 <details>
   <summary>Sense Default Configuration</summary>
 
+  This is the default configuration for Sense, most things will be disabled by default.
+  &nbsp;
   ```lua
   Sense = {
       whitelist = {}, -- { [game.Players.Player1] = true }
@@ -133,7 +135,6 @@
   <summary>Game Specific Functions</summary>
 
   These are our game specific functions, you're required to modify these for games that use custom replication systems such as Phantom Forces.
-  &nbsp;
   ```lua
   function Sense.getWeapon(player)
       return "Unknown";
