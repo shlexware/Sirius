@@ -276,7 +276,7 @@ function EspObject:Render()
     local onScreen = self.onScreen;
     local enabled = self.enabled;
 
-    visible.box.Visible = enabled and onScreen and options.boxEnabled;
+    visible.box.Visible = enabled and onScreen and options.box;
     visible.boxOutline.Visible = visible.box.Visible and options.boxOutline;
     if visible.box.Visible then
         local box = visible.box;
@@ -470,7 +470,7 @@ local EspInterface = {
     teamSettings = {
         Enemy = {
             enabled = false,
-            boxEnabled = false,
+            box = false,
             boxColor = { Color3.new(1,0,0), 1 },
             boxOutline = true,
             boxOutlineColor = { Color3.new(), 1 },
@@ -515,7 +515,7 @@ local EspInterface = {
         },
         Friendly = {
             enabled = false,
-            boxEnabled = false,
+            box = false,
             boxColor = { Color3.new(0,1,0), 1 },
             boxOutline = true,
             boxOutlineColor = { Color3.new(), 1 },
