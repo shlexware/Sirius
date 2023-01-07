@@ -3,7 +3,7 @@
 <details>
   <summary>Getting Started.</summary>
   
-  Kill yourself
+  1. `Load the library`
 </details>
 
 &nbsp;
