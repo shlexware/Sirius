@@ -19,7 +19,6 @@ Sense.Load()
 
 ### Sense Default Configuration
 This is the default configuration for Sense, and most things will be disabled by default.
-This shows you everything you can change.
 ```lua
 Sense = {
     whitelist = {}, -- { [game.Players.Player1] = true }
@@ -125,7 +124,7 @@ Sense = {
 ```
 
 ### Sense Functions
-These are our built-in functions for Sense which you can edit to give the library information about the player in games with for example custom replication systems.
+These are our game specific functions, you're required to modify these for games that use for example custom replication systems.
 ```lua
 function EspInterface.getWeapon(player)
     return "Unknown";
