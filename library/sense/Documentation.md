@@ -1,6 +1,7 @@
-# Sirius Sense
+# Sirius Sense Esp Library
 ### Pure Performance. No Compromise.
-ESP Library
+Sirius Sense was created by mickey for Sirius. It is being actively updated and developed by mickey.
+
 ## Booting Sense
 ```lua
 local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
@@ -150,10 +151,12 @@ function EspInterface.getHealth(player)
     return 100, 100;
 end
 ```
+
 ## Unloading Sense
 ```lua
 Sense.Unload()
 ```
+
 ## Example Usage
 ```lua
 local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
@@ -165,5 +168,3 @@ Sense.Load()
 task.wait(5)
 Sense.Unload()
 ```
-
-Sirius Sense was created by mickey for Sirius. It is being actively updated and developed by mickey.
