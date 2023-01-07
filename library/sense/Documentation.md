@@ -3,7 +3,7 @@
 <details>
   <summary>Getting Started.</summary>
   
-  1. Load the library
+  1. Load the library\n
   `local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()`
 </details>
 
