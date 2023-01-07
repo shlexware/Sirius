@@ -128,6 +128,9 @@ Sense = {
 }
 ```
 
+&nbsp;
+&nbsp;
+&nbsp;
 
 ### Game Specific Functions
 These are our game specific functions, you're required to modify these for games that use for example custom replication systems.
@@ -154,6 +157,9 @@ function EspInterface.getHealth(player)
 end
 ```
 
+&nbsp;
+&nbsp;
+&nbsp;
 
 ### Example Usage
 ```lua
