@@ -1,5 +1,4 @@
-## Sirius Sense Esp Library
-### `Pure Performance. No Compromise`.
+### Sirius Sense Esp Library
 
 ## Booting Sense
 ```lua
