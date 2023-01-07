@@ -19,8 +19,6 @@ Sense.Unload()
 ```
 
 &nbsp;
-&nbsp;
-&nbsp;
 
 ### Sense Default Configuration
 This is the default configuration for Sense, and most things will be disabled by default.
