@@ -26,7 +26,6 @@
   <summary>Sense Default Configuration</summary>
 
   This is the default configuration for Sense, most things will be disabled by default.
-  &nbsp;
   ```lua
   Sense = {
       whitelist = {}, -- { [game.Players.Player1] = true }
