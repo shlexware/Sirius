@@ -2,7 +2,7 @@
 <details>
   <summary><h3>Getting Started</h3></summary>
 
-  <h6>Our library is very easy to implement into your projects by doing the following.</h6>
+  Our library is very easy to implement into your projects by doing the following.
   &nbsp;
   ```lua
   -- 1. Load the library
