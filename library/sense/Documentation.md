@@ -1,7 +1,7 @@
 # Sirius Sense Esp Library
 
 <details>
-  <summary>Getting Started</summary>
+  <summary><h3>Getting Started</h3></summary>
 
   Our library is very easy to implement into your projects by doing the following.
   &nbsp;
