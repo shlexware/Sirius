@@ -20,7 +20,7 @@
   ```
 </details>
 <details>
-  <summary>Sense Default Configuration</summary>
+  <summary><h3>Sense Default Configuration</h3></summary>
 
   This is the default configuration for Sense, most things will be disabled by default.
   &nbsp;
@@ -129,7 +129,7 @@
   ```
 </details>
 <details>
-  <summary>Game Specific Functions</summary>
+  <summary><h3>Game Specific Functions</h3></summary>
 
   These are our game specific functions, you're required to modify these for games that use custom replication systems such as Phantom Forces.
   ```lua
@@ -156,7 +156,7 @@
   ```
 </details>
 <details>
-  <summary>Instance ESP</summary>
+  <summary><h3>Instance ESP</h3></summary>
 
   You can create an ESP object for instances by doing to following:
   &nbsp;
