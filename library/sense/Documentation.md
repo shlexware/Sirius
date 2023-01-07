@@ -154,5 +154,16 @@ end
 ```lua
 Sense.Unload()
 ```
+## Example Usage
+```lua
+local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
+
+Sense.teamSettings.Enemy.enabled = true
+Sense.teamSettings.Enemy.box = true
+
+Sense.Load()
+task.wait(5)
+Sense.Unload()
+```
 
 Sirius Sense was created by mickey for Sirius. It is being actively updated and developed by mickey.
