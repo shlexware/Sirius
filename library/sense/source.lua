@@ -215,7 +215,7 @@ function EspObject:Destruct()
     clear(self);
 end
 
-function EspObject:Update()
+function EspObject:Update() -- stfu i know its bad
     local interface = self.interface;
 
     self.options = interface.teamSettings[interface.isFriendly(self.player) and "Friendly" or "Enemy"];
