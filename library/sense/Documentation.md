@@ -15,6 +15,10 @@
   ```lua
   Sense.Load()
   ```
+  4. `Unload the esp` When you unload Sense, it will clean up every drawing object and instance it has made.
+  ```lua
+  Sense.Unload()
+  ```
 </details>
 
 &nbsp;
