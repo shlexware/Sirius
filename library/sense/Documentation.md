@@ -1,7 +1,7 @@
 ## Sirius Sense Esp Library
 
 <details>
-  <summary>Getting Started.</summary>
+  ###<summary>Getting Started.</summary>
 
     1. `Load the library`
     ```lua
