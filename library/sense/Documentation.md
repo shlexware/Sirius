@@ -5,20 +5,17 @@
 
   Our library is very easy to implement into your projects by doing the following.
   &nbsp;
-  1. Load the library
   ```lua
+  -- 1. Load the library
   local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
-  ```
-  2. `Change the configuration` You'll need to do this for every value you'd like to change. Read [`Sense Default Configuration`](https://github.com/shlexware/Sirius/blob/request/library/sense/Documentation.md#sense-default-configuration) to see all the available settings.
-  ```lua
+  
+  -- 2. Change the configuration. You'll need to do this for every value you'd like to change.
   Sense.teamSettings.Enemy.enabled = true
-  ```
-  3. `Load the esp` It doesn't really matter where you put this, but it's recommended you put it at the end of your script.
-  ```lua
+  
+  -- 3. Load the esp. It doesn't really matter where you put this, but it's recommended you put it at the end of your script.
   Sense.Load()
-  ```
-  4. `Unload the esp` When you unload Sense, it will clean up every drawing object and instance it has made.
-  ```lua
+
+  -- 4. Unload the esp. When you unload Sense, it will clean up every drawing object and instance it has made.
   Sense.Unload()
   ```
 </details>
