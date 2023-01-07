@@ -24,7 +24,7 @@ This is the default configuration for Sense, and most things will be disabled by
 This shows you everything you can change.
 ```lua
 Sense = {
-    whitelist = {},
+    whitelist = {}, -- { [game.Players.LocalPlayer] = true }
     sharedSettings = {
         textSize = 13,
         textFont = 2,
