@@ -216,22 +216,23 @@ function EspObject:Destruct()
 end
 
 function EspObject:Update()
-    local character = self.interface.getCharacter(self.player);
-    local head = character and findFirstChild(character, "Head");
-
     local interface = self.interface;
+
     self.options = interface.teamSettings[interface.isFriendly(self.player) and "Friendly" or "Enemy"];
     self.health, self.maxHealth = interface.getHealth(self.player);
+    self.character = interface.getCharacter(self.player);
     self.weapon = interface.getWeapon(self.player);
-    self.character = character;
+    self.enabled = self.options.enabled and self.character and not
+        (#interface.whitelist > 0 and not interface.whitelist[self.player]);
 
+    local head = self.enabled and findFirstChild(self.character, "Head");
     if head then
         local _, onScreen, depth = worldToScreen(head.Position);
         self.onScreen = onScreen;
         self.distance = depth;
 
         if onScreen then
-            local children = getChildren(character);
+            local children = getChildren(self.character);
             if not self.charCache[1] or self.childCount ~= #children then
                 clear(self.charCache);
 
@@ -268,10 +269,8 @@ function EspObject:Render()
     local interface = self.interface;
     local options = self.options;
     local corners = self.corners;
-
-    local onScreen = self.onScreen or false;
-    local alive = self.character and self.health and self.health > 0 or false;
-    local enabled = options.enabled and alive and not (#interface.whitelist > 0 and not interface.whitelist[self.player]);
+    local onScreen = self.onScreen;
+    local enabled = self.enabled;
 
     visible.box.Visible = enabled and onScreen and options.boxEnabled;
     visible.boxOutline.Visible = visible.box.Visible and options.boxOutline;
@@ -622,5 +621,9 @@ function EspInterface.getHealth(player)
     end
     return 100, 100;
 end
+
+EspInterface.teamSettings.Enemy.enabled = true;
+EspInterface.teamSettings.Enemy.boxEnabled = true;
+EspInterface.Load();
 
 return EspInterface;
