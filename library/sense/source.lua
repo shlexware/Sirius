@@ -215,7 +215,7 @@ function EspObject:Destruct()
     clear(self);
 end
 
-function EspObject:Update() -- stfu i know its bad
+function EspObject:Update()
     local interface = self.interface;
 
     self.options = interface.teamSettings[interface.isFriendly(self.player) and "Friendly" or "Enemy"];
@@ -230,6 +230,10 @@ function EspObject:Update() -- stfu i know its bad
         local _, onScreen, depth = worldToScreen(head.Position);
         self.onScreen = onScreen;
         self.distance = depth;
+
+        if interface.sharedSettings.limitDistance and depth > interface.sharedSettings.maxDistance then
+            self.onScreen = false;
+        end
 
         if onScreen then
             local children = getChildren(self.character);
@@ -459,7 +463,9 @@ local EspInterface = {
     whitelist = {},
     sharedSettings = {
         textSize = 13,
-        textFont = 2
+        textFont = 2,
+        limitDistance = false,
+        maxDistance = 150,
     },
     teamSettings = {
         Enemy = {
