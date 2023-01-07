@@ -24,8 +24,6 @@ This is the default configuration for Sense, and most things will be disabled by
 This shows you everything you can change.
 ```lua
 Sense = {
-    objectCache = {},
-    hasLoaded = false,
     whitelist = {},
     sharedSettings = {
         textSize = 13,
