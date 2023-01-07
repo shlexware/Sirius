@@ -1,6 +1,6 @@
-### Sirius Sense Esp Library
+## Sirius Sense Esp Library
 
-## Booting Sense
+### Booting Sense
 ```lua
 local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
 ```
@@ -12,13 +12,13 @@ If you'd like to know what you can change, read the [`Sense Default Configuratio
 Sense.teamSettings.Enemy.enabled = true
 ```
 
-## Loading Sense
+### Loading Sense
 Run this under the code changing the configuration to your liking.
 ```lua
 Sense.Load()
 ```
 
-## Sense Default Configuration
+### Sense Default Configuration
 This is the default configuration for Sense, and most things will be disabled by default.
 This shows you everything you can change.
 ```lua
@@ -125,7 +125,7 @@ Sense = {
 }
 ```
 
-## Sense Functions
+### Sense Functions
 These are our built-in functions for Sense which you can edit to give the library information about the player in games with for example custom replication systems.
 ```lua
 function EspInterface.getWeapon(player)
@@ -150,12 +150,12 @@ function EspInterface.getHealth(player)
 end
 ```
 
-## Unloading Sense
+### Unloading Sense
 ```lua
 Sense.Unload()
 ```
 
-## Example Usage
+### Example Usage
 ```lua
 local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
 
