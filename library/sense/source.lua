@@ -54,6 +54,14 @@ local VERTICES = {
 };
 
 -- utils
+local function create(class, properties)
+    local drawing = Drawing.new(class);
+    for property, value in next, properties do
+        drawing[property] = value;
+    end
+    return drawing;
+end
+
 local function isBodyPart(name)
     return name == "Head" or find(name, "Torso") or find(name, "Leg") or find(name, "Arm");
 end
@@ -105,89 +113,80 @@ function EspObject.new(player, interface)
     local self = setmetatable({}, EspObject);
     self.player = assert(player, "Missing argument #1 (Player expected)");
     self.interface = assert(interface, "Missing argument #2 (table expected)");
-    self.bin = {};
-    self.charCache = {};
-    self.childCount = 0;
     self:Construct();
     return self;
 end
 
-function EspObject:Create(class, properties)
-    local drawing = Drawing.new(class);
-    for property, value in next, properties do
-        drawing[property] = value;
-    end
-    insert(self.bin, drawing);
-    return drawing;
-end
-
 function EspObject:Construct()
+    self.charCache = {};
+    self.childCount = 0;
+    
     self.drawings = {
         visible = {
-            boxOutline = self:Create("Square", {
+            boxOutline = create("Square", {
                 Thickness = 3,
                 ZIndex = 2,
                 Visible = false
             }),
-            box = self:Create("Square", {
+            box = create("Square", {
                 Thickness = 1,
                 ZIndex = 2,
                 Visible = false
             }),
-            boxFill = self:Create("Square", {
+            boxFill = create("Square", {
                 Filled = true,
                 ZIndex = 2,
                 Visible = false
             }),
-            healthBarOutline = self:Create("Line", {
+            healthBarOutline = create("Line", {
                 Thickness = 3,
                 ZIndex = 2,
                 Visible = false
             }),
-            healthBar = self:Create("Line", {
+            healthBar = create("Line", {
                 Thickness = 1,
                 ZIndex = 2,
                 Visible = false
             }),
-            healthText = self:Create("Text", {
+            healthText = create("Text", {
                 Center = true,
                 ZIndex = 3,
                 Visible = false
             }),
-            name = self:Create("Text", {
+            name = create("Text", {
                 Text = self.player.Name,
                 Center = true,
                 ZIndex = 3,
                 Visible = false
             }),
-            weapon = self:Create("Text", {
+            weapon = create("Text", {
                 Center = true,
                 ZIndex = 3,
                 Visible = false
             }),
-            distance = self:Create("Text", {
+            distance = create("Text", {
                 Center = true,
                 ZIndex = 3,
                 Visible = false
             }),
-            tracerOutline = self:Create("Line", {
+            tracerOutline = create("Line", {
                 Thickness = 3,
                 ZIndex = 1,
                 Visible = false
             }),
-            tracer = self:Create("Line", {
+            tracer = create("Line", {
                 Thickness = 1,
                 ZIndex = 1,
                 Visible = false
             }),
         },
         hidden = {
-            arrowOutline = self:Create("Triangle", {
+            arrowOutline = create("Triangle", {
                 Thickness = 3,
                 ZIndex = 4,
                 Visible = false
             }),
-            arrow = self:Create("Triangle", {
+            arrow = create("Triangle", {
                 Filled = true,
                 ZIndex = 4,
                 Visible = false
@@ -208,7 +207,11 @@ function EspObject:Destruct()
     self.updateConnection:Disconnect();
     self.renderConnection:Disconnect();
 
-    for _, drawing in next, self.bin do
+    for _, drawing in next, self.drawings.visible do
+        drawing:Remove();
+    end
+
+    for _, drawing in next, self.drawings.hidden do
         drawing:Remove();
     end
 
@@ -235,7 +238,7 @@ function EspObject:Update()
             self.onScreen = false;
         end
 
-        if onScreen then
+        if self.onScreen then
             local children = getChildren(self.character);
             if not self.charCache[1] or self.childCount ~= #children then
                 clear(self.charCache);
@@ -258,23 +261,17 @@ function EspObject:Update()
 
             self.direction = Vector2.new(cos(angle), sin(angle));
         end
-
-        self.hasUpdated = true;
     end
 end
 
 function EspObject:Render()
-    if not self.hasUpdated then
-        return;
-    end
-
+    local onScreen = self.onScreen or false;
+    local enabled = self.enabled or false;
     local visible = self.drawings.visible;
     local hidden = self.drawings.hidden;
     local interface = self.interface;
     local options = self.options;
     local corners = self.corners;
-    local onScreen = self.onScreen;
-    local enabled = self.enabled;
 
     visible.box.Visible = enabled and onScreen and options.box;
     visible.boxOutline.Visible = visible.box.Visible and options.boxOutline;
@@ -360,7 +357,7 @@ function EspObject:Render()
         weapon.Position = (corners.bottomLeft + corners.bottomRight)*0.5 + WEAPON_OFFSET;
     end
 
-    visible.distance.Visible = enabled and onScreen and options.distance;
+    visible.distance.Visible = enabled and onScreen and self.distance and options.distance;
     if visible.distance.Visible then
         local distance = visible.distance;
         distance.Text = round(self.distance) .. " studs";
@@ -394,7 +391,7 @@ function EspObject:Render()
         tracerOutline.From = tracer.From;
     end
 
-    hidden.arrow.Visible = enabled and not onScreen and options.offScreenArrow;
+    hidden.arrow.Visible = enabled and (not onScreen) and options.offScreenArrow;
     hidden.arrowOutline.Visible = hidden.arrow.Visible and options.offScreenArrowOutline;
     if hidden.arrow.Visible then
         local arrow = hidden.arrow;
@@ -454,6 +451,70 @@ function ChamObject:Update()
     highlight.FillTransparency = options.chamsFillColor[2];
     highlight.OutlineColor = options.chamsOutlineColor[1];
     highlight.OutlineTransparency = options.chamsOutlineColor[2];
+end
+
+-- instance class
+local InstanceObject = {};
+InstanceObject.__index = InstanceObject;
+
+function InstanceObject.new(instance, options)
+    local self = setmetatable({}, InstanceObject);
+    self.instance = assert(instance, "Missing argument #1 (Instance Expected)");
+    self.options = assert(options, "Missing argument #2 (table expected)");
+    self:Construct();
+    return self;
+end
+
+function InstanceObject:Construct()
+    local options = self.options;
+    options.text = options.text or self.instance.Name;
+    options.textColor = options.textColor or { Color3.new(1,1,1), 1 };
+    options.textOutline = true;
+    options.textOutlineColor = Color3.new();
+    options.textSize = 13;
+    options.textFont = 2;
+    options.limitDistance = false;
+    options.maxDistance = 150;
+
+    self.text = create("Text", {
+        Center = true
+    });
+
+    self.renderConnection = runService.RenderStepped:Connect(function(...)
+        self:Render(...);
+    end);
+end
+
+function InstanceObject:Destruct()
+    self.renderConnection:Disconnect();
+    self.text:Remove();
+end
+
+function InstanceObject:Render()
+    if not self.instance or not self.instance.Parent then
+        return self:Destruct();
+    end
+
+    local options = self.options;
+    local text = self.text;
+
+    local world = self.instance:GetPivot().Position;
+    local position, visible, depth = worldToScreen(world);
+    if options.limitDistance and options.maxDistance > depth then
+        visible = false;
+    end
+
+    text.Visible = visible;
+    if text.Visible then
+        text.Position = position;
+        text.Text = options.text;
+        text.Color = options.textColor[1];
+        text.Transparency = options.textColor[2];
+        text.Outline = options.textOutline;
+        text.OutlineColor = options.textOutlineColor;
+        text.Size = options.textSize;
+        text.Font = options.textFont;
+    end
 end
 
 -- interface
@@ -561,6 +622,17 @@ local EspInterface = {
     }
 };
 
+function EspInterface.AddInstance(instance, options)
+    if EspInterface._objectCache[instance] then
+        warn("Instance handler already exists.");
+    else
+        EspInterface._objectCache[instance] = {
+            instance = InstanceObject.new(instance, options)
+        };
+    end
+    return EspInterface._objectCache[instance];
+end
+
 function EspInterface.Load()
     assert(not EspInterface._hasLoaded, "Esp has already been loaded.");
 
@@ -574,10 +646,12 @@ function EspInterface.Load()
     local function removeObject(player)
         local object = EspInterface._objectCache[player];
         if object then
-            object.esp:Destruct();
-            object.cham:Destruct();
+            for _, v in next, object do
+                v:Destruct();
+            end
+
+            EspInterface._objectCache[player] = nil;
         end
-        EspInterface._objectCache[player] = nil;
     end
 
     EspInterface.playerAdded = players.PlayerAdded:Connect(createObject);
@@ -599,8 +673,9 @@ function EspInterface.Unload()
     EspInterface.playerRemoving:Disconnect();
 
     for _, object in next, EspInterface._objectCache do
-        object.esp:Destruct();
-        object.cham:Destruct();
+        for _, v in next, object do
+            v:Destruct();
+        end
     end
 
     EspInterface._hasLoaded = false;
