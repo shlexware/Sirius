@@ -1,6 +1,6 @@
 # Sirius Sense Esp Library
 ### Pure Performance. No Compromise.
-Sirius Sense was created by mickey for Sirius. It is being actively updated and developed by mickey.
+`Sirius Sense was created by mickey for Sirius. It is being actively updated and developed by mickey.`
 
 ## Booting Sense
 ```lua
