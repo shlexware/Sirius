@@ -18,6 +18,7 @@ Sense.Load()
 Sense.Unload()
 ```
 
+
 ### Sense Default Configuration
 This is the default configuration for Sense, and most things will be disabled by default.
 ```lua
@@ -124,7 +125,8 @@ Sense = {
 }
 ```
 
-### Sense Functions
+
+### Game Specific Functions
 These are our game specific functions, you're required to modify these for games that use for example custom replication systems.
 ```lua
 function EspInterface.getWeapon(player)
@@ -148,6 +150,7 @@ function EspInterface.getHealth(player)
     return 100, 100;
 end
 ```
+
 
 ### Example Usage
 ```lua
