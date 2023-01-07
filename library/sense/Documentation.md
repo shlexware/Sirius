@@ -2,7 +2,8 @@
 
 <details>
   <summary>Getting Started</summary>
-  
+  Our library is very easy to implement into your projects by doing the following.
+  &nbsp;
   1. Load the library
   ```lua
   local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
@@ -24,7 +25,7 @@
   <summary>Sense Default Configuration</summary>
 
   This is the default configuration for Sense. Most things will be disabled by default.
-
+  &nbsp;
   ```lua
   Sense = {
       whitelist = {}, -- { [game.Players.Player1] = true }
