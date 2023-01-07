@@ -6,8 +6,7 @@ local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexwa
 ```
 
 ### Changing Configuration
-You'll need to do this for every value you'd like to change using this method.
-If you'd like to know what you can change, read [`Sense Default Configuration`](https://github.com/shlexware/Sirius/blob/request/library/sense/Documentation.md#sense-default-configuration).
+You'll need to do this for every value you'd like to change. Read [`Sense Default Configuration`](https://github.com/shlexware/Sirius/blob/request/library/sense/Documentation.md#sense-default-configuration) to see all the available settings.
 ```lua
 Sense.teamSettings.Enemy.enabled = true
 ```
