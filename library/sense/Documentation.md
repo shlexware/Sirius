@@ -159,20 +159,21 @@
   end
   ```
 </details>
+<details>
+  <summary>Instance ESP</summary>
 
-&nbsp;
-
-### Instance ESP
-You can create an ESP object for instances by doing to following:
-```lua
-Sense.AddInstance(workspace.Part, {
-    text = "Part",
-    textColor = { Color3.new(1,1,1), 1 },
-    textOutline = true,
-    textOutlineColor = Color3.new(),
-    textSize = 13,
-    textFont = 2,
-    limitDistance = false,
-    maxDistance = 150
-})
-```
+  You can create an ESP object for instances by doing to following:
+  &nbsp;
+  ```lua
+  Sense.AddInstance(workspace.Part, {
+      text = "Part",
+      textColor = { Color3.new(1,1,1), 1 },
+      textOutline = true,
+      textOutlineColor = Color3.new(),
+      textSize = 13,
+      textFont = 2,
+      limitDistance = false,
+      maxDistance = 150
+  })
+  ```
+</details>
