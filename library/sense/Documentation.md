@@ -131,31 +131,34 @@
   }
   ```
 </details>
+<details>
+  <summary>Game Specific Functions</summary>
 
-### Game Specific Functions
-These are our game specific functions, you're required to modify these for games that use custom replication systems such as Phantom Forces.
-```lua
-function Sense.getWeapon(player)
-    return "Unknown";
-end
+  These are our game specific functions, you're required to modify these for games that use custom replication systems such as Phantom Forces.
+  &nbsp;
+  ```lua
+  function Sense.getWeapon(player)
+      return "Unknown";
+  end
 
-function Sense.isFriendly(player)
-    return player.Team and player.Team == localPlayer.Team;
-end
+  function Sense.isFriendly(player)
+      return player.Team and player.Team == localPlayer.Team;
+  end
 
-function Sense.getCharacter(player)
-    return player.Character;
-end
+  function Sense.getCharacter(player)
+      return player.Character;
+  end
 
-function Sense.getHealth(player)
-    local character = Sense.getCharacter(player);
-    local humanoid = character and findFirstChildOfClass(character, "Humanoid");
-    if humanoid then
-        return humanoid.Health, humanoid.MaxHealth;
-    end
-    return 100, 100;
-end
-```
+  function Sense.getHealth(player)
+      local character = Sense.getCharacter(player);
+      local humanoid = character and findFirstChildOfClass(character, "Humanoid");
+      if humanoid then
+          return humanoid.Health, humanoid.MaxHealth;
+      end
+      return 100, 100;
+  end
+  ```
+</details>
 
 &nbsp;
 
