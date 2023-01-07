@@ -131,20 +131,20 @@ Sense = {
 ### Game Specific Functions
 These are our game specific functions, you're required to modify these for games that use for example custom replication systems.
 ```lua
-function EspInterface.getWeapon(player)
+function Sense.getWeapon(player)
     return "Unknown";
 end
 
-function EspInterface.isFriendly(player)
+function Sense.isFriendly(player)
     return player.Team and player.Team == localPlayer.Team;
 end
 
-function EspInterface.getCharacter(player)
+function Sense.getCharacter(player)
     return player.Character;
 end
 
-function EspInterface.getHealth(player)
-    local character = EspInterface.getCharacter(player);
+function Sense.getHealth(player)
+    local character = Sense.getCharacter(player);
     local humanoid = character and findFirstChildOfClass(character, "Humanoid");
     if humanoid then
         return humanoid.Health, humanoid.MaxHealth;
@@ -155,14 +155,17 @@ end
 
 &nbsp;
 
-### Example Usage
+### Instance ESP
+You can create an ESP object for instances by doing to following:
 ```lua
-local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
-
-Sense.teamSettings.Enemy.enabled = true
-Sense.teamSettings.Enemy.box = true
-
-Sense.Load()
-task.wait(5)
-Sense.Unload()
+Sense.AddInstance(workspace.Part, {
+    text = "Part",
+    textColor = { Color3.new(1,1,1), 1 },
+    textOutline = true,
+    textOutlineColor = Color3.new(),
+    textSize = 13,
+    textFont = 2,
+    limitDistance = false,
+    maxDistance = 150
+})
 ```
