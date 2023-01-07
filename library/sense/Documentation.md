@@ -2,6 +2,7 @@
 
 <details>
   <summary>Getting Started</summary>
+
   Our library is very easy to implement into your projects by doing the following.
   &nbsp;
   1. Load the library
