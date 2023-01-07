@@ -1,7 +1,7 @@
 ## Sirius Sense Esp Library
 
 <details>
-  <summary>Getting Started.</summary>
+  <summary>Getting Started</summary>
   
   1. Load the library
   ```lua
@@ -20,116 +20,113 @@
   Sense.Unload()
   ```
 </details>
-
-&nbsp;
-
-### Sense Default Configuration
-This is the default configuration for Sense. Most things will be disabled by default.
-```lua
-Sense = {
-    whitelist = {}, -- { [game.Players.Player1] = true }
-    sharedSettings = {
-        textSize = 13,
-        textFont = 2,
-        limitDistance = false,
-        maxDistance = 150,
-    },
-    teamSettings = {
-        Enemy = {
-            enabled = false,
-            box = false,
-            boxColor = { Color3.new(1,0,0), 1 },
-            boxOutline = true,
-            boxOutlineColor = { Color3.new(), 1 },
-            boxFill = false,
-            boxFillColor = { Color3.new(1,0,0), 0.5 },
-            healthBar = false,
-            healthyColor = Color3.new(0,1,0),
-            dyingColor = Color3.new(1,0,0),
-            healthBarOutline = true,
-            healthBarOutlineColor = { Color3.new(), 1 },
-            healthText = false,
-            healthTextColor = { Color3.new(1,1,1), 1 },
-            healthTextOutline = true,
-            healthTextOutlineColor = Color3.new(),
-            name = false,
-            nameColor = { Color3.new(1,1,1), 1 },
-            nameOutline = true,
-            nameOutlineColor = Color3.new(),
-            weapon = false,
-            weaponColor = { Color3.new(1,1,1), 1 },
-            weaponOutline = true,
-            weaponOutlineColor = Color3.new(),
-            distance = false,
-            distanceColor = { Color3.new(1,1,1), 1 },
-            distanceOutline = true,
-            distanceOutlineColor = Color3.new(),
-            tracer = false,
-            tracerOrigin = "Bottom",
-            tracerColor = { Color3.new(1,0,0), 1 },
-            tracerOutline = true,
-            tracerOutlineColor = { Color3.new(), 1 },
-            offScreenArrow = false,
-            offScreenArrowColor = { Color3.new(1,1,1), 1 },
-            offScreenArrowSize = 15,
-            offScreenArrowRadius = 150,
-            offScreenArrowOutline = true,
-            offScreenArrowOutlineColor = { Color3.new(), 1 },
-            chams = false,
-            chamsVisibleOnly = false,
-            chamsFillColor = { Color3.new(0.2, 0.2, 0.2), 0.5 },
-            chamsOutlineColor = { Color3.new(1,0,0), 0 }
-        },
-        Friendly = {
-            enabled = false,
-            box = false,
-            boxColor = { Color3.new(0,1,0), 1 },
-            boxOutline = true,
-            boxOutlineColor = { Color3.new(), 1 },
-            boxFill = false,
-            boxFillColor = { Color3.new(0,1,0), 0.5 },
-            healthBar = false,
-            healthyColor = Color3.new(0,1,0),
-            dyingColor = Color3.new(1,0,0),
-            healthBarOutline = true,
-            healthBarOutlineColor = { Color3.new(), 1 },
-            healthText = false,
-            healthTextColor = { Color3.new(1,1,1), 1 },
-            healthTextOutline = true,
-            healthTextOutlineColor = Color3.new(),
-            name = false,
-            nameColor = { Color3.new(1,1,1), 1 },
-            nameOutline = true,
-            nameOutlineColor = Color3.new(),
-            weapon = false,
-            weaponColor = { Color3.new(1,1,1), 1 },
-            weaponOutline = true,
-            weaponOutlineColor = Color3.new(),
-            distance = false,
-            distanceColor = { Color3.new(1,1,1), 1 },
-            distanceOutline = true,
-            distanceOutlineColor = Color3.new(),
-            tracer = false,
-            tracerOrigin = "Bottom",
-            tracerColor = { Color3.new(0,1,0), 1 },
-            tracerOutline = true,
-            tracerOutlineColor = { Color3.new(), 1 },
-            offScreenArrow = false,
-            offScreenArrowColor = { Color3.new(1,1,1), 1 },
-            offScreenArrowSize = 15,
-            offScreenArrowRadius = 150,
-            offScreenArrowOutline = true,
-            offScreenArrowOutlineColor = { Color3.new(), 1 },
-            chams = false,
-            chamsVisibleOnly = false,
-            chamsFillColor = { Color3.new(0.2, 0.2, 0.2), 0.5 },
-            chamsOutlineColor = { Color3.new(0,1,0), 0 }
-        }
-    }
-}
-```
-
-&nbsp;
+<details>
+  <summary>Sense Default Configuration</summary>
+  This is the default configuration for Sense. Most things will be disabled by default.
+  ```lua
+  Sense = {
+      whitelist = {}, -- { [game.Players.Player1] = true }
+      sharedSettings = {
+          textSize = 13,
+          textFont = 2,
+          limitDistance = false,
+          maxDistance = 150,
+      },
+      teamSettings = {
+          Enemy = {
+              enabled = false,
+              box = false,
+              boxColor = { Color3.new(1,0,0), 1 },
+              boxOutline = true,
+              boxOutlineColor = { Color3.new(), 1 },
+              boxFill = false,
+              boxFillColor = { Color3.new(1,0,0), 0.5 },
+              healthBar = false,
+              healthyColor = Color3.new(0,1,0),
+              dyingColor = Color3.new(1,0,0),
+              healthBarOutline = true,
+              healthBarOutlineColor = { Color3.new(), 1 },
+              healthText = false,
+              healthTextColor = { Color3.new(1,1,1), 1 },
+              healthTextOutline = true,
+              healthTextOutlineColor = Color3.new(),
+              name = false,
+              nameColor = { Color3.new(1,1,1), 1 },
+              nameOutline = true,
+              nameOutlineColor = Color3.new(),
+              weapon = false,
+              weaponColor = { Color3.new(1,1,1), 1 },
+              weaponOutline = true,
+              weaponOutlineColor = Color3.new(),
+              distance = false,
+              distanceColor = { Color3.new(1,1,1), 1 },
+              distanceOutline = true,
+              distanceOutlineColor = Color3.new(),
+              tracer = false,
+              tracerOrigin = "Bottom",
+              tracerColor = { Color3.new(1,0,0), 1 },
+              tracerOutline = true,
+              tracerOutlineColor = { Color3.new(), 1 },
+              offScreenArrow = false,
+              offScreenArrowColor = { Color3.new(1,1,1), 1 },
+              offScreenArrowSize = 15,
+              offScreenArrowRadius = 150,
+              offScreenArrowOutline = true,
+              offScreenArrowOutlineColor = { Color3.new(), 1 },
+              chams = false,
+              chamsVisibleOnly = false,
+              chamsFillColor = { Color3.new(0.2, 0.2, 0.2), 0.5 },
+              chamsOutlineColor = { Color3.new(1,0,0), 0 }
+          },
+          Friendly = {
+              enabled = false,
+              box = false,
+              boxColor = { Color3.new(0,1,0), 1 },
+              boxOutline = true,
+              boxOutlineColor = { Color3.new(), 1 },
+              boxFill = false,
+              boxFillColor = { Color3.new(0,1,0), 0.5 },
+              healthBar = false,
+              healthyColor = Color3.new(0,1,0),
+              dyingColor = Color3.new(1,0,0),
+              healthBarOutline = true,
+              healthBarOutlineColor = { Color3.new(), 1 },
+              healthText = false,
+              healthTextColor = { Color3.new(1,1,1), 1 },
+              healthTextOutline = true,
+              healthTextOutlineColor = Color3.new(),
+              name = false,
+              nameColor = { Color3.new(1,1,1), 1 },
+              nameOutline = true,
+              nameOutlineColor = Color3.new(),
+              weapon = false,
+              weaponColor = { Color3.new(1,1,1), 1 },
+              weaponOutline = true,
+              weaponOutlineColor = Color3.new(),
+              distance = false,
+              distanceColor = { Color3.new(1,1,1), 1 },
+              distanceOutline = true,
+              distanceOutlineColor = Color3.new(),
+              tracer = false,
+              tracerOrigin = "Bottom",
+              tracerColor = { Color3.new(0,1,0), 1 },
+              tracerOutline = true,
+              tracerOutlineColor = { Color3.new(), 1 },
+              offScreenArrow = false,
+              offScreenArrowColor = { Color3.new(1,1,1), 1 },
+              offScreenArrowSize = 15,
+              offScreenArrowRadius = 150,
+              offScreenArrowOutline = true,
+              offScreenArrowOutlineColor = { Color3.new(), 1 },
+              chams = false,
+              chamsVisibleOnly = false,
+              chamsFillColor = { Color3.new(0.2, 0.2, 0.2), 0.5 },
+              chamsOutlineColor = { Color3.new(0,1,0), 0 }
+          }
+      }
+  }
+  ```
+</details>
 
 ### Game Specific Functions
 These are our game specific functions, you're required to modify these for games that use custom replication systems such as Phantom Forces.
