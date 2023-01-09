@@ -467,6 +467,7 @@ end
 
 function InstanceObject:Construct()
     local options = self.options;
+    options.enabled = options.enabled or false;
     options.text = options.text or self.instance.Name;
     options.textColor = options.textColor or { Color3.new(1,1,1), 1 };
     options.textOutline = true;
@@ -495,25 +496,28 @@ function InstanceObject:Render()
         return self:Destruct();
     end
 
-    local options = self.options;
     local text = self.text;
+    local options = self.options;
+    if options.enabled then
+        local world = self.instance:GetPivot().Position;
+        local position, visible, depth = worldToScreen(world);
+        if options.limitDistance and options.maxDistance > depth then
+            visible = false;
+        end
 
-    local world = self.instance:GetPivot().Position;
-    local position, visible, depth = worldToScreen(world);
-    if options.limitDistance and options.maxDistance > depth then
-        visible = false;
-    end
-
-    text.Visible = visible;
-    if text.Visible then
-        text.Position = position;
-        text.Text = options.text;
-        text.Color = options.textColor[1];
-        text.Transparency = options.textColor[2];
-        text.Outline = options.textOutline;
-        text.OutlineColor = options.textOutlineColor;
-        text.Size = options.textSize;
-        text.Font = options.textFont;
+        text.Visible = visible;
+        if text.Visible then
+            text.Position = position;
+            text.Text = options.text;
+            text.Color = options.textColor[1];
+            text.Transparency = options.textColor[2];
+            text.Outline = options.textOutline;
+            text.OutlineColor = options.textOutlineColor;
+            text.Size = options.textSize;
+            text.Font = options.textFont;
+        end
+    else
+        text.Visible = false; 
     end
 end
 
