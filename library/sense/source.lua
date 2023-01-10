@@ -2,13 +2,15 @@
 local runService = game:GetService("RunService");
 local players = game:GetService("Players");
 local workspace = game:GetService("Workspace");
-local coreGui = game:GetService("CoreGui");
 
 -- variables
 local localPlayer = players.LocalPlayer;
 local camera = workspace.CurrentCamera;
 local viewportSize = camera.ViewportSize;
-local container = Instance.new("Folder", gethui and gethui() or coreGui);
+local container = Instance.new(
+	"Folder",
+	gethui and gethui() or game:GetService("CoreGui")
+);
 
 -- locals
 local floor = math.floor;
