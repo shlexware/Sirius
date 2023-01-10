@@ -8,7 +8,7 @@
   -- 1. Load the library
   local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
   
-  -- 2. Change the configuration. You'll need to do this for every value you'd like to change.
+  -- 2. Change the configuration.
   Sense.teamSettings.enemy.enabled = true
   Sense.teamSettings.enemy.box = true
   Sense.teamSettings.enemy.boxColor[1] = Color3.new(0, 0.25, 0.75)
