@@ -17,7 +17,6 @@ local atan2 = math.atan2;
 local sin = math.sin;
 local cos = math.cos;
 local find = string.find;
-local insert = table.insert;
 local clear = table.clear;
 
 -- namecalls
@@ -245,7 +244,7 @@ function EspObject:Update()
 
                 for _, part in next, children do
                     if isA(part, "BasePart") and isBodyPart(part.Name) then
-                        insert(self.charCache, part);
+                        self.charCache[#self.charCache + 1] = part)
                     end
                 end
 
