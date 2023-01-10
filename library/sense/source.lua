@@ -221,8 +221,8 @@ function EspObject:Update()
 	local interface = self.interface;
 
 	self.options = interface.teamSettings[interface.isFriendly(self.player) and "friendly" or "enemy"];
-	self.health, self.maxHealth = interface.getHealth(self.player);
 	self.character = interface.getCharacter(self.player);
+	self.health, self.maxHealth = interface.getHealth(self.character);
 	self.weapon = interface.getWeapon(self.player);
 	self.enabled = self.options.enabled and self.character and not
 		(#interface.whitelist > 0 and not interface.whitelist[self.player]);
@@ -700,8 +700,7 @@ function EspInterface.getCharacter(player)
 	return player.Character;
 end
 
-function EspInterface.getHealth(player)
-	local character = EspInterface.getCharacter(player);
+function EspInterface.getHealth(character)
 	local humanoid = character and findFirstChildOfClass(character, "Humanoid");
 	if humanoid then
 		return humanoid.Health, humanoid.MaxHealth;
