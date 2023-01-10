@@ -120,7 +120,6 @@ end
 function EspObject:Construct()
 	self.charCache = {};
 	self.childCount = 0;
-	
 	self.drawings = {
 		visible = {
 			boxOutline = create("Square", {
