@@ -67,8 +67,10 @@ end
 
 local function getBoundingBox(parts)
     local min, max;
-    for _, part in next, parts do
+    for i = 1, #parts do
+        local part = parts[i];
         local cframe, size = part.CFrame, part.Size;
+
         min = min3(min or cframe.Position, (cframe - size*0.5).Position);
         max = max3(max or cframe.Position, (cframe + size*0.5).Position);
     end
@@ -85,9 +87,9 @@ end
 
 local function calculateCorners(cframe, size)
     local min, max = viewportSize, Vector2.zero;
-    for _, vertex in next, VERTICES do
-        local position = (cframe + size*0.5 * vertex).Position;
-        local screen = worldToScreen(position);
+    for i = 1, #VERTICES do
+        local vertex = VERTICES[i];
+        local screen = worldToScreen((cframe + size*0.5*vertex).Position);
         min, max = min2(min, screen), max2(max, screen);
     end
 
@@ -242,9 +244,10 @@ function EspObject:Update()
             if not self.charCache[1] or self.childCount ~= #children then
                 clear(self.charCache);
 
-                for _, part in next, children do
+                for i = 1, #children do
+                    local part = children[i];
                     if isA(part, "BasePart") and isBodyPart(part.Name) then
-                        self.charCache[#self.charCache + 1] = part)
+                        self.charCache[#self.charCache + 1] = part;
                     end
                 end
 
@@ -626,14 +629,15 @@ local EspInterface = {
 };
 
 function EspInterface.AddInstance(instance, options)
-    if EspInterface._objectCache[instance] then
+    local cache = EspInterface._objectCache;
+    if cache[instance] then
         warn("Instance handler already exists.");
     else
-        EspInterface._objectCache[instance] = {
-            instance = InstanceObject.new(instance, options)
+        cache[instance] = {
+            InstanceObject.new(instance, options)
         };
     end
-    return EspInterface._objectCache[instance];
+    return cache[instance];
 end
 
 function EspInterface.Load()
@@ -641,16 +645,16 @@ function EspInterface.Load()
 
     local function createObject(player)
         EspInterface._objectCache[player] = {
-            esp = EspObject.new(player, EspInterface),
-            cham = ChamObject.new(player, EspInterface)
+            EspObject.new(player, EspInterface),
+            ChamObject.new(player, EspInterface)
         };
     end
 
     local function removeObject(player)
         local object = EspInterface._objectCache[player];
         if object then
-            for _, v in next, object do
-                v:Destruct();
+            for i = 1, #object do
+                object[i]:Destruct();
             end
 
             EspInterface._objectCache[player] = nil;
@@ -676,8 +680,8 @@ function EspInterface.Unload()
     EspInterface.playerRemoving:Disconnect();
 
     for _, object in next, EspInterface._objectCache do
-        for _, v in next, object do
-            v:Destruct();
+        for i = 1, #object do
+            object[i]:Destruct();
         end
     end
 
