@@ -493,14 +493,15 @@ function InstanceObject:Destruct()
 end
 
 function InstanceObject:Render()
-	if not self.instance or not self.instance.Parent then
+	local instance = self.instance;
+	if not instance or not instance.Parent then
 		return self:Destruct();
 	end
 
 	local text = self.text;
 	local options = self.options;
 	if options.enabled then
-		local world = self.instance:GetPivot().Position;
+		local world = instance:GetPivot().Position;
 		local position, visible, depth = worldToScreen(world);
 		if options.limitDistance and options.maxDistance > depth then
 			visible = false;
@@ -509,13 +510,16 @@ function InstanceObject:Render()
 		text.Visible = visible;
 		if text.Visible then
 			text.Position = position;
-			text.Text = options.text;
 			text.Color = options.textColor[1];
 			text.Transparency = options.textColor[2];
 			text.Outline = options.textOutline;
 			text.OutlineColor = options.textOutlineColor;
 			text.Size = options.textSize;
 			text.Font = options.textFont;
+			text.Text = options.text
+				:gsub("{name}", instance.Name)
+				:gsub("{distance}", round(depth))
+				:gsub("{position}", tostring(instance.Position));
 		end
 	else
 		text.Visible = false
