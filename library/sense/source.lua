@@ -120,6 +120,7 @@ end
 function EspObject:Construct()
 	self.charCache = {};
 	self.childCount = 0;
+	
 	self.drawings = {
 		visible = {
 			boxOutline = create("Square", {
@@ -238,21 +239,22 @@ function EspObject:Update()
 		end
 
 		if self.onScreen then
+			local cache = self.charCache;
 			local children = getChildren(self.character);
-			if not self.charCache[1] or self.childCount ~= #children then
-				clear(self.charCache);
+			if not cache[1] or self.childCount ~= #children then
+				clear(cache);
 
 				for i = 1, #children do
 					local part = children[i];
 					if isA(part, "BasePart") and isBodyPart(part.Name) then
-						self.charCache[#self.charCache + 1] = part;
+						cache[#cache + 1] = part;
 					end
 				end
 
 				self.childCount = #children;
 			end
 
-			self.corners = calculateCorners(getBoundingBox(self.charCache));
+			self.corners = calculateCorners(getBoundingBox(cache));
 		elseif self.options.offScreenArrow then
 			local _, yaw, roll = toOrientation(camera.CFrame);
 			local flatCFrame = CFrame.Angles(0, yaw, roll) + camera.CFrame.Position;
