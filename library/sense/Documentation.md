@@ -9,8 +9,8 @@
   local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
   
   -- 2. Change the configuration. You'll need to do this for every value you'd like to change.
-  Sense.teamSettings.Enemy.enabled = true
-  Sense.teamSettings.Enemy.box = true
+  Sense.teamSettings.enemy.enabled = true
+  Sense.teamSettings.enemy.box = true
   
   -- 3. Load the esp. It doesn't really matter where you put this, but it's recommended you put it at the end of your script.
   Sense.Load()
@@ -33,7 +33,7 @@
           maxDistance = 150,
       },
       teamSettings = {
-          Enemy = {
+          enemy = {
               enabled = false,
               box = false,
               boxColor = { Color3.new(1,0,0), 1 },
@@ -78,7 +78,7 @@
               chamsFillColor = { Color3.new(0.2, 0.2, 0.2), 0.5 },
               chamsOutlineColor = { Color3.new(1,0,0), 0 }
           },
-          Friendly = {
+          friendly = {
               enabled = false,
               box = false,
               boxColor = { Color3.new(0,1,0), 1 },
