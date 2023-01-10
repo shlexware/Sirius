@@ -11,6 +11,7 @@
   -- 2. Change the configuration. You'll need to do this for every value you'd like to change.
   Sense.teamSettings.enemy.enabled = true
   Sense.teamSettings.enemy.box = true
+  Sense.teamSettings.enemy.boxColor[1] = Color3.new(0, 0.25, 0.75)
   
   -- 3. Load the esp. It doesn't really matter where you put this, but it's recommended you put it at the end of your script.
   Sense.Load()
