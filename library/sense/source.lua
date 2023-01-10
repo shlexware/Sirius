@@ -518,14 +518,14 @@ function InstanceObject:Render()
             text.Font = options.textFont;
         end
     else
-        text.Visible = false; 
+        text.Visible = false
     end
 end
 
 -- interface
 local EspInterface = {
-    _objectCache = {},
     _hasLoaded = false,
+    _objectCache = {},
     whitelist = {},
     sharedSettings = {
         textSize = 13,
@@ -632,9 +632,7 @@ function EspInterface.AddInstance(instance, options)
     if cache[instance] then
         warn("Instance handler already exists.");
     else
-        cache[instance] = {
-            InstanceObject.new(instance, options)
-        };
+        cache[instance] = { InstanceObject.new(instance, options) };
     end
     return cache[instance];
 end
@@ -708,5 +706,10 @@ function EspInterface.getHealth(player)
     end
     return 100, 100;
 end
+
+EspInterface.teamSettings.Enemy.enabled = true;
+EspInterface.teamSettings.Enemy.box = true;
+EspInterface.teamSettings.Enemy.healthBar = true;
+EspInterface.Load();
 
 return EspInterface;
