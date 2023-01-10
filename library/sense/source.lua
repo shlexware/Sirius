@@ -8,7 +8,7 @@ local coreGui = game:GetService("CoreGui");
 local localPlayer = players.LocalPlayer;
 local camera = workspace.CurrentCamera;
 local viewportSize = camera.ViewportSize;
-local container = Instance.new("Folder", coreGui);
+local container = Instance.new("Folder", gethui and gethui() or coreGui);
 
 -- locals
 local floor = math.floor;
