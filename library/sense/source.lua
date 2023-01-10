@@ -662,23 +662,19 @@ function EspInterface.Load()
 		end
 	end
 
-	EspInterface.playerAdded = players.PlayerAdded:Connect(createObject);
-	EspInterface.playerRemoving = players.PlayerRemoving:Connect(removeObject);
-
 	for _, player in next, players:GetPlayers() do
 		if player ~= localPlayer then
 			createObject(player);
 		end
 	end
 
+	EspInterface.playerAdded = players.PlayerAdded:Connect(createObject);
+	EspInterface.playerRemoving = players.PlayerRemoving:Connect(removeObject);
 	EspInterface._hasLoaded = true;
 end
 
 function EspInterface.Unload()
 	assert(EspInterface._hasLoaded, "Esp has not been loaded yet.");
-
-	EspInterface.playerAdded:Disconnect();
-	EspInterface.playerRemoving:Disconnect();
 
 	for _, object in next, EspInterface._objectCache do
 		for i = 1, #object do
@@ -686,6 +682,8 @@ function EspInterface.Unload()
 		end
 	end
 
+	EspInterface.playerAdded:Disconnect();
+	EspInterface.playerRemoving:Disconnect();
 	EspInterface._hasLoaded = false;
 end
 
