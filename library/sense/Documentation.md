@@ -10,12 +10,13 @@
   
   -- 2. Change the configuration. You'll need to do this for every value you'd like to change.
   Sense.teamSettings.Enemy.enabled = true
+  Sense.teamSettings.Enemy.box = true
   
   -- 3. Load the esp. It doesn't really matter where you put this, but it's recommended you put it at the end of your script.
   Sense.Load()
 
   -- 4. Unload the esp. When you unload Sense, it will clean up every drawing object and instance it has made.
-  Sense.Unload()
+  --Sense.Unload()
   ```
 </details>
 <details>
@@ -159,7 +160,7 @@
   You can create an ESP object for instances by doing to following:
   ```lua
   local object = Sense.AddInstance(workspace.Part, {
-      text = "Part",
+      text = "{name}",
       textColor = { Color3.new(1,1,1), 1 },
       textOutline = true,
       textOutlineColor = Color3.new(),
