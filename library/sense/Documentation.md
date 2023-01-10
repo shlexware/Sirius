@@ -133,25 +133,24 @@
 
   These are our game specific functions, you're required to modify these for games that use custom replication systems such as Phantom Forces.
   ```lua
-  function Sense.getWeapon(player)
-      return "Unknown";
+  function EspInterface.getWeapon(player)
+    return "Unknown";
   end
 
-  function Sense.isFriendly(player)
-      return player.Team and player.Team == localPlayer.Team;
+  function EspInterface.isFriendly(player)
+    return player.Team and player.Team == localPlayer.Team;
   end
 
-  function Sense.getCharacter(player)
-      return player.Character;
+  function EspInterface.getCharacter(player)
+    return player.Character;
   end
 
-  function Sense.getHealth(player)
-      local character = Sense.getCharacter(player);
-      local humanoid = character and findFirstChildOfClass(character, "Humanoid");
-      if humanoid then
-          return humanoid.Health, humanoid.MaxHealth;
-      end
-      return 100, 100;
+  function EspInterface.getHealth(character)
+    local humanoid = character and findFirstChildOfClass(character, "Humanoid");
+    if humanoid then
+      return humanoid.Health, humanoid.MaxHealth;
+    end
+    return 100, 100;
   end
   ```
 </details>
