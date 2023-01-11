@@ -438,19 +438,21 @@ function ChamObject:Destruct()
 end
 
 function ChamObject:Update()
+	local highlight = self.highlight;
 	local interface = self.interface;
 	local character = interface.getCharacter(self.player);
 	local options = interface.teamSettings[interface.isFriendly(self.player) and "friendly" or "enemy"];
 	local enabled = options.enabled and character and not (#interface.whitelist > 0 and not interface.whitelist[self.player]);
 
-	local highlight = self.highlight;
 	highlight.Enabled = enabled and options.chams;
-	highlight.DepthMode = options.chamsVisibleOnly and Enum.HighlightDepthMode.Occluded or Enum.HighlightDepthMode.AlwaysOnTop;
-	highlight.Adornee = character;
-	highlight.FillColor = options.chamsFillColor[1];
-	highlight.FillTransparency = options.chamsFillColor[2];
-	highlight.OutlineColor = options.chamsOutlineColor[1];
-	highlight.OutlineTransparency = options.chamsOutlineColor[2];
+	if highlight.Enabled then
+		highlight.DepthMode = options.chamsVisibleOnly and Enum.HighlightDepthMode.Occluded or Enum.HighlightDepthMode.AlwaysOnTop;
+		highlight.Adornee = character;
+		highlight.FillColor = options.chamsFillColor[1];
+		highlight.FillTransparency = options.chamsFillColor[2];
+		highlight.OutlineColor = options.chamsOutlineColor[1];
+		highlight.OutlineTransparency = options.chamsOutlineColor[2];
+	end
 end
 
 -- instance class
