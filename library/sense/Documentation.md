@@ -1,5 +1,4 @@
 <h1><a href="source.lua">Sirius Sense Library</a></h1>
-
 <details>
   <summary><h3>Getting Started</h3></summary>
 
