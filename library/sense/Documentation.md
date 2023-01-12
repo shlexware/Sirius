@@ -2,7 +2,7 @@
 <details>
   <summary><h3>Getting Started</h3></summary>
 
-  Our library is very easy to implement into your projects by doing the following.
+  <h2>Our library is very easy to implement into your projects by doing the following.</h2>
   ```lua
   -- 1. Load the library
   local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
