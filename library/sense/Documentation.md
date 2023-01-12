@@ -1,4 +1,4 @@
-<h1 name="https://github.com/shlexware/Sirius/blob/request/library/sense/source.lua">Sirius Sense ESP Library</h1>
+<h1 link="https://github.com/shlexware/Sirius/blob/request/library/sense/source.lua">Sirius Sense ESP Library</h1>
 
 <details>
   <summary><h3>Getting Started</h3></summary>
