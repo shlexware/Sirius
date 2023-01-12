@@ -522,7 +522,7 @@ function InstanceObject:Render()
 			text.Text = options.text
 				:gsub("{name}", instance.Name)
 				:gsub("{distance}", round(depth))
-				:gsub("{position}", tostring(instance.Position));
+				:gsub("{position}", tostring(world));
 		end
 	else
 		text.Visible = false
