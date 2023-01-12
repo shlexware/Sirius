@@ -262,6 +262,8 @@ function EspObject:Update()
 
 			self.direction = Vector2.new(cos(angle), sin(angle));
 		end
+	else
+		self.enabled = false;
 	end
 end
 
