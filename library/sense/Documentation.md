@@ -159,6 +159,7 @@
   You can create an ESP object for instances by doing to following:
   ```lua
   local object = Sense.AddInstance(workspace.Part, {
+      --enabled = true,
       text = "{name}",
       textColor = { Color3.new(1,1,1), 1 },
       textOutline = true,
