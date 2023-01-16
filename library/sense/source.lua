@@ -52,7 +52,7 @@ local VERTICES = {
 	Vector3.new(-1, -1, -1),
 };
 
--- utils
+-- functions
 local function create(class, properties)
 	local drawing = Drawing.new(class);
 	for property, value in next, properties do
