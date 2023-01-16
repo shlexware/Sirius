@@ -19,7 +19,7 @@ local cos = math.cos;
 local find = string.find;
 local clear = table.clear;
 
--- namecalls
+-- methods
 local wtvp = camera.WorldToViewportPoint;
 local isA = workspace.IsA;
 local findFirstChild = workspace.FindFirstChild;
