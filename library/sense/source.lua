@@ -469,15 +469,15 @@ end
 
 function InstanceObject:Construct()
 	local options = self.options;
-	options.enabled = options.enabled or false;
+	options.enabled = options.enabled == nil and true or options.enabled;
 	options.text = options.text or self.instance.Name;
 	options.textColor = options.textColor or { Color3.new(1,1,1), 1 };
-	options.textOutline = true;
-	options.textOutlineColor = Color3.new();
-	options.textSize = 13;
-	options.textFont = 2;
-	options.limitDistance = false;
-	options.maxDistance = 150;
+	options.textOutline = options.textOutline == nil and true or options.textOutline;
+	options.textOutlineColor = options.textOutlineColor or Color3.new();
+	options.textSize = options.textSize or 13;
+	options.textFont = options.textFont or 2;
+	options.limitDistance = options.limitDistance == nil and true or options.limitDistance;
+	options.maxDistance = options.maxDistance or 150;
 
 	self.text = create("Text", {
 		Center = true
