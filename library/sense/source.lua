@@ -637,7 +637,7 @@ function EspInterface.AddInstance(instance, options)
 	else
 		cache[instance] = { InstanceObject.new(instance, options) };
 	end
-	return cache[instance];
+	return cache[instance][1];
 end
 
 function EspInterface.Load()
