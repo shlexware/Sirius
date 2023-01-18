@@ -470,7 +470,7 @@ end
 function InstanceObject:Construct()
 	local options = self.options;
 	options.enabled = options.enabled == nil and true or options.enabled;
-	options.text = options.text or self.instance.Name;
+	options.text = options.text or "{name}";
 	options.textColor = options.textColor or { Color3.new(1,1,1), 1 };
 	options.textOutline = options.textOutline == nil and true or options.textOutline;
 	options.textOutlineColor = options.textOutlineColor or Color3.new();
