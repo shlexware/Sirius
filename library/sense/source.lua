@@ -193,17 +193,13 @@ function EspObject:Construct()
 		}
 	};
 
-	self.updateConnection = runService.Heartbeat:Connect(function(...)
-		self:Update(...);
-	end);
-
-	self.renderConnection = runService.RenderStepped:Connect(function(...)
-		self:Render(...);
+	self.renderConnection = runService.Heartbeat:Connect(function(deltaTime)
+		self:Update(deltaTime);
+		self:Render(deltaTime);
 	end);
 end
 
 function EspObject:Destruct()
-	self.updateConnection:Disconnect();
 	self.renderConnection:Disconnect();
 
 	for _, drawing in next, self.drawings.visible do
@@ -485,8 +481,8 @@ function InstanceObject:Construct()
 		Center = true
 	});
 
-	self.renderConnection = runService.RenderStepped:Connect(function(...)
-		self:Render(...);
+	self.renderConnection = runService.Heartbeat:Connect(function(deltaTime)
+		self:Render(deltaTime);
 	end);
 end
 
