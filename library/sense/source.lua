@@ -122,6 +122,11 @@ function EspObject:Construct()
 	self.childCount = 0;
 	self.drawings = {
 		visible = {
+			boxFill = create("Square", {
+				Filled = true,
+				ZIndex = 2,
+				Visible = false
+			}),
 			boxOutline = create("Square", {
 				Thickness = 3,
 				ZIndex = 2,
@@ -129,11 +134,6 @@ function EspObject:Construct()
 			}),
 			box = create("Square", {
 				Thickness = 1,
-				ZIndex = 2,
-				Visible = false
-			}),
-			boxFill = create("Square", {
-				Filled = true,
 				ZIndex = 2,
 				Visible = false
 			}),
