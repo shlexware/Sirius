@@ -170,6 +170,6 @@
       maxDistance = 150
   })
 
-  object.enabled = true
+  object.options.enabled = true
   ```
 </details>
