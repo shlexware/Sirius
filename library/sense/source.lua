@@ -273,6 +273,15 @@ function EspObject:Render()
 	local options = self.options;
 	local corners = self.corners;
 
+	visible.boxFill.Visible = enabled and onScreen and options.boxFill;
+	if visible.boxFill.Visible then
+		local boxFill = visible.boxFill;
+		boxFill.Position = corners.topLeft;
+		boxFill.Size = corners.bottomRight - corners.topLeft;
+		boxFill.Color = options.boxFillColor[1];
+		boxFill.Transparency = options.boxFillColor[2];
+	end
+
 	visible.box.Visible = enabled and onScreen and options.box;
 	visible.boxOutline.Visible = visible.box.Visible and options.boxOutline;
 	if visible.box.Visible then
@@ -287,15 +296,6 @@ function EspObject:Render()
 		boxOutline.Size = box.Size;
 		boxOutline.Color = options.boxOutlineColor[1];
 		boxOutline.Transparency = options.boxOutlineColor[2];
-	end
-
-	visible.boxFill.Visible = enabled and onScreen and options.boxFill;
-	if visible.boxFill.Visible then
-		local boxFill = visible.boxFill;
-		boxFill.Position = corners.topLeft;
-		boxFill.Size = corners.bottomRight - corners.topLeft;
-		boxFill.Color = options.boxFillColor[1];
-		boxFill.Transparency = options.boxFillColor[2];
 	end
 
 	visible.healthBar.Visible = enabled and onScreen and options.healthBar;
