@@ -159,12 +159,12 @@ function EspObject:Construct()
 				ZIndex = 3,
 				Visible = false
 			}),
-			weapon = create("Text", {
+			distance = create("Text", {
 				Center = true,
 				ZIndex = 3,
 				Visible = false
 			}),
-			distance = create("Text", {
+			weapon = create("Text", {
 				Center = true,
 				ZIndex = 3,
 				Visible = false
@@ -344,19 +344,6 @@ function EspObject:Render()
 		name.Position = (corners.topLeft + corners.topRight)*0.5 - Vector2.yAxis*name.TextBounds.Y - NAME_OFFSET;
 	end
 
-	visible.weapon.Visible = enabled and onScreen and options.weapon;
-	if visible.weapon.Visible then
-		local weapon = visible.weapon;
-		weapon.Text = self.weapon;
-		weapon.Size = interface.sharedSettings.textSize;
-		weapon.Font = interface.sharedSettings.textFont;
-		weapon.Color = options.weaponColor[1];
-		weapon.Transparency = options.weaponColor[2];
-		weapon.Outline = options.weaponOutline;
-		weapon.OutlineColor = options.weaponOutlineColor;
-		weapon.Position = (corners.bottomLeft + corners.bottomRight)*0.5 + WEAPON_OFFSET;
-	end
-
 	visible.distance.Visible = enabled and onScreen and self.distance and options.distance;
 	if visible.distance.Visible then
 		local distance = visible.distance;
@@ -367,9 +354,22 @@ function EspObject:Render()
 		distance.Transparency = options.distanceColor[2];
 		distance.Outline = options.distanceOutline;
 		distance.OutlineColor = options.distanceOutlineColor;
-		distance.Position =
-			(corners.bottomLeft + corners.bottomRight)*0.5 + DISTANCE_OFFSET +
-			(visible.weapon.Visible and WEAPON_OFFSET + Vector2.yAxis*visible.weapon.TextBounds.Y or Vector2.zero);
+		distance.Position = (corners.bottomLeft + corners.bottomRight)*0.5 + DISTANCE_OFFSET;
+	end
+
+	visible.weapon.Visible = enabled and onScreen and options.weapon;
+	if visible.weapon.Visible then
+		local weapon = visible.weapon;
+		weapon.Text = self.weapon;
+		weapon.Size = interface.sharedSettings.textSize;
+		weapon.Font = interface.sharedSettings.textFont;
+		weapon.Color = options.weaponColor[1];
+		weapon.Transparency = options.weaponColor[2];
+		weapon.Outline = options.weaponOutline;
+		weapon.OutlineColor = options.weaponOutlineColor;
+		weapon.Position =
+			(corners.bottomLeft + corners.bottomRight)*0.5 + WEAPON_OFFSET +
+			(visible.distance.Visible and DISTANCE_OFFSET + Vector2.yAxis*visible.distance.TextBounds.Y or Vector2.zero);
 	end
 
 	visible.tracer.Visible = enabled and onScreen and options.tracer;
