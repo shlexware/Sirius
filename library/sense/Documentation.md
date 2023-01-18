@@ -160,7 +160,7 @@
   ```lua
   local object = Sense.AddInstance(workspace.Part, {
       --enabled = true,
-      text = "{name}",
+      text = "{name}", -- Placeholders: {name}, {distance}, {position}
       textColor = { Color3.new(1,1,1), 1 },
       textOutline = true,
       textOutlineColor = Color3.new(),
@@ -172,6 +172,4 @@
 
   object.options.enabled = true
   ```
-
-  <h4>Placeholders</h4>
 </details>
