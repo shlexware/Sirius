@@ -476,7 +476,7 @@ function InstanceObject:Construct()
 	options.textOutlineColor = options.textOutlineColor or Color3.new();
 	options.textSize = options.textSize or 13;
 	options.textFont = options.textFont or 2;
-	options.limitDistance = options.limitDistance == nil and true or options.limitDistance;
+	options.limitDistance = options.limitDistance or false;
 	options.maxDistance = options.maxDistance or 150;
 
 	self.text = create("Text", {
