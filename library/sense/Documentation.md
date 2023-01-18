@@ -25,7 +25,7 @@
   This is the default configuration for Sense, most things will be disabled by default.
   ```lua
   Sense = {
-      whitelist = {}, -- { [game.Players.Player1] = true }
+      whitelist = {}, -- When this table contains at least 1 user id, it will only show esp for that player.
       sharedSettings = {
           textSize = 13,
           textFont = 2,
