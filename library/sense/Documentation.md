@@ -159,7 +159,7 @@
   You can create an ESP object for instances by doing to following:
   ```lua
   local object = Sense.AddInstance(workspace.Part, {
-      --enabled = true,
+      --enabled = false,
       text = "{name}", -- Placeholders: {name}, {distance}, {position}
       textColor = { Color3.new(1,1,1), 1 },
       textOutline = true,
@@ -170,6 +170,6 @@
       maxDistance = 150
   })
 
-  object.options.enabled = true
+  object.options.enabled = false
   ```
 </details>
