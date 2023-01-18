@@ -172,4 +172,6 @@
 
   object.options.enabled = true
   ```
+
+  <h3>Placeholders</h3>
 </details>
