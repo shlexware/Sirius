@@ -22,6 +22,7 @@ local clear = table.clear;
 -- methods
 local wtvp = camera.WorldToViewportPoint;
 local isA = workspace.IsA;
+local getPivot = workspace.GetPivot;
 local findFirstChild = workspace.FindFirstChild;
 local findFirstChildOfClass = workspace.FindFirstChildOfClass;
 local getChildren = workspace.GetChildren;
@@ -500,7 +501,7 @@ function InstanceObject:Render()
 	local text = self.text;
 	local options = self.options;
 	if options.enabled then
-		local world = instance:GetPivot().Position;
+		local world = getPivot(instance).Position;
 		local position, visible, depth = worldToScreen(world);
 		if options.limitDistance and depth > options.maxDistance then
 			visible = false;
