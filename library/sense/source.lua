@@ -225,42 +225,43 @@ function EspObject:Update()
 		(#interface.whitelist > 0 and not table.find(interface.whitelist, self.player.UserId));
 
 	local head = self.enabled and findFirstChild(self.character, "Head");
-	if head then
-		local _, onScreen, depth = worldToScreen(head.Position);
-		self.onScreen = onScreen;
-		self.distance = depth;
+	if not head then
+		self.enabled = false;
+		return;
+	end
 
-		if interface.sharedSettings.limitDistance and depth > interface.sharedSettings.maxDistance then
-			self.onScreen = false;
-		end
+	local _, onScreen, depth = worldToScreen(head.Position);
+	self.onScreen = onScreen;
+	self.distance = depth;
 
-		if self.onScreen then
-			local cache = self.charCache;
-			local children = getChildren(self.character);
-			if not cache[1] or self.childCount ~= #children then
-				clear(cache);
+	if interface.sharedSettings.limitDistance and depth > interface.sharedSettings.maxDistance then
+		self.onScreen = false;
+	end
 
-				for i = 1, #children do
-					local part = children[i];
-					if isA(part, "BasePart") and isBodyPart(part.Name) then
-						cache[#cache + 1] = part;
-					end
+	if self.onScreen then
+		local cache = self.charCache;
+		local children = getChildren(self.character);
+		if not cache[1] or self.childCount ~= #children then
+			clear(cache);
+
+			for i = 1, #children do
+				local part = children[i];
+				if isA(part, "BasePart") and isBodyPart(part.Name) then
+					cache[#cache + 1] = part;
 				end
-
-				self.childCount = #children;
 			end
 
-			self.corners = calculateCorners(getBoundingBox(cache));
-		elseif self.options.offScreenArrow then
-			local _, yaw, roll = toOrientation(camera.CFrame);
-			local flatCFrame = CFrame.Angles(0, yaw, roll) + camera.CFrame.Position;
-			local objectSpace = pointToObjectSpace(flatCFrame, head.Position);
-			local angle = atan2(objectSpace.Z, objectSpace.X);
-
-			self.direction = Vector2.new(cos(angle), sin(angle));
+			self.childCount = #children;
 		end
-	else
-		self.enabled = false;
+
+		self.corners = calculateCorners(getBoundingBox(cache));
+	elseif self.options.offScreenArrow then
+		local _, yaw, roll = toOrientation(camera.CFrame);
+		local flatCFrame = CFrame.Angles(0, yaw, roll) + camera.CFrame.Position;
+		local objectSpace = pointToObjectSpace(flatCFrame, head.Position);
+		local angle = atan2(objectSpace.Z, objectSpace.X);
+
+		self.direction = Vector2.new(cos(angle), sin(angle));
 	end
 end
 
@@ -501,29 +502,30 @@ function InstanceObject:Render()
 
 	local text = self.text;
 	local options = self.options;
-	if options.enabled then
-		local world = getPivot(instance).Position;
-		local position, visible, depth = worldToScreen(world);
-		if options.limitDistance and depth > options.maxDistance then
-			visible = false;
-		end
+	if not options.enabled then
+		text.Visible = false;
+		return;
+	end
 
-		text.Visible = visible;
-		if text.Visible then
-			text.Position = position;
-			text.Color = options.textColor[1];
-			text.Transparency = options.textColor[2];
-			text.Outline = options.textOutline;
-			text.OutlineColor = options.textOutlineColor;
-			text.Size = options.textSize;
-			text.Font = options.textFont;
-			text.Text = options.text
-				:gsub("{name}", instance.Name)
-				:gsub("{distance}", round(depth))
-				:gsub("{position}", tostring(world));
-		end
-	else
-		text.Visible = false
+	local world = getPivot(instance).Position;
+	local position, visible, depth = worldToScreen(world);
+	if options.limitDistance and depth > options.maxDistance then
+		visible = false;
+	end
+
+	text.Visible = visible;
+	if text.Visible then
+		text.Position = position;
+		text.Color = options.textColor[1];
+		text.Transparency = options.textColor[2];
+		text.Outline = options.textOutline;
+		text.OutlineColor = options.textOutlineColor;
+		text.Size = options.textSize;
+		text.Font = options.textFont;
+		text.Text = options.text
+			:gsub("{name}", instance.Name)
+			:gsub("{distance}", round(depth))
+			:gsub("{position}", tostring(world));
 	end
 end
 
