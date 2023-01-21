@@ -42,14 +42,14 @@ local HEALTH_BAR_OUTLINE_OFFSET = Vector2.new(0, 1);
 local NAME_OFFSET = Vector2.new(0, 2);
 local DISTANCE_OFFSET = Vector2.new(0, 2);
 local VERTICES = {
-	Vector3.new(1, 1, 1),
-	Vector3.new(-1, 1, 1),
-	Vector3.new(1, -1, 1),
-	Vector3.new(-1, -1, 1),
-	Vector3.new(1, 1, -1),
-	Vector3.new(-1, 1, -1),
-	Vector3.new(1, -1, -1),
 	Vector3.new(-1, -1, -1),
+	Vector3.new(-1, 1, -1),
+	Vector3.new(-1, 1, 1),
+	Vector3.new(-1, -1, 1),
+	Vector3.new(1, -1, -1),
+	Vector3.new(1, 1, -1),
+	Vector3.new(1, 1, 1),
+	Vector3.new(1, -1, 1)
 };
 
 -- functions
@@ -86,13 +86,17 @@ local function worldToScreen(world)
 end
 
 local function calculateCorners(cframe, size)
+	local corners = {};
 	local min, max = viewportSize, Vector2.zero;
+
 	for i = 1, #VERTICES do
 		local screen = worldToScreen((cframe + size*0.5*VERTICES[i]).Position);
 		min, max = min2(min, screen), max2(max, screen);
+		corners[i] = screen;
 	end
 
 	return {
+		corners = corners,
 		topLeft = Vector2.new(floor(min.X), floor(min.Y)),
 		topRight = Vector2.new(floor(max.X), floor(min.Y)),
 		bottomLeft = Vector2.new(floor(min.X), floor(max.Y)),
@@ -121,62 +125,36 @@ function EspObject:Construct()
 	self.charCache = {};
 	self.childCount = 0;
 	self.drawings = {
+		box3d = {
+			create("Line", { Thickness = 1, Visible = false }),
+			create("Line", { Thickness = 1, Visible = false }),
+			create("Line", { Thickness = 1, Visible = false }),
+			create("Line", { Thickness = 1, Visible = false }),
+			create("Line", { Thickness = 1, Visible = false }),
+			create("Line", { Thickness = 1, Visible = false }),
+			create("Line", { Thickness = 1, Visible = false }),
+			create("Line", { Thickness = 1, Visible = false }),
+			create("Line", { Thickness = 1, Visible = false }),
+			create("Line", { Thickness = 1, Visible = false }),
+			create("Line", { Thickness = 1, Visible = false }),
+			create("Line", { Thickness = 1, Visible = false })
+		},
 		visible = {
-			tracerOutline = create("Line", {
-				Thickness = 3,
-				Visible = false
-			}),
-			tracer = create("Line", {
-				Thickness = 1,
-				Visible = false
-			}),
-			boxFill = create("Square", {
-				Filled = true,
-				Visible = false
-			}),
-			boxOutline = create("Square", {
-				Thickness = 3,
-				Visible = false
-			}),
-			box = create("Square", {
-				Thickness = 1,
-				Visible = false
-			}),
-			healthBarOutline = create("Line", {
-				Thickness = 3,
-				Visible = false
-			}),
-			healthBar = create("Line", {
-				Thickness = 1,
-				Visible = false
-			}),
-			healthText = create("Text", {
-				Center = true,
-				Visible = false
-			}),
-			name = create("Text", {
-				Text = self.player.Name,
-				Center = true,
-				Visible = false
-			}),
-			distance = create("Text", {
-				Center = true,
-				Visible = false
-			}),
-			weapon = create("Text", {
-				Center = true,
-				Visible = false
-			})
+			tracerOutline = create("Line", { Thickness = 3, Visible = false }),
+			tracer = create("Line", { Thickness = 1, Visible = false }),
+			boxFill = create("Square", { Filled = true, Visible = false }),
+			boxOutline = create("Square", { Thickness = 3, Visible = false }),
+			box = create("Square", { Thickness = 1, Visible = false }),
+			healthBarOutline = create("Line", { Thickness = 3, Visible = false }),
+			healthBar = create("Line", { Thickness = 1, Visible = false }),
+			healthText = create("Text", { Center = true, Visible = false }),
+			name = create("Text", { Text = self.player.Name, Center = true, Visible = false }),
+			distance = create("Text", { Center = true, Visible = false }),
+			weapon = create("Text", { Center = true, Visible = false }),
 		},
 		hidden = {
-			arrowOutline = create("Triangle", {
-				Thickness = 3,
-				Visible = false
-			}),
-			arrow = create("Triangle", {
-				Filled = true,
-				Visible = false
-			})
+			arrowOutline = create("Triangle", { Thickness = 3, Visible = false }),
+			arrow = create("Triangle", { Filled = true, Visible = false })
 		}
 	};
 
@@ -255,18 +233,10 @@ function EspObject:Render()
 	local enabled = self.enabled or false;
 	local visible = self.drawings.visible;
 	local hidden = self.drawings.hidden;
+	local box3d = self.drawings.box3d;
 	local interface = self.interface;
 	local options = self.options;
 	local corners = self.corners;
-
-	visible.boxFill.Visible = enabled and onScreen and options.boxFill;
-	if visible.boxFill.Visible then
-		local boxFill = visible.boxFill;
-		boxFill.Position = corners.topLeft;
-		boxFill.Size = corners.bottomRight - corners.topLeft;
-		boxFill.Color = options.boxFillColor[1];
-		boxFill.Transparency = options.boxFillColor[2];
-	end
 
 	visible.box.Visible = enabled and onScreen and options.box;
 	visible.boxOutline.Visible = visible.box.Visible and options.boxOutline;
@@ -282,6 +252,15 @@ function EspObject:Render()
 		boxOutline.Size = box.Size;
 		boxOutline.Color = options.boxOutlineColor[1];
 		boxOutline.Transparency = options.boxOutlineColor[2];
+	end
+
+	visible.boxFill.Visible = enabled and onScreen and options.boxFill;
+	if visible.boxFill.Visible then
+		local boxFill = visible.boxFill;
+		boxFill.Position = corners.topLeft;
+		boxFill.Size = corners.bottomRight - corners.topLeft;
+		boxFill.Color = options.boxFillColor[1];
+		boxFill.Transparency = options.boxFillColor[2];
 	end
 
 	visible.healthBar.Visible = enabled and onScreen and options.healthBar;
@@ -393,6 +372,30 @@ function EspObject:Render()
 		arrowOutline.PointC = arrow.PointC;
 		arrowOutline.Color = options.offScreenArrowOutlineColor[1];
 		arrowOutline.Transparency = options.offScreenArrowOutlineColor[2];
+	end
+
+	local box3dEnabled = enabled and onScreen and options.box3d;
+	for i = 1, #box3d do
+		local line = box3d[i];
+		line.Visible = box3dEnabled;
+		line.Color = options.box3dColor[1];
+		line.Transparency = options.box3dColor[2];
+	end
+
+	if box3dEnabled then
+		for i = 1, 4 do
+			local line1 = box3d[3 * (i-1) + 1];
+			line1.From = corners.corners[i];
+			line1.To = corners.corners[i == 4 and 1 or i+1];
+
+			local line2 = box3d[3 * (i-1) + 2];
+			line2.From = corners.corners[i == 4 and 1 or i+1];
+			line2.To = corners.corners[i == 4 and 5 or i+5];
+
+			local line3 = box3d[3 * (i-1) + 3];
+			line3.From = corners.corners[i == 4 and 5 or i+5];
+			line3.To = corners.corners[i == 4 and 8 or i+4];
+		end
 	end
 end
 
@@ -543,6 +546,8 @@ local EspInterface = {
 			healthTextColor = { Color3.new(1,1,1), 1 },
 			healthTextOutline = true,
 			healthTextOutlineColor = Color3.new(),
+			box3d = false,
+			box3dColor = { Color3.new(1,0,0), 1 },
 			name = false,
 			nameColor = { Color3.new(1,1,1), 1 },
 			nameOutline = true,
@@ -569,7 +574,7 @@ local EspInterface = {
 			chams = false,
 			chamsVisibleOnly = false,
 			chamsFillColor = { Color3.new(0.2, 0.2, 0.2), 0.5 },
-			chamsOutlineColor = { Color3.new(1,0,0), 0 }
+			chamsOutlineColor = { Color3.new(1,0,0), 0 },
 		},
 		friendly = {
 			enabled = false,
@@ -588,6 +593,8 @@ local EspInterface = {
 			healthTextColor = { Color3.new(1,1,1), 1 },
 			healthTextOutline = true,
 			healthTextOutlineColor = Color3.new(),
+			box3d = false,
+			box3dColor = { Color3.new(0,1,0), 1 },
 			name = false,
 			nameColor = { Color3.new(1,1,1), 1 },
 			nameOutline = true,
