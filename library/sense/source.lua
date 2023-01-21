@@ -40,7 +40,6 @@ local HEALTH_BAR_OFFSET = Vector2.new(5, 0);
 local HEALTH_TEXT_OFFSET = Vector2.new(3, 0);
 local HEALTH_BAR_OUTLINE_OFFSET = Vector2.new(0, 1);
 local NAME_OFFSET = Vector2.new(0, 2);
-local WEAPON_OFFSET = Vector2.new(0, 2);
 local DISTANCE_OFFSET = Vector2.new(0, 2);
 local VERTICES = {
 	Vector3.new(1, 1, 1),
@@ -123,72 +122,59 @@ function EspObject:Construct()
 	self.childCount = 0;
 	self.drawings = {
 		visible = {
+			tracerOutline = create("Line", {
+				Thickness = 3,
+				Visible = false
+			}),
+			tracer = create("Line", {
+				Thickness = 1,
+				Visible = false
+			}),
 			boxFill = create("Square", {
 				Filled = true,
-				ZIndex = 2,
 				Visible = false
 			}),
 			boxOutline = create("Square", {
 				Thickness = 3,
-				ZIndex = 2,
 				Visible = false
 			}),
 			box = create("Square", {
 				Thickness = 1,
-				ZIndex = 2,
 				Visible = false
 			}),
 			healthBarOutline = create("Line", {
 				Thickness = 3,
-				ZIndex = 2,
 				Visible = false
 			}),
 			healthBar = create("Line", {
 				Thickness = 1,
-				ZIndex = 2,
 				Visible = false
 			}),
 			healthText = create("Text", {
 				Center = true,
-				ZIndex = 3,
 				Visible = false
 			}),
 			name = create("Text", {
 				Text = self.player.Name,
 				Center = true,
-				ZIndex = 3,
 				Visible = false
 			}),
 			distance = create("Text", {
 				Center = true,
-				ZIndex = 3,
 				Visible = false
 			}),
 			weapon = create("Text", {
 				Center = true,
-				ZIndex = 3,
 				Visible = false
-			}),
-			tracerOutline = create("Line", {
-				Thickness = 3,
-				ZIndex = 1,
-				Visible = false
-			}),
-			tracer = create("Line", {
-				Thickness = 1,
-				ZIndex = 1,
-				Visible = false
-			}),
+			})
 		},
 		hidden = {
 			arrowOutline = create("Triangle", {
 				Thickness = 3,
-				ZIndex = 4,
 				Visible = false
 			}),
 			arrow = create("Triangle", {
 				Filled = true,
-				ZIndex = 4,
 				Visible = false
 			})
 		}
@@ -368,7 +354,7 @@ function EspObject:Render()
 		weapon.Outline = options.weaponOutline;
 		weapon.OutlineColor = options.weaponOutlineColor;
 		weapon.Position =
-			(corners.bottomLeft + corners.bottomRight)*0.5 + WEAPON_OFFSET +
+			(corners.bottomLeft + corners.bottomRight)*0.5 +
 			(visible.distance.Visible and DISTANCE_OFFSET + Vector2.yAxis*visible.distance.TextBounds.Y or Vector2.zero);
 	end
 
