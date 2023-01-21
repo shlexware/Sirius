@@ -53,14 +53,6 @@ local VERTICES = {
 };
 
 -- functions
-local function create(class, properties)
-	local drawing = Drawing.new(class);
-	for property, value in next, properties do
-		drawing[property] = value;
-	end
-	return drawing;
-end
-
 local function isBodyPart(name)
 	return name == "Head" or find(name, "Torso") or find(name, "Leg") or find(name, "Arm");
 end
@@ -124,37 +116,38 @@ end
 function EspObject:Construct()
 	self.charCache = {};
 	self.childCount = 0;
+	self.bin = {};
 	self.drawings = {
 		box3d = {
-			create("Line", { Thickness = 1, Visible = false }),
-			create("Line", { Thickness = 1, Visible = false }),
-			create("Line", { Thickness = 1, Visible = false }),
-			create("Line", { Thickness = 1, Visible = false }),
-			create("Line", { Thickness = 1, Visible = false }),
-			create("Line", { Thickness = 1, Visible = false }),
-			create("Line", { Thickness = 1, Visible = false }),
-			create("Line", { Thickness = 1, Visible = false }),
-			create("Line", { Thickness = 1, Visible = false }),
-			create("Line", { Thickness = 1, Visible = false }),
-			create("Line", { Thickness = 1, Visible = false }),
-			create("Line", { Thickness = 1, Visible = false })
+			self:create("Line", { Thickness = 1, Visible = false }),
+			self:create("Line", { Thickness = 1, Visible = false }),
+			self:create("Line", { Thickness = 1, Visible = false }),
+			self:create("Line", { Thickness = 1, Visible = false }),
+			self:create("Line", { Thickness = 1, Visible = false }),
+			self:create("Line", { Thickness = 1, Visible = false }),
+			self:create("Line", { Thickness = 1, Visible = false }),
+			self:create("Line", { Thickness = 1, Visible = false }),
+			self:create("Line", { Thickness = 1, Visible = false }),
+			self:create("Line", { Thickness = 1, Visible = false }),
+			self:create("Line", { Thickness = 1, Visible = false }),
+			self:create("Line", { Thickness = 1, Visible = false })
 		},
 		visible = {
-			tracerOutline = create("Line", { Thickness = 3, Visible = false }),
-			tracer = create("Line", { Thickness = 1, Visible = false }),
-			boxFill = create("Square", { Filled = true, Visible = false }),
-			boxOutline = create("Square", { Thickness = 3, Visible = false }),
-			box = create("Square", { Thickness = 1, Visible = false }),
-			healthBarOutline = create("Line", { Thickness = 3, Visible = false }),
-			healthBar = create("Line", { Thickness = 1, Visible = false }),
-			healthText = create("Text", { Center = true, Visible = false }),
-			name = create("Text", { Text = self.player.Name, Center = true, Visible = false }),
-			distance = create("Text", { Center = true, Visible = false }),
-			weapon = create("Text", { Center = true, Visible = false }),
+			tracerOutline = self:create("Line", { Thickness = 3, Visible = false }),
+			tracer = self:create("Line", { Thickness = 1, Visible = false }),
+			boxFill = self:create("Square", { Filled = true, Visible = false }),
+			boxOutline = self:create("Square", { Thickness = 3, Visible = false }),
+			box = self:create("Square", { Thickness = 1, Visible = false }),
+			healthBarOutline = self:create("Line", { Thickness = 3, Visible = false }),
+			healthBar = self:create("Line", { Thickness = 1, Visible = false }),
+			healthText = self:create("Text", { Center = true, Visible = false }),
+			name = self:create("Text", { Text = self.player.Name, Center = true, Visible = false }),
+			distance = self:create("Text", { Center = true, Visible = false }),
+			weapon = self:create("Text", { Center = true, Visible = false }),
 		},
 		hidden = {
-			arrowOutline = create("Triangle", { Thickness = 3, Visible = false }),
-			arrow = create("Triangle", { Filled = true, Visible = false })
+			arrowOutline = self:create("Triangle", { Thickness = 3, Visible = false }),
+			arrow = self:create("Triangle", { Filled = true, Visible = false })
 		}
 	};
 
@@ -164,14 +157,19 @@ function EspObject:Construct()
 	end);
 end
 
+function EspObject:create(class, properties)
+	local drawing = Drawing.new(class);
+	for property, value in next, properties do
+		drawing[property] = value;
+	end
+	table.insert(self.bin, drawing);
+	return drawing;
+end
+
 function EspObject:Destruct()
 	self.renderConnection:Disconnect();
 
-	for _, drawing in next, self.drawings.visible do
-		drawing:Remove();
-	end
-
-	for _, drawing in next, self.drawings.hidden do
+	for _, drawing in next, self.bin do
 		drawing:Remove();
 	end
 
@@ -468,9 +466,8 @@ function InstanceObject:Construct()
 	options.limitDistance = options.limitDistance or false;
 	options.maxDistance = options.maxDistance or 150;
 
-	self.text = create("Text", {
-		Center = true
-	});
+	self.text = Drawing.new("Text");
+	self.text.Center = true;
 
 	self.renderConnection = runService.Heartbeat:Connect(function(deltaTime)
 		self:Render(deltaTime);
