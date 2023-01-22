@@ -392,15 +392,14 @@ function EspObject:Render()
 
 		if box3dEnabled then
 			local line1 = face[1];
-			local line2 = face[2];
-			local line3 = face[3];
-
 			line1.From = corners.corners[i];
 			line1.To = corners.corners[i == 4 and 1 or i+1];
 
+			local line2 = face[2];
 			line2.From = corners.corners[i == 4 and 1 or i+1];
 			line2.To = corners.corners[i == 4 and 5 or i+5];
 
+			local line3 = face[3];
 			line3.From = corners.corners[i == 4 and 5 or i+5];
 			line3.To = corners.corners[i == 4 and 8 or i+4];
 		end
