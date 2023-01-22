@@ -119,18 +119,26 @@ function EspObject:Construct()
 	self.bin = {};
 	self.drawings = {
 		box3d = {
-			self:create("Line", { Thickness = 1, Visible = false }),
-			self:create("Line", { Thickness = 1, Visible = false }),
-			self:create("Line", { Thickness = 1, Visible = false }),
-			self:create("Line", { Thickness = 1, Visible = false }),
-			self:create("Line", { Thickness = 1, Visible = false }),
-			self:create("Line", { Thickness = 1, Visible = false }),
-			self:create("Line", { Thickness = 1, Visible = false }),
-			self:create("Line", { Thickness = 1, Visible = false }),
-			self:create("Line", { Thickness = 1, Visible = false }),
-			self:create("Line", { Thickness = 1, Visible = false }),
-			self:create("Line", { Thickness = 1, Visible = false }),
-			self:create("Line", { Thickness = 1, Visible = false })
+			{
+				self:create("Line", { Thickness = 1, Visible = false }),
+				self:create("Line", { Thickness = 1, Visible = false }),
+				self:create("Line", { Thickness = 1, Visible = false })
+			},
+			{
+				self:create("Line", { Thickness = 1, Visible = false }),
+				self:create("Line", { Thickness = 1, Visible = false }),
+				self:create("Line", { Thickness = 1, Visible = false })
+			},
+			{
+				self:create("Line", { Thickness = 1, Visible = false }),
+				self:create("Line", { Thickness = 1, Visible = false }),
+				self:create("Line", { Thickness = 1, Visible = false })
+			},
+			{
+				self:create("Line", { Thickness = 1, Visible = false }),
+				self:create("Line", { Thickness = 1, Visible = false }),
+				self:create("Line", { Thickness = 1, Visible = false })
+			}
 		},
 		visible = {
 			tracerOutline = self:create("Line", { Thickness = 3, Visible = false }),
@@ -374,23 +382,25 @@ function EspObject:Render()
 
 	local box3dEnabled = enabled and onScreen and options.box3d;
 	for i = 1, #box3d do
-		local line = box3d[i];
-		line.Visible = box3dEnabled;
-		line.Color = options.box3dColor[1];
-		line.Transparency = options.box3dColor[2];
-	end
+		local face = box3d[i];
+		for i2 = 1, #face do
+			local line = face[i2];
+			line.Visible = box3dEnabled;
+			line.Color = options.box3dColor[1];
+			line.Transparency = options.box3dColor[2];
+		end
 
-	if box3dEnabled then
-		for i = 1, 4 do
-			local line1 = box3d[3 * (i-1) + 1];
+		if box3dEnabled then
+			local line1 = face[1];
+			local line2 = face[2];
+			local line3 = face[3];
+
 			line1.From = corners.corners[i];
 			line1.To = corners.corners[i == 4 and 1 or i+1];
 
-			local line2 = box3d[3 * (i-1) + 2];
 			line2.From = corners.corners[i == 4 and 1 or i+1];
 			line2.To = corners.corners[i == 4 and 5 or i+5];
 
-			local line3 = box3d[3 * (i-1) + 3];
 			line3.From = corners.corners[i == 4 and 5 or i+5];
 			line3.To = corners.corners[i == 4 and 8 or i+4];
 		end
