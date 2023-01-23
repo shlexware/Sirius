@@ -55,7 +55,7 @@ local VERTICES = {
 
 -- functions
 local function isBodyPart(name)
-	return name == "Head" or name:Find("Torso") or name:Find("Leg") or name:Find("Arm");
+	return name == "Head" or name:find("Torso") or name:find("Leg") or name:find("Arm");
 end
 
 local function getBoundingBox(parts)
