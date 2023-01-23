@@ -16,9 +16,9 @@ local round = math.round;
 local atan2 = math.atan2;
 local sin = math.sin;
 local cos = math.cos;
-local find = string.find;
 local clear = table.clear;
 local unpack = table.unpack;
+local find = table.find;
 
 -- methods
 local wtvp = camera.WorldToViewportPoint;
@@ -55,7 +55,7 @@ local VERTICES = {
 
 -- functions
 local function isBodyPart(name)
-	return name == "Head" or find(name, "Torso") or find(name, "Leg") or find(name, "Arm");
+	return name == "Head" or name:Find("Torso") or name:Find("Leg") or name:Find("Arm");
 end
 
 local function getBoundingBox(parts)
@@ -169,7 +169,7 @@ function EspObject:create(class, properties)
 	for property, value in next, properties do
 		drawing[property] = value;
 	end
-	table.insert(self.bin, drawing);
+	self.bin[#self.bin + 1] = drawing;
 	return drawing;
 end
 
@@ -191,7 +191,7 @@ function EspObject:Update()
 	self.health, self.maxHealth = interface.getHealth(self.character);
 	self.weapon = interface.getWeapon(self.player);
 	self.enabled = self.options.enabled and self.character and not
-		(#interface.whitelist > 0 and not table.find(interface.whitelist, self.player.UserId));
+		(#interface.whitelist > 0 and not find(interface.whitelist, self.player.UserId));
 
 	local head = self.enabled and findFirstChild(self.character, "Head");
 	if not head then
@@ -437,7 +437,7 @@ function ChamObject:Update()
 	local character = interface.getCharacter(self.player);
 	local options = interface.teamSettings[interface.isFriendly(self.player) and "friendly" or "enemy"];
 	local enabled = options.enabled and character and not
-		(#interface.whitelist > 0 and not table.find(interface.whitelist, self.player.UserId));
+		(#interface.whitelist > 0 and not find(interface.whitelist, self.player.UserId));
 
 	highlight.Enabled = enabled and options.chams;
 	if highlight.Enabled then
