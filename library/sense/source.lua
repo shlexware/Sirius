@@ -79,14 +79,12 @@ end
 
 local function calculateCorners(cframe, size)
 	local corners = {};
-	local min, max = viewportSize, Vector2.zero;
-
 	for i = 1, #VERTICES do
-		local screen = worldToScreen((cframe + size*0.5*VERTICES[i]).Position);
-		min, max = min2(min, screen), max2(max, screen);
-		corners[i] = screen;
+		corners[i] = worldToScreen((cframe + size*0.5*VERTICES[i]).Position);
 	end
 
+	local min = min2(viewportSize, unpack(corners));
+	local max = max2(Vector2.zero, unpack(corners));
 	return {
 		corners = corners,
 		topLeft = Vector2.new(floor(min.X), floor(min.Y)),
