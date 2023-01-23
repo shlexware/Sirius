@@ -18,6 +18,7 @@ local sin = math.sin;
 local cos = math.cos;
 local find = string.find;
 local clear = table.clear;
+local unpack = table.unpack;
 
 -- methods
 local wtvp = camera.WorldToViewportPoint;
