@@ -1,3 +1,5 @@
+-- by Throit
+
 local oneTab = false -- Enable oneTab mode, everything in a singular tab instead of over several tabs
 
 local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Sirius/request/library/sense/source.lua'))()
