@@ -112,6 +112,15 @@ function EspObject.new(player, interface)
 	return self;
 end
 
+function EspObject:create(class, properties)
+	local drawing = Drawing.new(class);
+	for property, value in next, properties do
+		drawing[property] = value;
+	end
+	self.bin[#self.bin + 1] = drawing;
+	return drawing;
+end
+
 function EspObject:Construct()
 	self.charCache = {};
 	self.childCount = 0;
@@ -162,15 +171,6 @@ function EspObject:Construct()
 		self:Update(deltaTime);
 		self:Render(deltaTime);
 	end);
-end
-
-function EspObject:create(class, properties)
-	local drawing = Drawing.new(class);
-	for property, value in next, properties do
-		drawing[property] = value;
-	end
-	self.bin[#self.bin + 1] = drawing;
-	return drawing;
 end
 
 function EspObject:Destruct()
