@@ -79,8 +79,8 @@ local function worldToScreen(world)
 end
 
 local function calculateCorners(cframe, size)
-	local corners = {};
-	for i = 1, #VERTICES do
+	local corners = table.create(#VERTICES);
+	for i = 1, #corners do
 		corners[i] = worldToScreen((cframe + size*0.5*VERTICES[i]).Position);
 	end
 
