@@ -176,8 +176,8 @@ end
 function EspObject:Destruct()
 	self.renderConnection:Disconnect();
 
-	for _, drawing in next, self.bin do
-		drawing:Remove();
+	for i = 1, #self.bin do
+		self.bin[i]:Remove();
 	end
 
 	clear(self);
@@ -662,10 +662,9 @@ function EspInterface.Load()
 		end
 	end
 
-	for _, player in next, players:GetPlayers() do
-		if player ~= localPlayer then
-			createObject(player);
-		end
+	local plrs = players:GetPlayers();
+	for i = 2, #plrs do
+		createObject(plrs[i]);
 	end
 
 	EspInterface.playerAdded = players.PlayerAdded:Connect(createObject);
