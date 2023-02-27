@@ -19,6 +19,7 @@ local cos = math.cos;
 local clear = table.clear;
 local unpack = table.unpack;
 local find = table.find;
+local create = table.create;
 
 -- methods
 local wtvp = camera.WorldToViewportPoint;
@@ -79,7 +80,7 @@ local function worldToScreen(world)
 end
 
 local function calculateCorners(cframe, size)
-	local corners = table.create(#VERTICES);
+	local corners = create(#VERTICES);
 	for i = 1, #VERTICES do
 		corners[i] = worldToScreen((cframe + size*0.5*VERTICES[i]).Position);
 	end
