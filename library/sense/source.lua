@@ -658,7 +658,6 @@ function EspInterface.Load()
 			for i = 1, #object do
 				object[i]:Destruct();
 			end
-
 			EspInterface._objectCache[player] = nil;
 		end
 	end
