@@ -676,10 +676,11 @@ end
 function EspInterface.Unload()
 	assert(EspInterface._hasLoaded, "Esp has not been loaded yet.");
 
-	for _, object in next, EspInterface._objectCache do
+	for index, object in next, EspInterface._objectCache do
 		for i = 1, #object do
 			object[i]:Destruct();
 		end
+		EspInterface._objectCache[index] = nil;
 	end
 
 	EspInterface.playerAdded:Disconnect();
