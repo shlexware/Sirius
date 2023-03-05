@@ -150,7 +150,8 @@ Sense = {
     return player.Character;
   end
 
-  function EspInterface.getHealth(character)
+  function EspInterface.getHealth(player)
+    local character = player and EspInterface.getCharacter(player);
     local humanoid = character and findFirstChildOfClass(character, "Humanoid");
     if humanoid then
       return humanoid.Health, humanoid.MaxHealth;
