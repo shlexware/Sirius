@@ -29,14 +29,16 @@ Sense = {
     sharedSettings = {
         textSize = 13,
         textFont = 2,
-        limitDistance = false,
+        limitDistance = false, -- Set a maximum render distance
         maxDistance = 150,
+        useTeamColor = false -- Change all colors to the players team color
     },
     teamSettings = {
         enemy = {
             enabled = false,
             box = false,
             boxColor = { Color3.new(1,0,0), 1 },
+            --boxColor = { "Team Color", 1 }, -- Do this to change a single color to the team color
             boxOutline = true,
             boxOutlineColor = { Color3.new(), 1 },
             boxFill = false,
