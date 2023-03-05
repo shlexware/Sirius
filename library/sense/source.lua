@@ -101,6 +101,14 @@ local function rotateVector(vector, radians)
 	return Vector2.new(c*vector.X - s*vector.Y, s*vector.X + c*vector.Y);
 end
 
+local function parseColor(self, color, isOutline)
+	if color == "Team Color" or (self.interface.sharedSettings.useTeamColor and not isOutline) then
+		local team = self.player.Team;
+		return team and team.TeamColor.Color or Color3.new(1,1,1);
+	end
+	return color;
+end
+
 -- esp object
 local EspObject = {};
 EspObject.__index = EspObject;
@@ -113,7 +121,7 @@ function EspObject.new(player, interface)
 	return self;
 end
 
-function EspObject:create(class, properties)
+function EspObject:_create(class, properties)
 	local drawing = Drawing.new(class);
 	for property, value in next, properties do
 		drawing[property] = value;
@@ -129,42 +137,42 @@ function EspObject:Construct()
 	self.drawings = {
 		box3d = {
 			{
-				self:create("Line", { Thickness = 1, Visible = false }),
-				self:create("Line", { Thickness = 1, Visible = false }),
-				self:create("Line", { Thickness = 1, Visible = false })
+				self:_create("Line", { Thickness = 1, Visible = false }),
+				self:_create("Line", { Thickness = 1, Visible = false }),
+				self:_create("Line", { Thickness = 1, Visible = false })
 			},
 			{
-				self:create("Line", { Thickness = 1, Visible = false }),
-				self:create("Line", { Thickness = 1, Visible = false }),
-				self:create("Line", { Thickness = 1, Visible = false })
+				self:_create("Line", { Thickness = 1, Visible = false }),
+				self:_create("Line", { Thickness = 1, Visible = false }),
+				self:_create("Line", { Thickness = 1, Visible = false })
 			},
 			{
-				self:create("Line", { Thickness = 1, Visible = false }),
-				self:create("Line", { Thickness = 1, Visible = false }),
-				self:create("Line", { Thickness = 1, Visible = false })
+				self:_create("Line", { Thickness = 1, Visible = false }),
+				self:_create("Line", { Thickness = 1, Visible = false }),
+				self:_create("Line", { Thickness = 1, Visible = false })
 			},
 			{
-				self:create("Line", { Thickness = 1, Visible = false }),
-				self:create("Line", { Thickness = 1, Visible = false }),
-				self:create("Line", { Thickness = 1, Visible = false })
+				self:_create("Line", { Thickness = 1, Visible = false }),
+				self:_create("Line", { Thickness = 1, Visible = false }),
+				self:_create("Line", { Thickness = 1, Visible = false })
 			}
 		},
 		visible = {
-			tracerOutline = self:create("Line", { Thickness = 3, Visible = false }),
-			tracer = self:create("Line", { Thickness = 1, Visible = false }),
-			boxFill = self:create("Square", { Filled = true, Visible = false }),
-			boxOutline = self:create("Square", { Thickness = 3, Visible = false }),
-			box = self:create("Square", { Thickness = 1, Visible = false }),
-			healthBarOutline = self:create("Line", { Thickness = 3, Visible = false }),
-			healthBar = self:create("Line", { Thickness = 1, Visible = false }),
-			healthText = self:create("Text", { Center = true, Visible = false }),
-			name = self:create("Text", { Text = self.player.DisplayName, Center = true, Visible = false }),
-			distance = self:create("Text", { Center = true, Visible = false }),
-			weapon = self:create("Text", { Center = true, Visible = false }),
+			tracerOutline = self:_create("Line", { Thickness = 3, Visible = false }),
+			tracer = self:_create("Line", { Thickness = 1, Visible = false }),
+			boxFill = self:_create("Square", { Filled = true, Visible = false }),
+			boxOutline = self:_create("Square", { Thickness = 3, Visible = false }),
+			box = self:_create("Square", { Thickness = 1, Visible = false }),
+			healthBarOutline = self:_create("Line", { Thickness = 3, Visible = false }),
+			healthBar = self:_create("Line", { Thickness = 1, Visible = false }),
+			healthText = self:_create("Text", { Center = true, Visible = false }),
+			name = self:_create("Text", { Text = self.player.DisplayName, Center = true, Visible = false }),
+			distance = self:_create("Text", { Center = true, Visible = false }),
+			weapon = self:_create("Text", { Center = true, Visible = false }),
 		},
 		hidden = {
-			arrowOutline = self:create("Triangle", { Thickness = 3, Visible = false }),
-			arrow = self:create("Triangle", { Filled = true, Visible = false })
+			arrowOutline = self:_create("Triangle", { Thickness = 3, Visible = false }),
+			arrow = self:_create("Triangle", { Filled = true, Visible = false })
 		}
 	};
 
@@ -250,13 +258,13 @@ function EspObject:Render()
 		local box = visible.box;
 		box.Position = corners.topLeft;
 		box.Size = corners.bottomRight - corners.topLeft;
-		box.Color = options.boxColor[1];
+		box.Color = parseColor(self, options.boxColor[1]);
 		box.Transparency = options.boxColor[2];
 
 		local boxOutline = visible.boxOutline;
 		boxOutline.Position = box.Position;
 		boxOutline.Size = box.Size;
-		boxOutline.Color = options.boxOutlineColor[1];
+		boxOutline.Color = parseColor(self, options.boxOutlineColor[1], true);
 		boxOutline.Transparency = options.boxOutlineColor[2];
 	end
 
@@ -265,7 +273,7 @@ function EspObject:Render()
 		local boxFill = visible.boxFill;
 		boxFill.Position = corners.topLeft;
 		boxFill.Size = corners.bottomRight - corners.topLeft;
-		boxFill.Color = options.boxFillColor[1];
+		boxFill.Color = parseColor(self, options.boxFillColor[1]);
 		boxFill.Transparency = options.boxFillColor[2];
 	end
 
@@ -283,7 +291,7 @@ function EspObject:Render()
 		local healthBarOutline = visible.healthBarOutline;
 		healthBarOutline.To = barTo + HEALTH_BAR_OUTLINE_OFFSET;
 		healthBarOutline.From = barFrom - HEALTH_BAR_OUTLINE_OFFSET;
-		healthBarOutline.Color = options.healthBarOutlineColor[1];
+		healthBarOutline.Color = parseColor(self, options.healthBarOutlineColor[1], true);
 		healthBarOutline.Transparency = options.healthBarOutlineColor[2];
 	end
 
@@ -296,10 +304,10 @@ function EspObject:Render()
 		healthText.Text = round(self.health) .. "hp";
 		healthText.Size = interface.sharedSettings.textSize;
 		healthText.Font = interface.sharedSettings.textFont;
-		healthText.Color = options.healthTextColor[1];
+		healthText.Color = parseColor(self, options.healthTextColor[1]);
 		healthText.Transparency = options.healthTextColor[2];
 		healthText.Outline = options.healthTextOutline;
-		healthText.OutlineColor = options.healthTextOutlineColor;
+		healthText.OutlineColor = parseColor(self, options.healthTextOutlineColor, true);
 		healthText.Position = lerp2(barTo, barFrom, self.health/self.maxHealth) - healthText.TextBounds*0.5 - HEALTH_TEXT_OFFSET;
 	end
 
@@ -308,10 +316,10 @@ function EspObject:Render()
 		local name = visible.name;
 		name.Size = interface.sharedSettings.textSize;
 		name.Font = interface.sharedSettings.textFont;
-		name.Color = options.nameColor[1];
+		name.Color = parseColor(self, options.nameColor[1]);
 		name.Transparency = options.nameColor[2];
 		name.Outline = options.nameOutline;
-		name.OutlineColor = options.nameOutlineColor;
+		name.OutlineColor = parseColor(self, options.nameOutlineColor, true);
 		name.Position = (corners.topLeft + corners.topRight)*0.5 - Vector2.yAxis*name.TextBounds.Y - NAME_OFFSET;
 	end
 
@@ -321,10 +329,10 @@ function EspObject:Render()
 		distance.Text = round(self.distance) .. " studs";
 		distance.Size = interface.sharedSettings.textSize;
 		distance.Font = interface.sharedSettings.textFont;
-		distance.Color = options.distanceColor[1];
+		distance.Color = parseColor(self, options.distanceColor[1]);
 		distance.Transparency = options.distanceColor[2];
 		distance.Outline = options.distanceOutline;
-		distance.OutlineColor = options.distanceOutlineColor;
+		distance.OutlineColor = parseColor(self, options.distanceOutlineColor, true);
 		distance.Position = (corners.bottomLeft + corners.bottomRight)*0.5 + DISTANCE_OFFSET;
 	end
 
@@ -334,10 +342,10 @@ function EspObject:Render()
 		weapon.Text = self.weapon;
 		weapon.Size = interface.sharedSettings.textSize;
 		weapon.Font = interface.sharedSettings.textFont;
-		weapon.Color = options.weaponColor[1];
+		weapon.Color = parseColor(self, options.weaponColor[1]);
 		weapon.Transparency = options.weaponColor[2];
 		weapon.Outline = options.weaponOutline;
-		weapon.OutlineColor = options.weaponOutlineColor;
+		weapon.OutlineColor = parseColor(self, options.weaponOutlineColor, true);
 		weapon.Position =
 			(corners.bottomLeft + corners.bottomRight)*0.5 +
 			(visible.distance.Visible and DISTANCE_OFFSET + Vector2.yAxis*visible.distance.TextBounds.Y or Vector2.zero);
@@ -347,7 +355,7 @@ function EspObject:Render()
 	visible.tracerOutline.Visible = visible.tracer.Visible and options.tracerOutline;
 	if visible.tracer.Visible then
 		local tracer = visible.tracer;
-		tracer.Color = options.tracerColor[1];
+		tracer.Color = parseColor(self, options.tracerColor[1]);
 		tracer.Transparency = options.tracerColor[2];
 		tracer.To = (corners.bottomLeft + corners.bottomRight)*0.5;
 		tracer.From =
@@ -356,7 +364,7 @@ function EspObject:Render()
 			options.tracerOrigin == "Bottom" and viewportSize*Vector2.new(0.5, 1);
 
 		local tracerOutline = visible.tracerOutline;
-		tracerOutline.Color = options.tracerOutlineColor[1];
+		tracerOutline.Color = parseColor(self, options.tracerOutlineColor[1], true);
 		tracerOutline.Transparency = options.tracerOutlineColor[2];
 		tracerOutline.To = tracer.To;
 		tracerOutline.From = tracer.From;
@@ -369,14 +377,14 @@ function EspObject:Render()
 		arrow.PointA = min2(max2(viewportSize*0.5 + self.direction*options.offScreenArrowRadius, Vector2.one*25), viewportSize - Vector2.one*25);
 		arrow.PointB = arrow.PointA - rotateVector(self.direction, 0.45)*options.offScreenArrowSize;
 		arrow.PointC = arrow.PointA - rotateVector(self.direction, -0.45)*options.offScreenArrowSize;
-		arrow.Color = options.offScreenArrowColor[1];
+		arrow.Color = parseColor(self, options.offScreenArrowColor[1]);
 		arrow.Transparency = options.offScreenArrowColor[2];
 
 		local arrowOutline = hidden.arrowOutline;
 		arrowOutline.PointA = arrow.PointA;
 		arrowOutline.PointB = arrow.PointB;
 		arrowOutline.PointC = arrow.PointC;
-		arrowOutline.Color = options.offScreenArrowOutlineColor[1];
+		arrowOutline.Color = parseColor(self, options.offScreenArrowOutlineColor[1], true);
 		arrowOutline.Transparency = options.offScreenArrowOutlineColor[2];
 	end
 
@@ -386,7 +394,7 @@ function EspObject:Render()
 		for i2 = 1, #face do
 			local line = face[i2];
 			line.Visible = box3dEnabled;
-			line.Color = options.box3dColor[1];
+			line.Color = parseColor(self, options.box3dColor[1]);
 			line.Transparency = options.box3dColor[2];
 		end
 
@@ -443,9 +451,9 @@ function ChamObject:Update()
 	highlight.Enabled = enabled and options.chams;
 	if highlight.Enabled then
 		highlight.Adornee = character;
-		highlight.FillColor = options.chamsFillColor[1];
+		highlight.FillColor = parseColor(self, options.chamsFillColor[1]);
 		highlight.FillTransparency = options.chamsFillColor[2];
-		highlight.OutlineColor = options.chamsOutlineColor[1];
+		highlight.OutlineColor = parseColor(self, options.chamsOutlineColor[1], true);
 		highlight.OutlineTransparency = options.chamsOutlineColor[2];
 		highlight.DepthMode = options.chamsVisibleOnly and "Occluded" or "AlwaysOnTop";
 	end
@@ -533,6 +541,7 @@ local EspInterface = {
 		textFont = 2,
 		limitDistance = false,
 		maxDistance = 150,
+		useTeamColor = false
 	},
 	teamSettings = {
 		enemy = {
