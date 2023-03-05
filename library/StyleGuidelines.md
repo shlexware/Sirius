@@ -1,5 +1,5 @@
 # Sirius Style Guide
-### for use with Rayfield Interface Suite (https://github.com/shlexware/Rayfield/blob/main/Documentation.md)
+### for use with Rayfield Interface Suite (https://rayfield.dev)
 You must attempt follow this guide for styling when creating scripts for Sirius
 
 
