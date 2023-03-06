@@ -147,7 +147,7 @@ Sense = {
   end
 
   function EspInterface.getTeamColor(player)
-      return player.Team and player.Team.TeamColor.Color;
+      return player.Team and player.Team.TeamColor and player.Team.TeamColor.Color;
   end
 
   function EspInterface.getCharacter(player)
