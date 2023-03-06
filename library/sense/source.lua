@@ -372,7 +372,7 @@ function EspObject:Render()
 
 	hidden.arrow.Visible = enabled and (not onScreen) and options.offScreenArrow;
 	hidden.arrowOutline.Visible = hidden.arrow.Visible and options.offScreenArrowOutline;
-	if hidden.arrow.Visible then
+	if hidden.arrow.Visible and self.direction then
 		local arrow = hidden.arrow;
 		arrow.PointA = min2(max2(viewportSize*0.5 + self.direction*options.offScreenArrowRadius, Vector2.one*25), viewportSize - Vector2.one*25);
 		arrow.PointB = arrow.PointA - rotateVector(self.direction, 0.45)*options.offScreenArrowSize;
