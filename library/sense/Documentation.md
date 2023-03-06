@@ -146,6 +146,10 @@ Sense = {
       return player.Team and player.Team == localPlayer.Team;
   end
 
+  function EspInterface.getTeamColor(player)
+      return player.Team and player.Team.TeamColor.Color;
+  end
+
   function EspInterface.getCharacter(player)
       return player.Character;
   end
