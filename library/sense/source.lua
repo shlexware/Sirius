@@ -103,8 +103,7 @@ end
 
 local function parseColor(self, color, isOutline)
 	if color == "Team Color" or (self.interface.sharedSettings.useTeamColor and not isOutline) then
-		local team = self.player.Team;
-		return team and team.TeamColor.Color or Color3.new(1,1,1);
+		return self.interface.getTeamColor(self.player) or Color3.new(1,1,1);
 	end
 	return color;
 end
@@ -703,6 +702,10 @@ end
 
 function EspInterface.isFriendly(player)
 	return player.Team and player.Team == localPlayer.Team;
+end
+
+function EspInterface.getTeamColor(player)
+	return player.Team and player.Team.TeamColor.Color;
 end
 
 function EspInterface.getCharacter(player)
