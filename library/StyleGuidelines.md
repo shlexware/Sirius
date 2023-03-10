@@ -4,12 +4,11 @@ You must attempt follow this guide for styling when creating scripts for Sirius
 
 
 ## Coding Guidelines
-These coding guidelines are not required but are recommended to have consistency when reviewing your code
+These coding guidelines are recommended to have consistency of the best experience possible.
 
-- All scripts must use camelCase in coding, not PascalCase or snake_case
 - All scripts must use Flags (to save configuration files)
 - When writing `if` statements, if the code is simple (e.g `if not workspace then return end`), please make it one line, otherwise use multi lined `if` statements.
-- When referencing UI elements, make a variable for them (e.g `local coinButton = UI.Coin.Button`)
+- When referencing objects, make a variable for them (e.g `local coin = workspace.Coin`)
 
 
 ## Window Settings
