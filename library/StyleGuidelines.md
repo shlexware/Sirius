@@ -9,7 +9,7 @@ These coding guidelines are recommended to have consistency of the best experien
 - All scripts must use Flags (to save configuration files)
 - When writing `if` statements, if the code is simple (e.g `if not workspace then return end`), please make it one line, otherwise use multi lined `if` statements.
 - When referencing objects, make a variable for them (e.g `local coin = workspace.Coin`)
-
+- When using an ESP, use Sirius Sense (https://github.com/shlexware/Sirius/blob/request/library/sense/Documentation.md)
 
 ## Window Settings
 ```lua
