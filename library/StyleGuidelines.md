@@ -24,10 +24,10 @@ local Window = Rayfield:CreateWindow({
 
 ## Tab
 If any of these do not apply to the game, do not create that tab
-### Aim
+### Combat
 This is for anything that adjusts your aiming, e.g Aimbot, Silent Aim etc
 ```lua
-local aimTab = Window:CreateTab("Aim")
+local combatTab = Window:CreateTab("Combat")
 ```
 ### Player
 Flying? Using walkspeed? Invisibility? Put it in here.
