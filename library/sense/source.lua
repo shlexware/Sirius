@@ -204,6 +204,7 @@ function EspObject:Update()
 	local head = self.enabled and findFirstChild(self.character, "Head");
 	if not head then
 		self.charCache = {};
+		self.onScreen = false;
 		return;
 	end
 
