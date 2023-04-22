@@ -97,8 +97,9 @@ end
 
 local function rotateVector(vector, radians)
 	-- https://stackoverflow.com/questions/28112315/how-do-i-rotate-a-vector
+	local x, y = vector.X, vector.Y;
 	local c, s = cos(radians), sin(radians);
-	return Vector2.new(vector.X*c - vector.Y*s, vector.X*s + vector.Y*c);
+	return Vector2.new(x*c - y*s, x*s + y*c);
 end
 
 local function parseColor(self, color, isOutline)
