@@ -13,7 +13,6 @@ local container = Instance.new("Folder",
 -- locals
 local floor = math.floor;
 local round = math.round;
-local atan2 = math.atan2;
 local sin = math.sin;
 local cos = math.cos;
 local clear = table.clear;
