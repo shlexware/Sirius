@@ -123,7 +123,7 @@ end
 function EspObject:_create(class, properties)
 	local drawing = Drawing.new(class);
 	for property, value in next, properties do
-		drawing[property] = value;
+		pcall(function() drawing[property] = value; end);
 	end
 	self.bin[#self.bin + 1] = drawing;
 	return drawing;
