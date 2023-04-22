@@ -96,8 +96,9 @@ local function calculateCorners(cframe, size)
 end
 
 local function rotateVector(vector, radians)
+	-- https://stackoverflow.com/questions/28112315/how-do-i-rotate-a-vector
 	local c, s = cos(radians), sin(radians);
-	return Vector2.new(c*vector.X - s*vector.Y, s*vector.X + c*vector.Y);
+	return Vector2.new(vector.X*c - vector.Y*s, vector.X*s + vector.Y*s);
 end
 
 local function parseColor(self, color, isOutline)
