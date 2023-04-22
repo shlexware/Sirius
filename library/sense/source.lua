@@ -237,9 +237,7 @@ function EspObject:Update()
 		local _, yaw, roll = toOrientation(camera.CFrame);
 		local flatCFrame = CFrame.Angles(0, yaw, roll) + camera.CFrame.Position;
 		local objectSpace = pointToObjectSpace(flatCFrame, head.Position);
-		local angle = atan2(objectSpace.Z, objectSpace.X);
-
-		self.direction = Vector2.new(cos(angle), sin(angle));
+		self.direction = Vector2.new(objectSpace.X, objectSpace.Z).Unit;
 	end
 end
 
