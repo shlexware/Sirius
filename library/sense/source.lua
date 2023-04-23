@@ -19,6 +19,7 @@ local clear = table.clear;
 local unpack = table.unpack;
 local find = table.find;
 local create = table.create;
+local fromMatrix = CFrame.fromMatrix;
 
 -- methods
 local wtvp = camera.WorldToViewportPoint;
@@ -235,9 +236,9 @@ function EspObject:Update()
 
 		self.corners = calculateCorners(getBoundingBox(cache));
 	elseif self.options.offScreenArrow then
-		local _, yaw, roll = toOrientation(camera.CFrame);
-		local flatCFrame = CFrame.Angles(0, yaw, roll) + camera.CFrame.Position;
-		local objectSpace = pointToObjectSpace(flatCFrame, head.Position);
+		local cframe = camera.CFrame;
+		local flat = fromMatrix(cframe.Position, cframe.RightVector, Vector3.yAxis);
+		local objectSpace = pointToObjectSpace(flat, head.Position);
 		self.direction = Vector2.new(objectSpace.X, objectSpace.Z).Unit;
 	end
 end
