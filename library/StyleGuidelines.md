@@ -1,6 +1,6 @@
 # Sirius Style Guide
-### for use with Rayfield Interface Suite (https://rayfield.dev)
-You must attempt follow this guide for styling when creating scripts for Sirius
+### for the Rayfield Interface Suite (https://rayfield.dev)
+If you want to make a script that is worthy for Sirius, use this style guide!
 
 
 ## Coding Guidelines
@@ -9,7 +9,7 @@ These coding guidelines are recommended to have consistency of the best experien
 - All scripts must use Flags (to save configuration files)
 - When writing `if` statements, if the code is simple (e.g `if not workspace then return end`), please make it one line, otherwise use multi lined `if` statements.
 - When referencing objects, make a variable for them (e.g `local coin = workspace.Coin`)
-- When using an ESP, use Sirius Sense (https://github.com/shlexware/Sirius/blob/request/library/sense/Documentation.md)
+- If you want an ESP, use Sirius Sense! (https://github.com/shlexware/Sirius/blob/request/library/sense/Documentation.md)
 
 ## Window Settings
 ```lua
@@ -40,7 +40,7 @@ This tab will house things such as ESP, gun cosmetics and more, anything on-scre
 local visualTab = Window:CreateTab("Visual")
 ```
 ### Autofarm/Automatic things
-This tab is intended to contain anything that is automated, such as an autofarm
+Here, chuck anything automated, like an autofarm for games!
 ```lua
 local autoTab = Window:CreateTab("Automated") -- Adjust the tab name to be specific here (e.g Autofarm, Autofish etc)
 ```
