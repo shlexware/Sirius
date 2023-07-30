@@ -1,4 +1,5 @@
 local Camera = workspace.CurrentCamera
+local RunService = game:GetService("RunService")
 
 
 local neon = (function() -- Open sourced neon module
