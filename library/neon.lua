@@ -1,3 +1,6 @@
+local Camera = workspace.CurrentCamera
+
+
 local neon = (function() -- Open sourced neon module
 	local module = {}
 
