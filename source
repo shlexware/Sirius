@@ -1,16 +1,1 @@
-local MUI = game:GetObjects("rbxassetid://11399990461")[1]
-
-if gethui then
-	MUI.Parent = gethui()
-else
-	if syn and syn.protect_gui then
-		syn.protect_gui(MUI)
-	end
-	MUI.Parent = game:GetService("CoreGui")
-end
-
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/9c713d33d088aa364a38d738290ed707.lua"))()
-
-if MUI then
-	MUI:Destroy()
-end
